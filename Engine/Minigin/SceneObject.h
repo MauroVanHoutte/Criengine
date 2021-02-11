@@ -5,8 +5,11 @@ namespace dae
 	{
 	public:
 		virtual void Update() = 0;
+		virtual void FixedUpdate() = 0;
+		virtual void LateUpdate() = 0;
 		virtual void Render() const = 0;
 
+	protected:
 		SceneObject() = default;
 		virtual ~SceneObject() = default;
 		SceneObject(const SceneObject& other) = delete;

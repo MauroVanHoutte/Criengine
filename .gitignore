@@ -32,3 +32,18 @@
 *.app
 
 *.vs
+Engine/.vs/Minigin/v16/.suo
+Engine/.vs/Minigin/v16/Browse.VC.db
+Engine/.vs/Minigin/v16/ipch/fba895d84b11e5a7.ipch
+Engine/x64/Debug/Minigin.pdb
+Engine/x64/Debug/Minigin.ilk
+Engine/Minigin/x64/Debug/vc142.pdb
+Engine/Minigin/x64/Debug/vc142.idb
+Engine/Minigin/x64/Debug/Minigin.tlog/Minigin.write.1u.tlog
+Engine/Minigin/x64/Debug/Minigin.tlog/link.write.1.tlog
+Engine/Minigin/x64/Debug/Minigin.tlog/link.read.1.tlog
+Engine/Minigin/x64/Debug/Minigin.tlog/link.command.1.tlog
+Engine/Minigin/x64/Debug/Minigin.tlog/CL.write.1.tlog
+Engine/Minigin/x64/Debug/Minigin.tlog/CL.read.1.tlog
+Engine/Minigin/x64/Debug/Minigin.tlog/CL.command.1.tlog
+Engine/Minigin/x64/Debug/Minigin.log

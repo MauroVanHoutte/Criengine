@@ -10,12 +10,15 @@
 #include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "Timer.h"
+#include "FPSCounter.h"
 
 using namespace std;
 using namespace std::chrono;
 
 void dae::Minigin::Initialize()
 {
+	Timer::GetInstance();
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -44,7 +47,7 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
+	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
 	go->SetTexture("background.jpg");
 	scene.Add(go);
 
@@ -53,14 +56,21 @@ void dae::Minigin::LoadGame() const
 	go->SetPosition(216, 180);
 	scene.Add(go);
 
+	go = std::make_shared<GameObject>();
+	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
+	go->AddComponent("FpsCounter", fpsCounterComponent);
+	scene.Add(go);
+
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
 	to->SetPosition(80, 20);
 	scene.Add(to);
+
 }
 
 void dae::Minigin::Cleanup()
 {
+	Timer::Delete();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
@@ -73,7 +83,7 @@ void dae::Minigin::Run()
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
-
+	
 	LoadGame();
 
 	{
@@ -86,18 +96,19 @@ void dae::Minigin::Run()
 		float lag = 0.0f;
 		while (doContinue)
 		{
-			auto currentTime = high_resolution_clock::now();
-			float deltaTime = duration<float>(currentTime - lastTime).count();
-			lastTime = currentTime;
+			Timer::Update();
 
-			lag += deltaTime;
+			lag += Timer::GetElapsed();
 
 			doContinue = input.ProcessInput();
-			while (lag > MsPerFrame)
+			while (lag > Timer::GetStepTime())
 			{
-				sceneManager.Update(); //MsPerFrame is used as deltaTime for updates
-				lag -= MsPerFrame;
+				sceneManager.FixedUpdate();
+				lag -= Timer::GetStepTime();
 			}
+
+			sceneManager.Update();
+			sceneManager.LateUpdate();
 
 			renderer.Render();
 			

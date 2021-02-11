@@ -1,18 +1,12 @@
-﻿  MiniginPCH.cpp
-  Font.cpp
+﻿  BaseComponent.cpp
+  FPSCounter.cpp
   GameObject.cpp
-  InputManager.cpp
   Main.cpp
   Minigin.cpp
-  Renderer.cpp
-  ResourceManager.cpp
   Scene.cpp
-  SceneManager.cpp
+  TextComponent.cpp
   TextObject.cpp
-  Texture2D.cpp
-  Transform.cpp
   Generating Code...
-     Creating library C:\Users\mauro\Desktop\Github\Criengine\Engine\x64\Debug\Minigin.lib and object C:\Users\mauro\Desktop\Github\Criengine\Engine\x64\Debug\Minigin.exp
   Minigin.vcxproj -> C:\Users\mauro\Desktop\Github\Criengine\Engine\x64\Debug\Minigin.exe
   C:\Users\mauro\Desktop\Github\Criengine\Engine\3rdParty\SDL2\lib\x64\SDL2.dll
   1 File(s) copied

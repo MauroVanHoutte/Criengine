@@ -23,6 +23,14 @@ void Scene::Update()
 	}
 }
 
+void dae::Scene::FixedUpdate()
+{
+}
+
+void dae::Scene::LateUpdate()
+{
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_Objects)
