@@ -31,8 +31,6 @@
 *.out
 *.app
 
-*.vs
-Engine/.vs/
-Engine/x64/
-Engine/Minigin/x64/
+*.vs/
+*x64/
 
