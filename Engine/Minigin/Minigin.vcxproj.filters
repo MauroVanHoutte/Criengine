@@ -19,6 +19,9 @@
     <Filter Include="Timer">
       <UniqueIdentifier>{74dd6179-53f1-4827-bfe9-3a36a4141a24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Printer">
+      <UniqueIdentifier>{0ca18531-8d61-4106-96f5-ed1258dd9b3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -75,6 +78,9 @@
     <ClInclude Include="TextComponent.h">
       <Filter>ComponentSystem</Filter>
     </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Printer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -127,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
       <Filter>ComponentSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Printer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

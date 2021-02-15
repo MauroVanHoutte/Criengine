@@ -1,12 +1,5 @@
-﻿  BaseComponent.cpp
-  FPSCounter.cpp
-  GameObject.cpp
-  Main.cpp
-  Minigin.cpp
-  Scene.cpp
-  TextComponent.cpp
-  TextObject.cpp
-  Generating Code...
+﻿  TextComponent.cpp
+     Creating library C:\Users\mauro\Desktop\Github\Criengine\Engine\x64\Debug\Minigin.lib and object C:\Users\mauro\Desktop\Github\Criengine\Engine\x64\Debug\Minigin.exp
   Minigin.vcxproj -> C:\Users\mauro\Desktop\Github\Criengine\Engine\x64\Debug\Minigin.exe
   C:\Users\mauro\Desktop\Github\Criengine\Engine\3rdParty\SDL2\lib\x64\SDL2.dll
   1 File(s) copied

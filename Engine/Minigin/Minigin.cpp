@@ -11,6 +11,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "Timer.h"
+#include "TextRenderer.h"
 #include "FPSCounter.h"
 
 using namespace std;
@@ -19,6 +20,7 @@ using namespace std::chrono;
 void dae::Minigin::Initialize()
 {
 	Timer::GetInstance();
+
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -64,13 +66,14 @@ void dae::Minigin::LoadGame() const
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
 	to->SetPosition(80, 20);
-	scene.Add(to);
+	//scene.Add(to);
 
 }
 
 void dae::Minigin::Cleanup()
 {
-	Timer::Delete();
+	TextRenderer::GetInstance()->Cleanup();
+	Timer::GetInstance()->Delete();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
@@ -83,6 +86,9 @@ void dae::Minigin::Run()
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
+	// load fonts in the textRenderer here
+	TextRenderer::GetInstance()->AddFont("CamingoCode.ttf", 12, { 255, 0, 0 });
+
 	
 	LoadGame();
 
@@ -96,21 +102,31 @@ void dae::Minigin::Run()
 		float lag = 0.0f;
 		while (doContinue)
 		{
-			Timer::Update();
+			Timer::GetInstance()->Update();
 
-			lag += Timer::GetElapsed();
+			lag += Timer::GetInstance()->GetElapsed();
 
 			doContinue = input.ProcessInput();
-			while (lag > Timer::GetStepTime())
+
+			chrono::high_resolution_clock::time_point preTime = chrono::high_resolution_clock::now();
+
+			while (lag > Timer::GetInstance()->GetStepTime())
 			{
 				sceneManager.FixedUpdate();
-				lag -= Timer::GetStepTime();
+				lag -= Timer::GetInstance()->GetStepTime();
 			}
 
 			sceneManager.Update();
 			sceneManager.LateUpdate();
 
+			chrono::high_resolution_clock::time_point postTime = chrono::high_resolution_clock::now();
+			Timer::GetInstance()->SetUpdateTime(chrono::duration<float>(postTime - preTime).count());
+
+			preTime = chrono::high_resolution_clock::now();
 			renderer.Render();
+			postTime = chrono::high_resolution_clock::now();
+
+			Timer::GetInstance()->SetRenderTime(chrono::duration<float>(postTime - preTime).count());
 			
 		}
 	}

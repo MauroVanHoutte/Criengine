@@ -39,6 +39,26 @@ float Timer::GetTotalTime()
 	return m_pInstance->m_TotalTime;
 }
 
+void Timer::SetUpdateTime(float seconds)
+{
+	m_UpdateTime = seconds;
+}
+
+float Timer::GetUpdateTime()
+{
+	return m_UpdateTime;
+}
+
+void Timer::SetRenderTime(float seconds)
+{
+	m_RenderTime = seconds;
+}
+
+float Timer::GetRenderTime()
+{
+	return m_RenderTime;
+}
+
 void Timer::Delete()
 {
 	if (m_pInstance != nullptr)
