@@ -20,6 +20,8 @@ public:
 
 	void SetText(const std::string& text);
 	void SetColor(const glm::vec3& color);
+	void SetFont(const std::string& font);
+	void SetSize(int size);
 
 	void Render() const override;
 

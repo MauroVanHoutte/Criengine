@@ -122,11 +122,7 @@ void dae::Minigin::Run()
 			chrono::high_resolution_clock::time_point postTime = chrono::high_resolution_clock::now();
 			Timer::GetInstance()->SetUpdateTime(chrono::duration<float>(postTime - preTime).count());
 
-			preTime = chrono::high_resolution_clock::now();
 			renderer.Render();
-			postTime = chrono::high_resolution_clock::now();
-
-			Timer::GetInstance()->SetRenderTime(chrono::duration<float>(postTime - preTime).count());
 			
 		}
 	}

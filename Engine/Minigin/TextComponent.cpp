@@ -41,6 +41,16 @@ void TextComponent::SetColor(const glm::vec3& color)
 	m_Color.b = (Uint8)color.z;
 }
 
+void TextComponent::SetFont(const std::string& font)
+{
+	m_Font = font;
+}
+
+void TextComponent::SetSize(int size)
+{
+	m_FontSize = size;
+}
+
 void TextComponent::Render() const
 {
 	TextRenderer::GetInstance()->RenderString(m_Text, { m_Transform.GetPosition().x, m_Transform.GetPosition().y, 0.f }, m_Font, m_FontSize, m_Color);

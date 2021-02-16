@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "SceneManager.h"
 #include "Texture2D.h"
+#include "Timer.h"
 
 void dae::Renderer::Init(SDL_Window * window)
 {
@@ -17,8 +18,12 @@ void dae::Renderer::Render() const
 {
 	SDL_RenderClear(m_Renderer);
 
+	auto preTime = std::chrono::high_resolution_clock::now();
 	SceneManager::GetInstance().Render();
-	
+	auto postTime = std::chrono::high_resolution_clock::now();
+
+	Timer::GetInstance()->SetRenderTime(std::chrono::duration<float>(postTime - preTime).count());
+
 	SDL_RenderPresent(m_Renderer);
 }
 
