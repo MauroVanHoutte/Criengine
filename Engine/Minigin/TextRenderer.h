@@ -27,7 +27,7 @@ namespace std
 	{
 		std::size_t operator()(const FontID& font) const
 		{
-			return std::hash<int>()(font.ID);
+			return font.ID;
 		}
 	};
 }

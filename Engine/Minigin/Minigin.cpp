@@ -13,6 +13,7 @@
 #include "Timer.h"
 #include "TextRenderer.h"
 #include "FPSCounter.h"
+#include "SwapDoRenderTextCommand.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -40,6 +41,8 @@ void dae::Minigin::Initialize()
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+
+	m_QbertGame.Init();
 }
 
 /**
@@ -48,26 +51,21 @@ void dae::Minigin::Initialize()
 void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& input = InputManager::GetInstance();
 
-	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
+	auto go = std::make_shared<GameObject>();
 	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
+	auto renderCommand = new SwapDoRenderTextCommand();
+	renderCommand->Bind(fpsCounterComponent);
+	input.AddKeyboardCommand(ButtonState::OnPressed, SDL_SCANCODE_A, renderCommand);
+	input.AddControllerCommand(0, ButtonState::OnPressed, ControllerButton::ButtonA, renderCommand);
 	go->AddComponent("FpsCounter", fpsCounterComponent);
 	scene.Add(go);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
-	//scene.Add(to);
-
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
+	auto to = std::make_shared<TextObject>("ABXY for score, dpad down for death", font);
+	to->SetPosition(120, 60);
+	scene.Add(to);
 }
 
 void dae::Minigin::Cleanup()
@@ -106,24 +104,43 @@ void dae::Minigin::Run()
 
 			lag += Timer::GetInstance()->GetElapsed();
 
-			doContinue = input.ProcessInput();
+			SDL_Event event;
+			while(SDL_PollEvent(&event))
+			{
+				if (event.type == SDL_QUIT)
+				{
+					doContinue = false;
+				}
+			}
 
-			chrono::high_resolution_clock::time_point preTime = chrono::high_resolution_clock::now();
+			input.ProcessInput();
+
+			auto preTime = chrono::high_resolution_clock::now();
 
 			while (lag > Timer::GetInstance()->GetStepTime())
 			{
 				sceneManager.FixedUpdate();
+				m_QbertGame.FixedUpdate();
 				lag -= Timer::GetInstance()->GetStepTime();
 			}
 
 			sceneManager.Update();
+			m_QbertGame.Update();
 			sceneManager.LateUpdate();
+			m_QbertGame.LateUpdate();
 
-			chrono::high_resolution_clock::time_point postTime = chrono::high_resolution_clock::now();
+
+			auto postTime = chrono::high_resolution_clock::now();
 			Timer::GetInstance()->SetUpdateTime(chrono::duration<float>(postTime - preTime).count());
 
+			SDL_RenderClear(renderer.GetSDLRenderer());
+			preTime = std::chrono::high_resolution_clock::now();
 			renderer.Render();
-			
+			m_QbertGame.Render();
+			postTime = std::chrono::high_resolution_clock::now();
+			Timer::GetInstance()->SetRenderTime(std::chrono::duration<float>(postTime - preTime).count());
+			SDL_RenderPresent(renderer.GetSDLRenderer());
+
 		}
 	}
 

@@ -4,31 +4,65 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "Timer.h"
+#include "imgui.h"
+#include "backends/imgui_impl_opengl2.h"
+#include "backends/imgui_impl_sdl.h"
+
+
+int GetOpenGlDriverIndex()
+{
+	auto openglIndex = -1;
+	const auto driverCount = SDL_GetNumRenderDrivers();
+	for (auto i = 0; i < driverCount; i++)
+	{
+		SDL_RendererInfo info;
+		if (!SDL_GetRenderDriverInfo(i, &info))
+		{
+			if (!strcmp(info.name, "opengl"))
+			{
+				openglIndex = i;
+			}
+		}
+	}
+	return openglIndex;
+}
 
 void dae::Renderer::Init(SDL_Window * window)
 {
-	m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	m_Window = window;
+	m_Renderer = SDL_CreateRenderer(window, GetOpenGlDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_Renderer == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	ImGui_ImplOpenGL2_Init();
 }
 
 void dae::Renderer::Render() const
 {
-	SDL_RenderClear(m_Renderer);
 
-	auto preTime = std::chrono::high_resolution_clock::now();
 	SceneManager::GetInstance().Render();
-	auto postTime = std::chrono::high_resolution_clock::now();
 
-	Timer::GetInstance()->SetRenderTime(std::chrono::duration<float>(postTime - preTime).count());
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplSDL2_NewFrame(m_Window);
+	ImGui::NewFrame();
+	bool showDemo{ true };
+	ImGui::ShowDemoWindow(&showDemo);
+	ImGui::Render();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
-	SDL_RenderPresent(m_Renderer);
 }
 
 void dae::Renderer::Destroy()
 {
+	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+	
 	if (m_Renderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_Renderer);

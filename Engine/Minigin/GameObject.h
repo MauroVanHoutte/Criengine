@@ -17,7 +17,6 @@ namespace dae
 		void LateUpdate() override;
 		void Render() const override;
 
-		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
 
 		bool AddComponent(const std::string& name, BaseComponent* component);
@@ -35,6 +34,5 @@ namespace dae
 	private:
 		Transform m_Transform;
 		std::map<std::string, BaseComponent*> m_ComponentMap;
-		std::shared_ptr<Texture2D> m_Texture;
 	};
 }

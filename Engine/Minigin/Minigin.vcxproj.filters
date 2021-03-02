@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="ComponentSystem">
       <UniqueIdentifier>{8987beed-33db-473b-95ab-19c2d7974387}</UniqueIdentifier>
     </Filter>
@@ -21,6 +17,18 @@
     </Filter>
     <Filter Include="Printer">
       <UniqueIdentifier>{0ca18531-8d61-4106-96f5-ed1258dd9b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{eacd5167-0931-411c-a784-d04f56a00ced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{b4f8d47d-598f-4a64-b922-5dedf273e8cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Qbert">
+      <UniqueIdentifier>{52487a86-57d6-46a7-a271-8f5a28bbcd33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Observer&amp;Subject">
+      <UniqueIdentifier>{446de5b4-07e8-422c-a1a3-9db8df039394}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +89,72 @@
     <ClInclude Include="TextRenderer.h">
       <Filter>Printer</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapDoRenderTextCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_opengl2.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertGame.h">
+      <Filter>Qbert</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthCounter.h">
+      <Filter>ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Observer&amp;Subject</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Observer&amp;Subject</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertHealthComponent.h">
+      <Filter>ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertDeathCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreCounter.h">
+      <Filter>ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertScoreComponent.h">
+      <Filter>ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertColorChangeCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertCoilyDeathCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertRemainingDiscCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertCaughtSlickSamCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -136,6 +210,60 @@
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="SwapDoRenderTextCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_opengl2.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertGame.cpp">
+      <Filter>Qbert</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthCounter.cpp">
+      <Filter>ComponentSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertHealthComponent.cpp">
+      <Filter>ComponentSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertDeathCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreCounter.cpp">
+      <Filter>ComponentSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertScoreComponent.cpp">
+      <Filter>ComponentSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertColorChangeCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertCoilyDeathCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertRemainingDiscCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertCaughtSlickSamCommand.cpp">
+      <Filter>Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

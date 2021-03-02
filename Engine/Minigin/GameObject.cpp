@@ -39,20 +39,11 @@ void dae::GameObject::LateUpdate()
 void dae::GameObject::Render() const
 {
 	const auto pos = m_Transform.GetPosition();
-	if (m_Texture != nullptr)
-	{
-		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
-	}
 
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
 		it->second->Render();
 	}
-}
-
-void dae::GameObject::SetTexture(const std::string& filename)
-{
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
 void dae::GameObject::SetPosition(float x, float y)

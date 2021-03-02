@@ -30,3 +30,4 @@ void FPSCounterComponent::Update()
 		m_FrameCounter = 0;
 	}
 }
+

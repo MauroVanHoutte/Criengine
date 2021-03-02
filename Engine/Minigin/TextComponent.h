@@ -24,6 +24,7 @@ public:
 	void SetSize(int size);
 
 	void Render() const override;
+	void SwapDoRender();
 
 private:
 	std::string m_Text;
@@ -32,4 +33,6 @@ private:
 	std::string m_Font;
 	int m_FontSize;
 
+protected:
+	bool m_DoRender;
 };

@@ -11,6 +11,7 @@ TextComponent::TextComponent(dae::GameObject* owner, const std::string& text, co
 	, m_Transform{}
 	, m_Font{font}
 	, m_FontSize{fontSize}
+	, m_DoRender(true)
 {
 	m_Transform.SetPosition(pos.x, pos.y, pos.z);
 }
@@ -53,5 +54,13 @@ void TextComponent::SetSize(int size)
 
 void TextComponent::Render() const
 {
-	TextRenderer::GetInstance()->RenderString(m_Text, { m_Transform.GetPosition().x, m_Transform.GetPosition().y, 0.f }, m_Font, m_FontSize, m_Color);
+	if (m_DoRender)
+	{
+		TextRenderer::GetInstance()->RenderString(m_Text, { m_Transform.GetPosition().x, m_Transform.GetPosition().y, 0.f }, m_Font, m_FontSize, m_Color);
+	}
+}
+
+void TextComponent::SwapDoRender()
+{
+	m_DoRender = !m_DoRender;
 }
