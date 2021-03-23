@@ -46,3 +46,5 @@ Engine/Minigin/x64/Debug/Minigin.log
 Engine/.vs/Minigin/v16/ipch/fba895d84b11e5a7.ipch
 Engine/.vs/Minigin/v16/Browse.VC.db
 Engine/.vs/Minigin/v16/.suo
+*.db-shm
+Engine/.vs/Minigin/v16/Browse.VC.db-wal
