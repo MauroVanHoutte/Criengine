@@ -32,8 +32,15 @@
 *.app
 
 Engine/x64/
+Engine/Win32/
+Engine/Release/
+Engine/Debug/
 
 Engine/CriEngine/x64/
+Engine/CriEngine/Win32/
+Engine/Qbert/x64/
+Engine/Qbert/Debug/
+Engine/Qbert/Release/
 Engine/.vs/
 
 *.db-shm
