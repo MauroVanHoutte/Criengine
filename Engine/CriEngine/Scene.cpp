@@ -25,10 +25,18 @@ void Scene::Update()
 
 void cri::Scene::FixedUpdate()
 {
+	for (auto& object : m_Objects)
+	{
+		object->FixedUpdate();
+	}
 }
 
 void cri::Scene::LateUpdate()
 {
+	for (auto& object : m_Objects)
+	{
+		object->LateUpdate();
+	}
 }
 
 void Scene::Render() const

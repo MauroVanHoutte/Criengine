@@ -1,6 +1,4 @@
 #pragma once
-#include "QbertGame.h"
-
 struct SDL_Window;
 namespace cri
 {
@@ -13,6 +11,5 @@ namespace cri
 		void Run();
 	private:
 		SDL_Window* m_Window{};
-		QbertGame m_QbertGame{};
 	};
 }

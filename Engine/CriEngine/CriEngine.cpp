@@ -20,8 +20,6 @@ void cri::CriEngine::Initialize()
 {
 	Timer::GetInstance();
 	ServiceLocator::RegisterSoundSystem(new SDLSoundSystem());
-	ServiceLocator::GetSoundSystem()->Play( "../Data/highlands.wav", 1, 100);
-
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -42,7 +40,6 @@ void cri::CriEngine::Initialize()
 
 	Renderer::GetInstance().Init(m_Window);
 
-	m_QbertGame.Init();
 }
 
 /**
@@ -76,8 +73,6 @@ void cri::CriEngine::Cleanup()
 
 void cri::CriEngine::Run()
 {
-	Initialize();
-
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 	// load fonts in the textRenderer here
@@ -116,14 +111,11 @@ void cri::CriEngine::Run()
 			while (lag > Timer::GetInstance()->GetStepTime())
 			{
 				sceneManager.FixedUpdate();
-				m_QbertGame.FixedUpdate();
 				lag -= Timer::GetInstance()->GetStepTime();
 			}
 
 			sceneManager.Update();
-			m_QbertGame.Update();
 			sceneManager.LateUpdate();
-			m_QbertGame.LateUpdate();
 
 
 			auto postTime = std::chrono::high_resolution_clock::now();
@@ -132,7 +124,6 @@ void cri::CriEngine::Run()
 			SDL_RenderClear(renderer.GetSDLRenderer());
 			preTime = std::chrono::high_resolution_clock::now();
 			renderer.Render();
-			m_QbertGame.Render();
 			postTime = std::chrono::high_resolution_clock::now();
 			Timer::GetInstance()->SetRenderTime(std::chrono::duration<float>(postTime - preTime).count());
 			SDL_RenderPresent(renderer.GetSDLRenderer());

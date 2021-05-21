@@ -1,5 +1,7 @@
-#include "QbertGame.h"
-#include "InputManager.h"
+#include "Qbert.h"
+#include <InputManager.h>
+#include <SceneManager.h>
+#include <Scene.h>
 #include "HealthCounter.h"
 #include "QbertHealthComponent.h"
 #include "QbertScoreComponent.h"
@@ -9,34 +11,29 @@
 #include "QbertRemainingDiscCommand.h"
 #include "QbertDeathCommand.h"
 #include "ScoreCounter.h"
-
-QbertGame::~QbertGame()
-{
-	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); ++it)
-	{
-		delete* it;
-		*it = nullptr;
-	}
-}
+#include <ServiceLocator.h>
 
 void QbertGame::Init()
 {
+	auto& scene = cri::SceneManager::GetInstance().CreateScene("Qbert");
+	ServiceLocator::GetSoundSystem()->Play("../Data/highlands.wav", 1, 100);
+
 	//Qbert Player1
 	const int startHp{ 5 };
-	cri::GameObject* Qbert = new cri::GameObject();
-	m_GameObjects.push_back(Qbert);
-	QbertHealthComponent* healthComponent = new QbertHealthComponent(Qbert, startHp);
+	auto Qbert = std::make_shared<cri::GameObject>();
+	QbertHealthComponent* healthComponent = new QbertHealthComponent(Qbert.get(), startHp);
 	Qbert->AddComponent("HealthComponent", healthComponent);
-	QbertScoreComponent* scoreComponent = new QbertScoreComponent(Qbert, 0);
+	QbertScoreComponent* scoreComponent = new QbertScoreComponent(Qbert.get(), 0);
 	Qbert->AddComponent("ScoreComponent", scoreComponent);
+	scene.Add(Qbert);
 
 	//UI Player1
-	cri::GameObject* playerUI = new cri::GameObject();
-	m_GameObjects.push_back(playerUI);
-	HealthCounter* healthCounterComponent = new HealthCounter{ playerUI, startHp, {80.f, 100.f, 0.f} };
+	auto playerUI = std::make_shared<cri::GameObject>();
+	HealthCounter* healthCounterComponent = new HealthCounter{ playerUI.get(), startHp, {80.f, 100.f, 0.f} };
 	playerUI->AddComponent("HealthCounter", healthCounterComponent);
-	ScoreCounter* scoreCounter = new ScoreCounter{ playerUI, 0, {80.f, 120.f, 0.f} };
+	ScoreCounter* scoreCounter = new ScoreCounter{ playerUI.get(), 0, {80.f, 120.f, 0.f} };
 	playerUI->AddComponent("ScoreCounter", scoreCounter);
+	scene.Add(playerUI);
 
 	//counter observes the health component
 	healthComponent->AddObserver(healthCounterComponent);
@@ -55,24 +52,24 @@ void QbertGame::Init()
 	cri::InputManager::GetInstance().AddControllerCommand(0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonX, caughtSlickSamCommand);
 	QbertRemainingDiscCommand* remainingDiscCommand = new QbertRemainingDiscCommand(scoreComponent);
 	cri::InputManager::GetInstance().AddControllerCommand(0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonY, remainingDiscCommand);
-	
+
 
 
 	//Qbert Player2
-	Qbert = new cri::GameObject();
-	m_GameObjects.push_back(Qbert);
-	healthComponent = new QbertHealthComponent(Qbert, startHp);
-	Qbert->AddComponent("HealthComponent", healthComponent);
-	scoreComponent = new QbertScoreComponent(Qbert, 0);
-	Qbert->AddComponent("ScoreComponent", scoreComponent);
+	auto Qbert2 = std::make_shared<cri::GameObject>();
+	healthComponent = new QbertHealthComponent(Qbert2.get(), startHp);
+	Qbert2->AddComponent("HealthComponent", healthComponent);
+	scoreComponent = new QbertScoreComponent(Qbert2.get(), 0);
+	Qbert2->AddComponent("ScoreComponent", scoreComponent);
+	scene.Add(Qbert2);
 
 	//UI Player2
-	playerUI = new cri::GameObject();
-	m_GameObjects.push_back(playerUI);
-	healthCounterComponent = new HealthCounter{ playerUI, startHp, {180.f, 100.f, 0.f} };
-	playerUI->AddComponent("HealthCounter", healthCounterComponent);
-	scoreCounter = new ScoreCounter{ playerUI, 0, {180.f, 120.f, 0.f} };
-	playerUI->AddComponent("ScoreCounter", scoreCounter);
+	auto player2UI = std::make_shared<cri::GameObject>();
+	healthCounterComponent = new HealthCounter{ player2UI.get(), startHp, {180.f, 100.f, 0.f} };
+	player2UI->AddComponent("HealthCounter", healthCounterComponent);
+	scoreCounter = new ScoreCounter{ player2UI.get(), 0, {180.f, 120.f, 0.f} };
+	player2UI->AddComponent("ScoreCounter", scoreCounter);
+	scene.Add(player2UI);
 
 	//counter observes the health component
 	healthComponent->AddObserver(healthCounterComponent);
@@ -91,39 +88,7 @@ void QbertGame::Init()
 	cri::InputManager::GetInstance().AddControllerCommand(1, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonX, caughtSlickSamCommand);
 	remainingDiscCommand = new QbertRemainingDiscCommand(scoreComponent);
 	cri::InputManager::GetInstance().AddControllerCommand(1, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonY, remainingDiscCommand);
-	
-	
-	
-}
 
-void QbertGame::Update()
-{
-	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); ++it)
-	{
-		(*it)->Update();
-	}
-}
 
-void QbertGame::LateUpdate()
-{
-	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); ++it)
-	{
-		(*it)->LateUpdate();
-	}
-}
 
-void QbertGame::FixedUpdate()
-{
-	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); ++it)
-	{
-		(*it)->FixedUpdate();
-	}
-}
-
-void QbertGame::Render()
-{
-	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); ++it)
-	{
-		(*it)->Render();
-	}
 }

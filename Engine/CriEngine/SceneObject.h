@@ -10,6 +10,22 @@ namespace cri
 		virtual void LateUpdate() = 0;
 		virtual void Render() const = 0;
 
+		void Deactivate()
+		{
+			m_Active = false;
+		}
+
+		void Activate()
+		{
+			m_Active = true;
+		}
+
+		bool IsActive()
+		{
+			return m_Active;
+		}
+
+
 	protected:
 		SceneObject() = default;
 		virtual ~SceneObject() = default;
@@ -17,5 +33,7 @@ namespace cri
 		SceneObject(SceneObject&& other) = delete;
 		SceneObject& operator=(const SceneObject& other) = delete;
 		SceneObject& operator=(SceneObject&& other) = delete;
+		
+		bool m_Active = true;
 	};
 }

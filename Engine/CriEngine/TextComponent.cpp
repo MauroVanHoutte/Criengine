@@ -7,12 +7,12 @@ TextComponent::TextComponent(cri::GameObject* owner, const std::string& text, co
 	: BaseComponent(owner)
 	, m_Text{text}
 	, m_Color{(Uint8)color.x, (Uint8)color.y, (Uint8)color.z}
-	, m_Transform{}
+	, m_RelativeTransform{}
 	, m_Font{font}
 	, m_FontSize{fontSize}
 	, m_DoRender(true)
 {
-	m_Transform.SetPosition(pos.x, pos.y, pos.z);
+	m_RelativeTransform.SetPosition(pos.x, pos.y, pos.z);
 }
 
 TextComponent::~TextComponent()
@@ -21,12 +21,12 @@ TextComponent::~TextComponent()
 
 void TextComponent::SetPosition(const glm::vec3& pos)
 {
-	m_Transform.SetPosition(pos.x, pos.y, pos.z);
+	m_RelativeTransform.SetPosition(pos.x, pos.y, pos.z);
 }
 
 const glm::vec3& TextComponent::GetPosition() const
 {
-	return m_Transform.GetPosition();
+	return m_RelativeTransform.GetPosition();
 }
 
 void TextComponent::SetText(const std::string& text)
@@ -55,7 +55,8 @@ void TextComponent::Render() const
 {
 	if (m_DoRender)
 	{
-		TextRenderer::GetInstance()->RenderString(m_Text, { m_Transform.GetPosition().x, m_Transform.GetPosition().y, 0.f }, m_Font, m_FontSize, m_Color);
+		auto parentPos = m_pOwner->m_Transform.GetPosition();
+		TextRenderer::GetInstance()->RenderString(m_Text, { m_RelativeTransform.GetPosition().x + parentPos.x, m_RelativeTransform.GetPosition().y + parentPos.y, 0.f }, m_Font, m_FontSize, m_Color);
 	}
 }
 

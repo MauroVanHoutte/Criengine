@@ -26,10 +26,11 @@ public:
 	void Render() const override;
 	void SwapDoRender();
 
+	cri::Transform m_RelativeTransform;
+
 private:
 	std::string m_Text;
 	SDL_Color m_Color;
-	cri::Transform m_Transform;
 	std::string m_Font;
 	int m_FontSize;
 

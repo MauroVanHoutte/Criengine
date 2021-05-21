@@ -32,8 +32,9 @@ namespace cri
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-	private:
 		Transform m_Transform;
+
+	private:
 		std::map<std::string, BaseComponent*> m_ComponentMap;
 	};
 }

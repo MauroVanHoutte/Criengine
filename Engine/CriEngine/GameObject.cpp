@@ -14,6 +14,10 @@ cri::GameObject::~GameObject()
 
 void cri::GameObject::Update()
 {
+	if (!m_Active)
+	{
+		return;
+	}
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
 		it->second->Update();
@@ -22,6 +26,10 @@ void cri::GameObject::Update()
 
 void cri::GameObject::FixedUpdate()
 {
+	if (!m_Active)
+	{
+		return;
+	}
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
 		it->second->FixedUpdate();
@@ -30,6 +38,10 @@ void cri::GameObject::FixedUpdate()
 
 void cri::GameObject::LateUpdate()
 {
+	if (!m_Active)
+	{
+		return;
+	}
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
 		it->second->LateUpdate();
@@ -38,6 +50,10 @@ void cri::GameObject::LateUpdate()
 
 void cri::GameObject::Render() const
 {
+	if (!m_Active)
+	{
+		return;
+	}
 	const auto pos = m_Transform.GetPosition();
 
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)

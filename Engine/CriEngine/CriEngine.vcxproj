@@ -245,19 +245,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="CriEngine.h" />
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="QbertCaughtSlickSamCommand.h" />
-    <ClInclude Include="QbertCoilyDeathCommand.h" />
-    <ClInclude Include="QbertColorChangeCommand.h" />
-    <ClInclude Include="QbertDeathCommand.h" />
-    <ClInclude Include="QbertGame.h" />
-    <ClInclude Include="QbertHealthComponent.h" />
-    <ClInclude Include="QbertRemainingDiscCommand.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="QbertScoreComponent.h" />
     <ClInclude Include="ScoreCounter.h" />
     <ClInclude Include="SDLSoundSystem.h" />
     <ClInclude Include="ServiceLocator.h" />
@@ -268,6 +260,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
@@ -320,16 +313,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HealthCounter.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="CriEngine.cpp" />
-    <ClCompile Include="QbertCaughtSlickSamCommand.cpp" />
-    <ClCompile Include="QbertCoilyDeathCommand.cpp" />
-    <ClCompile Include="QbertColorChangeCommand.cpp" />
-    <ClCompile Include="QbertDeathCommand.cpp" />
-    <ClCompile Include="QbertGame.cpp" />
-    <ClCompile Include="QbertHealthComponent.cpp" />
-    <ClCompile Include="QbertRemainingDiscCommand.cpp" />
-    <ClCompile Include="QbertScoreComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -341,6 +325,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>

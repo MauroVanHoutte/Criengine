@@ -13,7 +13,7 @@ void cri::SceneManager::FixedUpdate()
 {
 	for (auto& scene : m_Scenes)
 	{
-		scene->Update();
+		scene->FixedUpdate();
 	}
 }
 
@@ -21,7 +21,7 @@ void cri::SceneManager::LateUpdate()
 {
 	for (auto& scene : m_Scenes)
 	{
-		scene->Update();
+		scene->LateUpdate();
 	}
 }
 
