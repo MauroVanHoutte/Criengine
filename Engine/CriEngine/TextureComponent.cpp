@@ -5,6 +5,7 @@ TextureComponent::TextureComponent(cri::GameObject* pOwner)
 	: BaseComponent(pOwner)
 	, m_Height{50.f}
 	, m_Width{50.f}
+	, m_DoRender{true}
 {
 	m_RelativeTransform.SetPosition(0, 0, 0);
 }
@@ -12,6 +13,11 @@ TextureComponent::TextureComponent(cri::GameObject* pOwner)
 void TextureComponent::SetTexture(std::shared_ptr<cri::Texture2D> texture)
 {
 	m_Texture = texture;
+}
+
+std::shared_ptr<cri::Texture2D> TextureComponent::GetTexture() const
+{
+	return m_Texture;
 }
 
 void TextureComponent::Render() const
@@ -25,7 +31,7 @@ void TextureComponent::SetHeight(float height)
 	m_Height = height;
 }
 
-float TextureComponent::GetHeight()
+float TextureComponent::GetHeight() const
 {
 	return m_Height;
 }
@@ -35,7 +41,7 @@ void TextureComponent::SetWidth(float width)
 	m_Width = width;
 }
 
-float TextureComponent::GetWidth()
+float TextureComponent::GetWidth() const
 {
 	return m_Width;
 }

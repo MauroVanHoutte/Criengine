@@ -19,6 +19,7 @@
 void cri::CriEngine::Initialize()
 {
 	Timer::GetInstance();
+	ResourceManager::GetInstance().Init("../Data/");
 	ServiceLocator::RegisterSoundSystem(new SDLSoundSystem());
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
@@ -74,7 +75,6 @@ void cri::CriEngine::Cleanup()
 void cri::CriEngine::Run()
 {
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
 	// load fonts in the textRenderer here
 	TextRenderer::GetInstance()->AddFont("CamingoCode.ttf", 12, { 255, 0, 0 });
 

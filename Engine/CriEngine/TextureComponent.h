@@ -10,13 +10,14 @@ public:
 	TextureComponent(cri::GameObject* pOwner);
 
 	void SetTexture(std::shared_ptr<cri::Texture2D> texture);
+	std::shared_ptr<cri::Texture2D> GetTexture() const;
 
 	void Render() const override;
 
 	void SetHeight(float height);
-	float GetHeight();
+	float GetHeight() const;
 	void SetWidth(float width);
-	float GetWidth();
+	float GetWidth() const;
 
 	void SetDoRender(bool doRender);
 	bool GetDoRender();

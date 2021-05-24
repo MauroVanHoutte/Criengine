@@ -19,6 +19,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{7248ef4e-c143-4cb0-8525-e09ff166ae3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{ba4c59f1-4dfc-4689-98c7-28f9b2e38583}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -28,51 +31,63 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QbertCaughtSlickSamCommand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="QbertCoilyDeathCommand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="QbertColorChangeCommand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="QbertDeathCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertHealthComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="QbertRemainingDiscCommand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="QbertScoreComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertHealthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TileTextureComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="QbertColorChangeCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
     <ClInclude Include="QbertCaughtSlickSamCommand.h">
-      <Filter>Header Files</Filter>
+      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="QbertCoilyDeathCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertColorChangeCommand.h">
-      <Filter>Header Files</Filter>
+      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="QbertDeathCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertHealthComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="QbertRemainingDiscCommand.h">
-      <Filter>Header Files</Filter>
+      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="QbertScoreComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertHealthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TileTextureComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
