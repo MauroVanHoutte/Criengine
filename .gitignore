@@ -49,3 +49,5 @@ Engine/Qbert/x64/Debug/Qbert.log
 Engine/Qbert/x64/Debug/Qbert.log
 *.tlog
 *.log
+Engine/Qbert/Qbert.vcxproj
+Engine/Qbert/Qbert.vcxproj.filters
