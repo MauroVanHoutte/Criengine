@@ -182,6 +182,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Qbert.cpp" />
     <ClCompile Include="QbertHealthComponent.cpp" />
     <ClCompile Include="QbertScoreComponent.cpp" />
+    <ClCompile Include="SingleRowAnimationComponent.cpp" />
     <ClCompile Include="TileTextureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +195,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Qbert.h" />
+    <ClInclude Include="SingleRowAnimationComponent.h" />
     <ClInclude Include="QbertHealthComponent.h" />
     <ClInclude Include="QbertScoreComponent.h" />
     <ClInclude Include="TileTextureComponent.h" />

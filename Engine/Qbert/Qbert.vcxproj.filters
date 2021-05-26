@@ -48,6 +48,9 @@
     <ClCompile Include="JumpCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="SingleRowAnimationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="JumpCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleRowAnimationComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

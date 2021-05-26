@@ -1,5 +1,6 @@
 #include "TextureComponent.h"
 #include "Renderer.h"
+#include <assert.h>
 
 TextureComponent::TextureComponent(cri::GameObject* pOwner)
 	: BaseComponent(pOwner)
@@ -12,6 +13,7 @@ TextureComponent::TextureComponent(cri::GameObject* pOwner)
 
 void TextureComponent::SetTexture(std::shared_ptr<cri::Texture2D> texture)
 {
+	assert(texture != nullptr);
 	m_Texture = texture;
 }
 

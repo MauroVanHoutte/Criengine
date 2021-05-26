@@ -3,6 +3,7 @@
 #include <Timer.h>
 #include <GameObject.h>
 #include "TileTextureComponent.h"
+#include "SingleRowAnimationComponent.h"
 
 JumperComponent::JumperComponent(cri::GameObject* pOwner, Level* pLevel, int starRow, int startCol)
 	: BaseComponent(pOwner)
@@ -15,7 +16,7 @@ JumperComponent::JumperComponent(cri::GameObject* pOwner, Level* pLevel, int sta
 	, m_JumpDurationTile{1.f}
 	, m_JumpCounter{0.f}
 	, m_IsJumping{false}
-	, m_Gravity{120.f}
+	, m_Gravity{140.f}
 {
 	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y);
 	float yOffset = -30.f;
@@ -33,6 +34,7 @@ void JumperComponent::Update()
 		{
 			m_JumpCounter = m_JumpDuration;
 			m_IsJumping = false;
+			m_pOwner->GetComponent<SingleRowAnimationComponent>()->NextFrame();
 			if (m_Target)
 			{
 				m_Target->GetComponent<TileTextureComponent>()->JumpedOn();
@@ -53,17 +55,32 @@ void JumperComponent::Jump(int colDir, int rowDir)
 	}
 
 	int newColDir = colDir;
+
+	auto AnimationComp = m_pOwner->GetComponent<SingleRowAnimationComponent>();
 	
 	if (colDir < 0 && rowDir > 0)
 	{
 		newColDir = colDir + 1;
+		AnimationComp->SetAnimation(3);
 	}
 
 	if (colDir > 0 && rowDir < 0)
 	{
 		newColDir = colDir - 1;
+		AnimationComp->SetAnimation(0);
 	}
 
+	if (colDir < 0 && rowDir < 0)
+	{
+		AnimationComp->SetAnimation(1);
+	}
+
+	if (colDir > 0 && rowDir > 0)
+	{
+		AnimationComp->SetAnimation(2);
+	}
+
+	AnimationComp->NextFrame();
 
 	m_Target = m_pLevel->GetTile(m_Pos.x + newColDir, m_Pos.y + rowDir);
 	if (m_Target == nullptr)
