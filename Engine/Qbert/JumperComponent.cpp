@@ -97,6 +97,7 @@ void JumperComponent::JumpOffMap(int colDir, int rowDir)
 	else
 	{
 		m_InitialJumpVelocity.y = -100.f;
+		cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToBack(m_pOwner);
 	}
 	m_JumpCounter = 0.f;
 	auto position = m_pOwner->m_Transform.GetPosition();

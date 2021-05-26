@@ -6,20 +6,22 @@ using namespace cri;
 
 unsigned int Scene::m_IdCounter = 0;
 
-void cri::Scene::MoveObjectToFront(std::shared_ptr<SceneObject> object)
+void cri::Scene::MoveObjectToFront(SceneObject* object)
 {
-	auto temp = m_Objects.back(); // front of rendering == rendered last
-	auto it = std::find(m_Objects.begin(), m_Objects.end(), object); 
-	m_Objects[it - m_Objects.begin()] = temp;
-	m_Objects[m_Objects.size()-1] = object;
+	auto temp1 = m_Objects.back(); // front of rendering == rendered last
+	auto it = std::find_if(m_Objects.begin(), m_Objects.end(), [object](std::shared_ptr<cri::SceneObject> sceneObject) {return object == sceneObject.get(); });
+	auto temp2 = *it;
+	m_Objects[it - m_Objects.begin()] = temp1;
+	m_Objects[m_Objects.size()-1] = temp2;
 }
 
-void cri::Scene::MoveObjectToBack(std::shared_ptr<SceneObject> object)
+void cri::Scene::MoveObjectToBack(SceneObject* object)
 {
-	auto temp = m_Objects.front(); // back of rendering == rendered first
-	auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
-	m_Objects[it - m_Objects.begin()] = temp;
-	m_Objects[0] = object;
+	auto temp1 = m_Objects.front(); // back of rendering == rendered first
+	auto it = std::find_if(m_Objects.begin(), m_Objects.end(), [object](std::shared_ptr<cri::SceneObject> sceneObject) {return object == sceneObject.get(); });
+	auto temp2 = *it;
+	m_Objects[it - m_Objects.begin()] = temp1;
+	m_Objects[0] = temp2;
 }
 
 Scene::Scene(const std::string& name) : m_Name(name) {}

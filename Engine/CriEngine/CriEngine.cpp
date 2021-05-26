@@ -48,17 +48,7 @@ void cri::CriEngine::Initialize()
  */
 void cri::CriEngine::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
-	auto& input = InputManager::GetInstance();
 
-	auto go = std::make_shared<GameObject>();
-	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
-	auto renderCommand = new SwapDoRenderTextCommand();
-	renderCommand->Bind(fpsCounterComponent);
-	input.AddKeyboardCommand(ButtonState::OnPressed, SDL_SCANCODE_A, renderCommand);
-	input.AddControllerCommand(0, ButtonState::OnPressed, ControllerButton::ButtonA, renderCommand);
-	go->AddComponent("FpsCounter", fpsCounterComponent);
-	scene.Add(go);
 }
 
 void cri::CriEngine::Cleanup()

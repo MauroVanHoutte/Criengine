@@ -12,6 +12,8 @@
 #include "JumperComponent.h"
 #include <InputManager.h>
 #include "JumpCommand.h"
+#include <FPSCounter.h>
+#include <SwapDoRenderTextCommand.h>
 
 #undef main
 
@@ -55,6 +57,15 @@ int main()
 	jumpDownRightCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(cri::ButtonState::OnPressed, SDL_Scancode::SDL_SCANCODE_KP_3, jumpDownRightCommand);
+
+	auto go = std::make_shared<cri::GameObject>();
+	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
+	auto renderCommand = new SwapDoRenderTextCommand();
+	renderCommand->Bind(fpsCounterComponent);
+	cri::InputManager::GetInstance().AddKeyboardCommand(cri::ButtonState::OnPressed, SDL_SCANCODE_A, renderCommand);
+	cri::InputManager::GetInstance().AddControllerCommand(0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, renderCommand);
+	go->AddComponent("FpsCounter", fpsCounterComponent);
+	scene.Add(go);
 
 	engine.Run();
 	return 0;

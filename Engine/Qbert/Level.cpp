@@ -10,7 +10,7 @@ Level::Level(int height, int difficulty, int tileSize, float topX, float topY, c
 	{
 		for (int c = 0; c <= r; c++)
 		{
-			float yPos{ topY + tileSize * r * 0.7f };
+			float yPos{ topY + tileSize * r * 0.75f };
 			float xPos{ topX - tileSize * r * 0.5f + tileSize * c };
 
 			auto tile = std::make_shared<cri::GameObject>();
