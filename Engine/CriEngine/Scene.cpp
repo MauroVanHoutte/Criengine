@@ -6,6 +6,22 @@ using namespace cri;
 
 unsigned int Scene::m_IdCounter = 0;
 
+void cri::Scene::MoveObjectToFront(std::shared_ptr<SceneObject> object)
+{
+	auto temp = m_Objects.back(); // front of rendering == rendered last
+	auto it = std::find(m_Objects.begin(), m_Objects.end(), object); 
+	m_Objects[it - m_Objects.begin()] = temp;
+	m_Objects[m_Objects.size()-1] = object;
+}
+
+void cri::Scene::MoveObjectToBack(std::shared_ptr<SceneObject> object)
+{
+	auto temp = m_Objects.front(); // back of rendering == rendered first
+	auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
+	m_Objects[it - m_Objects.begin()] = temp;
+	m_Objects[0] = object;
+}
+
 Scene::Scene(const std::string& name) : m_Name(name) {}
 
 Scene::~Scene() = default;

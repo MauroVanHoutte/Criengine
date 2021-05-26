@@ -23,6 +23,10 @@ namespace cri
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
+		void MoveObjectToFront(std::shared_ptr<SceneObject> object);
+		void MoveObjectToBack(std::shared_ptr<SceneObject> object);
+
+
 	private: 
 		explicit Scene(const std::string& name);
 
