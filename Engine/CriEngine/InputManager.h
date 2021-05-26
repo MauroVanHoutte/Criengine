@@ -40,12 +40,12 @@ namespace cri
 		~InputManager();
 		void ProcessInput();
 		void AddControllerCommand(unsigned controllerId, ButtonState buttonState, ControllerButton button, Command* command);
-		void AddKeyboardCommand( ButtonState buttonState, int button, Command* command);
+		void AddKeyboardCommand( ButtonState buttonState, SDL_Scancode button, Command* command);
 
 	private:
 		int m_NrControllers{ 4 };
 		std::multimap<std::pair<unsigned, std::pair<ButtonState, ControllerButton>>, Command*> m_ControllerCommandsMap;
-		std::multimap<std::pair<ButtonState, int>, Command*> m_KeyboardCommandsMap;
+		std::multimap<std::pair<ButtonState, SDL_Scancode>, Command*> m_KeyboardCommandsMap;
 		std::vector<XINPUT_STATE> m_ControllerStatesPreviousFrame;
 		std::vector<Uint8> m_KeyboardSatePreviousFrame;
 	};

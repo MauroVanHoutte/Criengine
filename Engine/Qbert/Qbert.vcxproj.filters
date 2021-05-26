@@ -30,21 +30,6 @@
     <ClCompile Include="Qbert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QbertCaughtSlickSamCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertCoilyDeathCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertColorChangeCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertDeathCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertRemainingDiscCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="QbertScoreComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -57,25 +42,16 @@
     <ClCompile Include="Level.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="JumperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertColorChangeCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertCaughtSlickSamCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertCoilyDeathCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertDeathCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertRemainingDiscCommand.h">
-      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="QbertScoreComponent.h">
       <Filter>Components</Filter>
@@ -88,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="TileTextureComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="JumperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

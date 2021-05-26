@@ -18,7 +18,6 @@ cri::InputManager::~InputManager()
 		if (!it->second->m_Deleted)
 		{
 			delete it->second;
-			it->second->m_Deleted = true;
 		}
 	}
 	for (auto it = m_KeyboardCommandsMap.begin(); it != m_KeyboardCommandsMap.end(); it++)
@@ -26,7 +25,6 @@ cri::InputManager::~InputManager()
 		if (!it->second->m_Deleted)
 		{
 			delete it->second;
-			it->second->m_Deleted = true;
 		}
 	}
 }
@@ -105,9 +103,9 @@ void cri::InputManager::ProcessInput()
 	m_KeyboardSatePreviousFrame.assign(keyboardState, keyboardState + SDL_NUM_SCANCODES);
 }
 
-void cri::InputManager::AddKeyboardCommand(ButtonState buttonState, int button, Command* command)
+void cri::InputManager::AddKeyboardCommand(ButtonState buttonState, SDL_Scancode button, Command* command)
 {
-	std::pair<std::pair<ButtonState, int>, Command*> pair;
+	std::pair<std::pair<ButtonState, SDL_Scancode>, Command*> pair;
 	pair.first.first = buttonState;
 	pair.first.second = button;
 	pair.second = command;

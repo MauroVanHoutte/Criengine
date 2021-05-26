@@ -175,15 +175,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JumperComponent.cpp" />
+    <ClCompile Include="JumpCommand.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Qbert.cpp" />
-    <ClCompile Include="QbertCaughtSlickSamCommand.cpp" />
-    <ClCompile Include="QbertCoilyDeathCommand.cpp" />
-    <ClCompile Include="QbertColorChangeCommand.cpp" />
-    <ClCompile Include="QbertDeathCommand.cpp" />
     <ClCompile Include="QbertHealthComponent.cpp" />
-    <ClCompile Include="QbertRemainingDiscCommand.cpp" />
     <ClCompile Include="QbertScoreComponent.cpp" />
     <ClCompile Include="TileTextureComponent.cpp" />
   </ItemGroup>
@@ -193,14 +190,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JumperComponent.h" />
+    <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Qbert.h" />
-    <ClInclude Include="QbertCaughtSlickSamCommand.h" />
-    <ClInclude Include="QbertCoilyDeathCommand.h" />
-    <ClInclude Include="QbertColorChangeCommand.h" />
-    <ClInclude Include="QbertDeathCommand.h" />
     <ClInclude Include="QbertHealthComponent.h" />
-    <ClInclude Include="QbertRemainingDiscCommand.h" />
     <ClInclude Include="QbertScoreComponent.h" />
     <ClInclude Include="TileTextureComponent.h" />
   </ItemGroup>

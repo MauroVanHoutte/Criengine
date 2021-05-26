@@ -24,6 +24,20 @@ namespace cri
 		bool RemoveComponent(const std::string& name);
 		std::map<std::string, BaseComponent*>& GetComponents();
 
+		template<typename T>
+		T* GetComponent()
+		{
+			for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
+			{
+				T* comp = dynamic_cast<T*>(it->second);
+				if (comp != nullptr)
+				{
+					return comp;
+				}
+			}
+			return nullptr;
+		}
+
 
 		GameObject() = default;
 		virtual ~GameObject();
@@ -37,4 +51,5 @@ namespace cri
 	private:
 		std::map<std::string, BaseComponent*> m_ComponentMap;
 	};
+
 }

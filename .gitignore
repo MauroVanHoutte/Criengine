@@ -45,3 +45,7 @@ Engine/.vs/
 
 *.db-shm
 
+Engine/Qbert/x64/Debug/Qbert.log
+Engine/Qbert/x64/Debug/Qbert.log
+*.tlog
+*.log

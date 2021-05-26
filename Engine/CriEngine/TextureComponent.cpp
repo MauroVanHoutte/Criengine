@@ -23,7 +23,7 @@ std::shared_ptr<cri::Texture2D> TextureComponent::GetTexture() const
 void TextureComponent::Render() const
 {
 	auto center = m_RelativeTransform.GetPosition() + m_pOwner->m_Transform.GetPosition();
-	cri::Renderer::GetInstance().RenderTexture(*m_Texture, center.x - m_Width, center.y - m_Height, m_Height, m_Width);
+	cri::Renderer::GetInstance().RenderTexture(*m_Texture, center.x - m_Width/2.f, center.y - m_Height/2.f, m_Height, m_Width);
 }
 
 void TextureComponent::SetHeight(float height)

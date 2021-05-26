@@ -6,9 +6,9 @@ Level::Level(int height, int difficulty, int tileSize, float topX, float topY, c
 	, m_Difficulty{difficulty}
 	, m_TileSize{tileSize}
 {
-	for (size_t r = 0; r < height; r++)
+	for (int r = 0; r < height; r++)
 	{
-		for (size_t c = 0; c <= r; c++)
+		for (int c = 0; c <= r; c++)
 		{
 			float yPos{ topY + tileSize * r * 0.7f };
 			float xPos{ topX - tileSize * r * 0.5f + tileSize * c };
@@ -32,7 +32,7 @@ void Level::AddTile(std::shared_ptr<cri::GameObject> tile)
 	m_Tiles.push_back(tile);
 }
 
-std::shared_ptr<cri::GameObject> Level::GetTile(int row, int column)
+std::shared_ptr<cri::GameObject> Level::GetTile(int column, int row)
 {
 	if (row < 0 || column < 0)
 	{
@@ -42,6 +42,7 @@ std::shared_ptr<cri::GameObject> Level::GetTile(int row, int column)
 	{
 		return nullptr;
 	}
+
 
 	int indexHeight{ (row * (row + 1)) / 2 };
 

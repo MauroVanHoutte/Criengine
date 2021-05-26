@@ -40,7 +40,7 @@ void TileTextureComponent::Render() const
 		}
 		srcRect.y = row * srcRect.h;
 		
-		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth(), center.y - GetHeight(), GetHeight(), GetWidth(), srcRect);
+		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth()/2.f, center.y - GetHeight()/2.f, GetHeight(), GetWidth(), srcRect);
 		break;
 
 	case 2:
@@ -54,7 +54,7 @@ void TileTextureComponent::Render() const
 		}
 		srcRect.y = row * srcRect.h;
 
-		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth(), center.y - GetHeight(), GetHeight(), GetWidth(), srcRect);
+		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth()/2.f, center.y - GetHeight()/2.f, GetHeight(), GetWidth(), srcRect);
 		break;
 
 	case 3:
@@ -62,7 +62,7 @@ void TileTextureComponent::Render() const
 
 		srcRect.y = row * srcRect.h;
 
-		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth(), center.y - GetHeight(), GetHeight(), GetWidth(), srcRect);
+		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth()/2.f, center.y - GetHeight()/2.f, GetHeight(), GetWidth(), srcRect);
 		break;
 
 	case 4:
@@ -70,7 +70,7 @@ void TileTextureComponent::Render() const
 
 		srcRect.y = row * srcRect.h;
 
-		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth(), center.y - GetHeight(), GetHeight(), GetWidth(), srcRect);
+		cri::Renderer::GetInstance().RenderTexture(*GetTexture(), center.x - GetWidth()/2.f, center.y - GetHeight()/2.f, GetHeight(), GetWidth(), srcRect);
 		break;
 	}
 }
