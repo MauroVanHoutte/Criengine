@@ -1,7 +1,8 @@
 #pragma once
 #include <TextureComponent.h>
+#include <Subject.h>
 
-class TileTextureComponent : public TextureComponent
+class TileTextureComponent : public TextureComponent, public Subject
 {
 public:
 	TileTextureComponent(cri::GameObject* pOwner);

@@ -19,6 +19,10 @@ void TileTextureComponent::SetDifficulty(int difficulty)
 void TileTextureComponent::JumpedOn()
 {
 	++m_TimesJumpedOn;
+	if (IsCorrect())
+	{
+		Notify(Event::TileJumpedOn);
+	}
 }
 
 void TileTextureComponent::Render() const

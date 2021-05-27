@@ -33,19 +33,37 @@ namespace cri
 		Down
 	};
 
+	struct ControllerCommandInfo
+	{
+		int Scene;
+		unsigned ControllerId;
+		ButtonState ButtonState;
+		ControllerButton Button;
+		Command* Command;
+	};
+
+	struct KeyboardCommandInfo
+	{
+		int Scene;
+		ButtonState ButtonState;
+		SDL_Scancode Button;
+		Command* Command;
+	};
+
+
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		InputManager();
 		~InputManager();
 		void ProcessInput();
-		void AddControllerCommand(unsigned controllerId, ButtonState buttonState, ControllerButton button, Command* command);
-		void AddKeyboardCommand( ButtonState buttonState, SDL_Scancode button, Command* command);
+		void AddControllerCommand(unsigned controllerId, int scene, ButtonState buttonState, ControllerButton button, Command* command);
+		void AddKeyboardCommand(int scene, ButtonState buttonState, SDL_Scancode button, Command* command);
 
 	private:
 		int m_NrControllers{ 4 };
-		std::multimap<std::pair<unsigned, std::pair<ButtonState, ControllerButton>>, Command*> m_ControllerCommandsMap;
-		std::multimap<std::pair<ButtonState, SDL_Scancode>, Command*> m_KeyboardCommandsMap;
+		std::vector<ControllerCommandInfo> m_ControllerCommands;
+		std::vector<KeyboardCommandInfo> m_KeyboardCommands;
 		std::vector<XINPUT_STATE> m_ControllerStatesPreviousFrame;
 		std::vector<Uint8> m_KeyboardSatePreviousFrame;
 	};

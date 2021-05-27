@@ -1,7 +1,8 @@
 #include "Level.h"
 #include "TileTextureComponent.h"
+#include "Qbert.h"
 
-Level::Level(int height, int difficulty, int tileSize, float topX, float topY, cri::Scene& scene)
+Level::Level(int height, int difficulty, int tileSize, float topX, float topY, cri::Scene& scene, QbertGame* manager)
 	: m_Height{height}
 	, m_Difficulty{difficulty}
 	, m_TileSize{tileSize}
@@ -19,11 +20,20 @@ Level::Level(int height, int difficulty, int tileSize, float topX, float topY, c
 			tileTexture->SetWidth(float(tileSize));
 			tileTexture->SetHeight(float(tileSize));
 			tileTexture->SetDifficulty(difficulty);
+			tileTexture->AddObserver(manager);
 			tile->AddComponent("TileTexture", tileTexture);
 
 			m_Tiles.push_back(tile);
 			scene.Add(tile);
 		}
+	}
+}
+
+Level::~Level()
+{
+	for  (auto tile : m_Tiles)
+	{
+		tile->MarkForDeletion();
 	}
 }
 
@@ -48,4 +58,16 @@ std::shared_ptr<cri::GameObject> Level::GetTile(int column, int row)
 
 	int index = indexHeight + column;
 	return m_Tiles[index];
+}
+
+bool Level::Completed()
+{
+	for (auto tile : m_Tiles)
+	{
+		if (!tile->GetComponent<TileTextureComponent>()->IsCorrect())
+		{
+			return false;
+		}
+	}
+	return true;
 }

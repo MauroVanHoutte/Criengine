@@ -1,5 +1,6 @@
 #include "InputManager.h"
 #include <SDL.h>
+#include "SceneManager.h"
 
 cri::InputManager::InputManager()
 {
@@ -13,19 +14,14 @@ cri::InputManager::InputManager()
 
 cri::InputManager::~InputManager()
 {
-	for (auto it = m_ControllerCommandsMap.begin(); it != m_ControllerCommandsMap.end(); it++)
+	for (auto it = m_ControllerCommands.begin(); it != m_ControllerCommands.end(); it++)
 	{
-		if (!it->second->m_Deleted)
-		{
-			delete it->second;
-		}
+		
+		delete it->Command;
 	}
-	for (auto it = m_KeyboardCommandsMap.begin(); it != m_KeyboardCommandsMap.end(); it++)
+	for (auto it = m_KeyboardCommands.begin(); it != m_KeyboardCommands.end(); it++)
 	{
-		if (!it->second->m_Deleted)
-		{
-			delete it->second;
-		}
+		delete it->Command;
 	}
 }
 
@@ -34,29 +30,35 @@ void cri::InputManager::ProcessInput()
 	XINPUT_STATE controllerState;
 	auto keyboardState = SDL_GetKeyboardState(nullptr);
 
+	int currentScene = cri::SceneManager::GetInstance().GetCurrentSceneIdx();
 
-	for (auto it = m_KeyboardCommandsMap.begin(); it != m_KeyboardCommandsMap.end(); it++)
+
+	for (auto it = m_KeyboardCommands.begin(); it != m_KeyboardCommands.end(); it++)
 	{
-		switch (it->first.first)
+		if (it->Scene != currentScene)
+		{
+			continue;
+		}
+		switch (it->ButtonState)
 		{
 		case ButtonState::Down:
-			if (keyboardState[it->first.second])
+			if (keyboardState[it->Button])
 			{
-				it->second->Execute();
+				it->Command->Execute();
 			}
 			break;
 
 		case ButtonState::OnPressed:
-			if (keyboardState[it->first.second] && !m_KeyboardSatePreviousFrame[it->first.second])
+			if (keyboardState[it->Button] && !m_KeyboardSatePreviousFrame[it->Button])
 			{
-				it->second->Execute();
+				it->Command->Execute();
 			}
 			break;
 
 		case ButtonState::OnRelease:
-			if (!keyboardState[it->first.second] && m_KeyboardSatePreviousFrame[it->first.second])
+			if (!keyboardState[it->Button] && m_KeyboardSatePreviousFrame[it->Button])
 			{
-				it->second->Execute();
+				it->Command->Execute();
 			}
 			break;
 		}
@@ -68,30 +70,34 @@ void cri::InputManager::ProcessInput()
 		XInputGetState(i, &controllerState);
 
 
-		for (auto it = m_ControllerCommandsMap.begin(); it != m_ControllerCommandsMap.end(); it++)
+		for (auto it = m_ControllerCommands.begin(); it != m_ControllerCommands.end(); it++)
 		{
-			if (int(it->first.first) == i)
+			if (it->Scene != currentScene)
 			{
-				switch (it->first.second.first)
+				continue;
+			}
+			if (int(it->ControllerId) == i)
+			{
+				switch (it->ButtonState)
 				{
 				case ButtonState::Down:
-					if (controllerState.Gamepad.wButtons & WORD(it->first.second.second))
+					if (controllerState.Gamepad.wButtons & WORD(it->Button))
 					{
-						it->second->Execute();
+						it->Command->Execute();
 					}
 					break;
 
 				case ButtonState::OnPressed:
-					if (controllerState.Gamepad.wButtons & WORD(it->first.second.second) && !(m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->first.second.second)))
+					if (controllerState.Gamepad.wButtons & WORD(it->Button) && !(m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->Button)))
 					{
-						it->second->Execute();
+						it->Command->Execute();
 					}
 					break;
 
 				case ButtonState::OnRelease:
-					if (m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->first.second.second) && !(controllerState.Gamepad.wButtons & WORD(it->first.second.second)))
+					if (m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->Button) && !(controllerState.Gamepad.wButtons & WORD(it->Button)))
 					{
-						it->second->Execute();
+						it->Command->Execute();
 					}
 					break;
 				}
@@ -103,21 +109,25 @@ void cri::InputManager::ProcessInput()
 	m_KeyboardSatePreviousFrame.assign(keyboardState, keyboardState + SDL_NUM_SCANCODES);
 }
 
-void cri::InputManager::AddKeyboardCommand(ButtonState buttonState, SDL_Scancode button, Command* command)
+void cri::InputManager::AddKeyboardCommand(int scene, ButtonState buttonState, SDL_Scancode button, Command* command)
 {
-	std::pair<std::pair<ButtonState, SDL_Scancode>, Command*> pair;
-	pair.first.first = buttonState;
-	pair.first.second = button;
-	pair.second = command;
-	m_KeyboardCommandsMap.insert(pair);
+	cri::KeyboardCommandInfo commandInfo;
+	commandInfo.Scene = scene;
+	commandInfo.ButtonState = buttonState;
+	commandInfo.Button = button;
+	commandInfo.Command = command;
+	
+	m_KeyboardCommands.push_back(commandInfo);
 }
 
-void cri::InputManager::AddControllerCommand(unsigned controllerId, cri::ButtonState buttonState, cri::ControllerButton button, Command* command)
+void cri::InputManager::AddControllerCommand(unsigned controllerId, int scene, cri::ButtonState buttonState, cri::ControllerButton button, Command* command)
 {
-	std::pair<std::pair<unsigned, std::pair<cri::ButtonState, cri::ControllerButton>>, Command*> pair;
-	pair.first.first = controllerId;
-	pair.first.second.first = buttonState;
-	pair.first.second.second = button;
-	pair.second = command;
-	m_ControllerCommandsMap.insert(pair);
+	cri::ControllerCommandInfo commandInfo;
+	commandInfo.ControllerId = controllerId;
+	commandInfo.Scene = scene;
+	commandInfo.ButtonState = buttonState;
+	commandInfo.Button = button;
+	commandInfo.Command = command;
+
+	m_ControllerCommands.push_back(commandInfo);
 }

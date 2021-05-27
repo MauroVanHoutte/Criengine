@@ -51,6 +51,18 @@
     <ClCompile Include="SingleRowAnimationComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="QbertMainMenuComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuUpCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuDownCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButtonClickCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
@@ -76,6 +88,18 @@
     </ClInclude>
     <ClInclude Include="SingleRowAnimationComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertMainMenuComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuUpCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuDownCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButtonClickCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

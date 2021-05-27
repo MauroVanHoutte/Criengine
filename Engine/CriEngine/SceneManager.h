@@ -18,6 +18,7 @@ namespace cri
 		void OpenScene(int sceneIdx);
 		Scene& GetScene(int sceneIdx);
 		Scene& GetCurrentScene();
+		int GetCurrentSceneIdx();
 
 		void Update();
 		void FixedUpdate();

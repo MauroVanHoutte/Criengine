@@ -11,7 +11,7 @@ namespace cri
 		virtual void Render() const = 0;
 
 		void Deactivate()
-		{
+		{	
 			m_Active = false;
 		}
 
@@ -25,6 +25,17 @@ namespace cri
 			return m_Active;
 		}
 
+		void MarkForDeletion()
+		{
+			m_Active = false;
+			m_ToBeDeleted = true;
+		}
+
+		bool IsMarkedForDeletion()
+		{
+			return m_ToBeDeleted;
+		}
+
 
 	protected:
 		SceneObject() = default;
@@ -35,5 +46,6 @@ namespace cri
 		SceneObject& operator=(SceneObject&& other) = delete;
 		
 		bool m_Active = true;
+		bool m_ToBeDeleted = false;
 	};
 }

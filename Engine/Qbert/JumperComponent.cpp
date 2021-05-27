@@ -4,23 +4,22 @@
 #include <GameObject.h>
 #include "TileTextureComponent.h"
 #include "SingleRowAnimationComponent.h"
+#include "ServiceLocator.h"
 
-JumperComponent::JumperComponent(cri::GameObject* pOwner, Level* pLevel, int starRow, int startCol)
+JumperComponent::JumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName)
 	: BaseComponent(pOwner)
-	, m_pLevel{pLevel}
-	, m_Pos{startCol, starRow}
+	, m_pLevel{nullptr}
+	, m_Pos{0, 0}
 	, m_JumpStartPos{0.f, 0.f}
 	, m_Target{ nullptr }
-	, m_JumpDuration{1.f}
+	, m_JumpDuration{jumpDuration}
 	, m_JumpDurationOffMap{5.f}
-	, m_JumpDurationTile{1.f}
+	, m_JumpDurationTile{jumpDuration}
 	, m_JumpCounter{0.f}
 	, m_IsJumping{false}
-	, m_Gravity{140.f}
+	, m_Gravity{280.f}
+	, m_JumpSoundName{jumpSoundName}
 {
-	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y);
-	float yOffset = -30.f;
-	m_pOwner->m_Transform.SetPosition(startTile->m_Transform.GetPosition().x, startTile->m_Transform.GetPosition().y + yOffset, 0);
 }
 
 void JumperComponent::Update()
@@ -89,6 +88,8 @@ void JumperComponent::Jump(int colDir, int rowDir)
 	}
 	else
 	{
+		ServiceLocator::GetSoundSystem()->Play(m_JumpSoundName, 0, 5);
+		m_JumpDuration = m_JumpDurationTile;
 		float yOffset = -30.f;
 		m_JumpCounter = 0.f;
 		auto position = m_pOwner->m_Transform.GetPosition();
@@ -99,9 +100,18 @@ void JumperComponent::Jump(int colDir, int rowDir)
 		m_Pos.x += newColDir;
 		m_Pos.y += rowDir;
 		m_IsJumping = true;
-		m_JumpDuration = m_JumpDurationTile;
 	}
 
+}
+
+void JumperComponent::SetStartPos(Level* pLevel, int startRow, int startCol)
+{
+	m_pLevel = pLevel;
+	m_Pos.x = startCol;
+	m_Pos.y = startRow;
+	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y);
+	float yOffset = -30.f;
+	m_pOwner->m_Transform.SetPosition(startTile->m_Transform.GetPosition().x, startTile->m_Transform.GetPosition().y + yOffset, 0);
 }
 
 void JumperComponent::JumpOffMap(int colDir, int rowDir)

@@ -6,7 +6,11 @@ enum class Event
 	ColorChange,
 	CoilyDeath,
 	RemainingDisc,
-	SlickSamCaught
+	SlickSamCaught,
+	StartSinglePlayer,
+	StartCoop,
+	StartVersus,
+	TileJumpedOn
 };
 
 class Observer

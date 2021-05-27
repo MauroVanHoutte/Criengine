@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include <string>
+#include "SceneObject.h"
 
 using namespace cri;
 
@@ -63,5 +64,10 @@ void Scene::Render() const
 	{
 		object->Render();
 	}
+}
+
+void cri::Scene::DeletedMarkedObjects()
+{
+	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(), [](std::shared_ptr<cri::SceneObject> object) {return object->IsMarkedForDeletion(); }), m_Objects.end());
 }
 

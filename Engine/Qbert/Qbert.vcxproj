@@ -179,8 +179,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="JumpCommand.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuButtonClickCommand.cpp" />
+    <ClCompile Include="MenuDownCommand.cpp" />
+    <ClCompile Include="MenuUpCommand.cpp" />
     <ClCompile Include="Qbert.cpp" />
     <ClCompile Include="QbertHealthComponent.cpp" />
+    <ClCompile Include="QbertMainMenuComponent.cpp" />
     <ClCompile Include="QbertScoreComponent.cpp" />
     <ClCompile Include="SingleRowAnimationComponent.cpp" />
     <ClCompile Include="TileTextureComponent.cpp" />
@@ -194,7 +198,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="MenuButtonClickCommand.h" />
+    <ClInclude Include="MenuUpCommand.h" />
+    <ClInclude Include="MenuDownCommand.h" />
     <ClInclude Include="Qbert.h" />
+    <ClInclude Include="QbertMainMenuComponent.h" />
     <ClInclude Include="SingleRowAnimationComponent.h" />
     <ClInclude Include="QbertHealthComponent.h" />
     <ClInclude Include="QbertScoreComponent.h" />

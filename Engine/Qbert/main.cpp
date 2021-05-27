@@ -11,9 +11,10 @@ int main()
 	cri::CriEngine engine{};
 	engine.Initialize();
 	
-	QbertGame::Init();
-
+	QbertGame game{};
+	game.CreateLevelScene();
+	game.CreateMenuScene();
 	engine.Run();
-	QbertGame::Cleanup();
+	game.Cleanup();
 	return 0;
 }	

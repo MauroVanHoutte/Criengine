@@ -1,15 +1,27 @@
 #pragma once
+#include "Observer.h"
+#include <memory>
+#include <GameObject.h>
 
 class Level;
-class QbertGame
+class QbertGame : public Observer
 {
 public:
+	QbertGame() = default;
 
-	static void Init();
-	static void Cleanup();
+	void Init();
+	void Cleanup();
+
+	void CreateMenuScene();
+	void CreateLevelScene();
+
+	void SetupLevel();
+
+	void OnNotify(Event event) override;
 
 private:
 
-	QbertGame() = default;
-	static Level* m_pLevel;
+	Level* m_pLevel = nullptr;
+	std::shared_ptr<cri::GameObject> m_QBert = nullptr;
+	int m_CurrentDifficulty = 1;
 };

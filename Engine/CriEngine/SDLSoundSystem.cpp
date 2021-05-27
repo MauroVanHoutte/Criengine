@@ -47,7 +47,7 @@ void SDLSoundSystem::QueueLoop()
 			lock.unlock();
 			if (m_AudioMap.find(request.filename) == m_AudioMap.end())
 			{
-			 	auto sound = createAudio(request.filename.c_str(), uint8_t(request.looping), SDL_MIX_MAXVOLUME);
+			 	auto sound = createAudio(("../Data/" + request.filename).c_str(), uint8_t(request.looping), SDL_MIX_MAXVOLUME);
 				m_AudioMap[request.filename] = sound;
 			}
 			if (request.looping == 0)

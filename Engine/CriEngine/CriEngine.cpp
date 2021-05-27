@@ -67,7 +67,7 @@ void cri::CriEngine::Run()
 	// tell the resource manager where he can find the game data
 	// load fonts in the textRenderer here
 	TextRenderer::GetInstance()->AddFont("CamingoCode.ttf", 12, { 255, 0, 0 });
-
+	
 	
 	LoadGame();
 

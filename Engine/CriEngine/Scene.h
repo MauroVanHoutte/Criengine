@@ -17,6 +17,8 @@ namespace cri
 		void LateUpdate();
 		void Render() const;
 
+		void DeletedMarkedObjects();
+
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;

@@ -11,12 +11,14 @@ class Level;
 class JumperComponent : public BaseComponent
 {
 public:
-	JumperComponent(cri::GameObject* pOwner, Level* pLevel, int starRow, int startCol);
+	JumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName);
 	JumperComponent() = delete;
 
 	void Update() override;
 
 	void Jump(int colDir, int rowDir);
+
+	void SetStartPos(Level* pLevel, int startRow, int startCol);
 
 
 private:
@@ -33,5 +35,8 @@ private:
 	bool m_IsJumping;
 	glm::vec2 m_InitialJumpVelocity;
 	float m_Gravity;
+
+
+	std::string m_JumpSoundName;
 
 };
