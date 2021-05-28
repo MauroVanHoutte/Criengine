@@ -20,6 +20,11 @@
 #include "MenuDownCommand.h"
 #include "MenuButtonClickCommand.h"
 #include "TestCommand.h"
+#include <rapidjson.h>
+
+QbertGame::QbertGame()
+{
+}
 
 void QbertGame::Init()
 {

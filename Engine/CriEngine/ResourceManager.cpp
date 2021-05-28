@@ -30,15 +30,23 @@ void cri::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-std::shared_ptr<cri::Texture2D> cri::ResourceManager::LoadTexture(const std::string& file) const
+std::shared_ptr<cri::Texture2D> cri::ResourceManager::LoadTexture(const std::string& file)
 {
+	auto it = m_Textures.find(file);
+	if (it != m_Textures.end())
+	{
+		return it->second;
+	}
+
 	const auto fullPath = m_DataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr) 
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return std::make_shared<Texture2D>(texture);
+	auto texturePtr = std::make_shared<Texture2D>(texture);
+	m_Textures[file] = texturePtr;
+	return texturePtr;
 }
 
 std::shared_ptr<cri::Font> cri::ResourceManager::LoadFont(const std::string& file, unsigned int size) const

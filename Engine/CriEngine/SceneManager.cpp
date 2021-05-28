@@ -43,7 +43,7 @@ cri::Scene& cri::SceneManager::CreateScene(const std::string& name)
 void cri::SceneManager::NextScene()
 {
 	++m_CurrentSceneIdx;
-	if (m_CurrentSceneIdx >= m_Scenes.size())
+	if (m_CurrentSceneIdx >= int(m_Scenes.size()))
 	{
 		m_CurrentSceneIdx = 0;
 	}
@@ -60,14 +60,14 @@ void cri::SceneManager::PreviousScene()
 void cri::SceneManager::OpenScene(int sceneIdx)
 {
 	assert(sceneIdx > -1);
-	assert(sceneIdx < m_Scenes.size());
+	assert(sceneIdx < int(m_Scenes.size()));
 	m_CurrentSceneIdx = sceneIdx;
 }
 
 cri::Scene& cri::SceneManager::GetScene(int sceneIdx)
 {
 	assert(sceneIdx > -1);
-	assert(sceneIdx < m_Scenes.size());
+	assert(sceneIdx < int(m_Scenes.size()));
 	return *m_Scenes[sceneIdx];
 }
 

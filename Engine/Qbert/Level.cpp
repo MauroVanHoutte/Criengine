@@ -1,12 +1,15 @@
 #include "Level.h"
 #include "TileTextureComponent.h"
 #include "Qbert.h"
+#include <chrono>
+#include <iostream>
 
 Level::Level(int height, int difficulty, int tileSize, float topX, float topY, cri::Scene& scene, QbertGame* manager)
 	: m_Height{height}
 	, m_Difficulty{difficulty}
 	, m_TileSize{tileSize}
 {
+	auto timeStart = std::chrono::high_resolution_clock::now();
 	for (int r = 0; r < height; r++)
 	{
 		for (int c = 0; c <= r; c++)
@@ -27,6 +30,8 @@ Level::Level(int height, int difficulty, int tileSize, float topX, float topY, c
 			scene.Add(tile);
 		}
 	}
+	auto timeEnd = std::chrono::high_resolution_clock::now();
+	std::cout << "Level set up in " << std::chrono::duration<float>(timeEnd - timeStart).count() << " seconds\n";
 }
 
 Level::~Level()

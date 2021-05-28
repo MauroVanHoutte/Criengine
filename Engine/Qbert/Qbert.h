@@ -7,7 +7,7 @@ class Level;
 class QbertGame : public Observer
 {
 public:
-	QbertGame() = default;
+	QbertGame();
 
 	void Init();
 	void Cleanup();
