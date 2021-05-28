@@ -4,7 +4,7 @@
 #include <chrono>
 #include <iostream>
 
-Level::Level(int height, int difficulty, int tileSize, float topX, float topY, cri::Scene& scene, QbertGame* manager)
+Level::Level(int height, int difficulty, int tileSize, float topX, float topY, cri::Scene& scene, const std::string& texture, QbertGame* manager)
 	: m_Height{height}
 	, m_Difficulty{difficulty}
 	, m_TileSize{tileSize}
@@ -19,7 +19,7 @@ Level::Level(int height, int difficulty, int tileSize, float topX, float topY, c
 
 			auto tile = std::make_shared<cri::GameObject>();
 			tile->m_Transform.SetPosition(xPos, yPos, 0);
-			TileTextureComponent* tileTexture = new TileTextureComponent(tile.get());
+			TileTextureComponent* tileTexture = new TileTextureComponent(tile.get(), texture);
 			tileTexture->SetWidth(float(tileSize));
 			tileTexture->SetHeight(float(tileSize));
 			tileTexture->SetDifficulty(difficulty);

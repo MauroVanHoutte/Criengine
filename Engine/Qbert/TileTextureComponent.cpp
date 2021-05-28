@@ -3,11 +3,11 @@
 #include <Renderer.h>
 #include <ResourceManager.h>
 
-TileTextureComponent::TileTextureComponent(cri::GameObject* pOwner)
+TileTextureComponent::TileTextureComponent(cri::GameObject* pOwner, const std::string& tileTexture)
 	: TextureComponent(pOwner)
 	, m_TimesJumpedOn{0}
 {
-	SetTexture(cri::ResourceManager::GetInstance().LoadTexture("QbertTileTextures.png"));
+	SetTexture(cri::ResourceManager::GetInstance().LoadTexture(tileTexture));
 	m_Difficulty = 1;
 }
 

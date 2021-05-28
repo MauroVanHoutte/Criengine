@@ -1,3 +1,5 @@
 {
-
+  "StartDifficulty": 1,
+  "Size": 7,
+  "Texture": "QbertTileTextures.png"
 }

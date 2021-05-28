@@ -21,9 +21,37 @@
 #include "MenuButtonClickCommand.h"
 #include "TestCommand.h"
 #include <rapidjson.h>
+#include <document.h>
+#include <filereadstream.h>
 
 QbertGame::QbertGame()
 {
+	using rapidjson::Document;
+	Document jsonDoc;
+	FILE* fp = nullptr;
+	fopen_s(&fp, "../Data/qbertLevel.json", "rb");
+
+	if (fp != nullptr)
+	{
+		fseek(fp, 0, SEEK_END);
+		size_t size = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		char* readBuffer = new char[size];
+		rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+		jsonDoc.ParseStream(is);
+		delete[] readBuffer;
+		fclose(fp);
+
+		using rapidjson::Value;
+
+		const Value& difficultyValue = jsonDoc["StartDifficulty"];
+		const Value& pyramidSize = jsonDoc["Size"];
+		const Value& texture = jsonDoc["Texture"];
+
+		m_CurrentDifficulty = difficultyValue.GetInt();
+		m_Size = pyramidSize.GetInt();
+		m_TileTexture = texture.GetString();
+	}
 }
 
 void QbertGame::Init()
@@ -156,7 +184,7 @@ void QbertGame::SetupLevel()
 	int w;
 	int h;
 	SDL_GetWindowSize(cri::Renderer::GetInstance().GetWindow(), &w, &h);
-	m_pLevel = new Level{ 7, m_CurrentDifficulty, 60, w / 2.f, h / 4.f, scene, this };
+	m_pLevel = new Level{ m_Size, m_CurrentDifficulty, 60, w / 2.f, h / 4.f, scene, m_TileTexture, this };
 	m_QBert->GetComponent<JumperComponent>()->SetStartPos(m_pLevel, 0, 0);
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
 

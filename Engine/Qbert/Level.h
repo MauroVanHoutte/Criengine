@@ -8,7 +8,7 @@ class QbertGame;
 class Level
 {
 public:
-	Level(int height, int difficulty, int tileSize, float topX, float topY, cri::Scene& scene, QbertGame* manager);
+	Level(int height, int difficulty, int tileSize, float topX, float topY, cri::Scene& scene, const std::string& tileTexture, QbertGame* manager);
 	Level() = delete;
 	~Level();
 
