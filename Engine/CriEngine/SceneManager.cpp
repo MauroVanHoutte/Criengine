@@ -20,6 +20,12 @@ void cri::SceneManager::LateUpdate()
 	m_Scenes[m_CurrentSceneIdx]->LateUpdate();
 }
 
+void cri::SceneManager::DeleteMarkedObjects()
+{
+	assert(m_CurrentSceneIdx > -1);
+	m_Scenes[m_CurrentSceneIdx]->DeletedMarkedObjects();
+}
+
 void cri::SceneManager::Render()
 {
 	assert(m_CurrentSceneIdx > -1);

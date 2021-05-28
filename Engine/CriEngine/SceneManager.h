@@ -23,6 +23,7 @@ namespace cri
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
+		void DeleteMarkedObjects();
 		void Render();
 	private:
 		int m_CurrentSceneIdx = -1;

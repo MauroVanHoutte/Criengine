@@ -5,13 +5,14 @@
 #include <glm/vec2.hpp>
 #pragma warning(pop)
 #include <memory>
+#include <Subject.h>
 
 
 class Level;
-class JumperComponent : public BaseComponent
+class JumperComponent : public BaseComponent, public Subject
 {
 public:
-	JumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName);
+	JumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName);
 	JumperComponent() = delete;
 
 	void Update() override;
@@ -36,7 +37,9 @@ private:
 	glm::vec2 m_InitialJumpVelocity;
 	float m_Gravity;
 
+	int m_LivesLeft;
 
 	std::string m_JumpSoundName;
+	std::string m_FallSoundName;
 
 };

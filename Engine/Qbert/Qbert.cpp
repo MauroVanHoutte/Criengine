@@ -19,6 +19,7 @@
 #include "MenuUpCommand.h"
 #include "MenuDownCommand.h"
 #include "MenuButtonClickCommand.h"
+#include "TestCommand.h"
 
 void QbertGame::Init()
 {
@@ -53,21 +54,21 @@ void QbertGame::CreateMenuScene()
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_KP_8, menuUpCommand);
 	menuUpCommand = new MenuUpCommand();
 	menuUpCommand->Bind(menuComponent);
-	cri::InputManager::GetInstance().AddControllerCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::DPadUp, menuUpCommand);
+	cri::InputManager::GetInstance().AddControllerButtonCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::DPadUp, menuUpCommand);
 
 	auto menuDownCommand = new MenuDownCommand();
 	menuDownCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_KP_2, menuDownCommand);
 	menuDownCommand = new MenuDownCommand();
 	menuDownCommand->Bind(menuComponent);
-	cri::InputManager::GetInstance().AddControllerCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::DPadDown, menuDownCommand);
+	cri::InputManager::GetInstance().AddControllerButtonCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::DPadDown, menuDownCommand);
 
 	auto menuClickCommand = new MenuButtonClickCommand();
 	menuClickCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_RETURN, menuClickCommand);
 	menuClickCommand = new MenuButtonClickCommand();
 	menuClickCommand->Bind(menuComponent);
-	cri::InputManager::GetInstance().AddControllerCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, menuClickCommand);
+	cri::InputManager::GetInstance().AddControllerButtonCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, menuClickCommand);
 
 	scene.Add(menu);
 
@@ -84,29 +85,50 @@ void QbertGame::CreateLevelScene()
 	qBertTextureComp->SetAnimation(2);
 
 	m_QBert->AddComponent("Texture", qBertTextureComp);
-	auto qBertJumperComp = new JumperComponent(m_QBert.get(), 0.7f, "jumpQbert.wav");
+	auto qBertJumperComp = new JumperComponent(m_QBert.get(), 0.7f, "jumpQbert.wav", "fallQbert.wav");
 	m_QBert->AddComponent("Jumper", qBertJumperComp);
 	scene.Add(m_QBert);
+	qBertJumperComp->AddObserver(this);
 
 	auto jumpUpLeftCommand = new JumpCommand(-1, -1);
 	jumpUpLeftCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_7, jumpUpLeftCommand);
 
+	jumpUpLeftCommand = new JumpCommand(-1, -1);
+	jumpUpLeftCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpLeft, jumpUpLeftCommand);
+
 	auto jumpUpRightCommand = new JumpCommand(1, -1);
 	jumpUpRightCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_9, jumpUpRightCommand);
+
+	jumpUpRightCommand = new JumpCommand(1, -1);
+	jumpUpRightCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpRight, jumpUpRightCommand);
 
 	auto jumpDownLeftCommand = new JumpCommand(-1, 1);
 	jumpDownLeftCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_1, jumpDownLeftCommand);
 
+	jumpDownLeftCommand = new JumpCommand(-1, 1);
+	jumpDownLeftCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownLeft, jumpDownLeftCommand);
+
 	auto jumpDownRightCommand = new JumpCommand(1, 1);
 	jumpDownRightCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_3, jumpDownRightCommand);
+
+	jumpDownRightCommand = new JumpCommand(1, 1);
+	jumpDownRightCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
 	auto go = std::make_shared<cri::GameObject>();
 	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
@@ -115,9 +137,11 @@ void QbertGame::CreateLevelScene()
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_A, renderCommand);
 	renderCommand = new SwapDoRenderTextCommand();
 	renderCommand->Bind(fpsCounterComponent);
-	cri::InputManager::GetInstance().AddControllerCommand(sceneIdx, 0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, renderCommand);
+	cri::InputManager::GetInstance().AddControllerButtonCommand(sceneIdx, 0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, renderCommand);
 	go->AddComponent("FpsCounter", fpsCounterComponent);
 	scene.Add(go);
+
+
 }
 
 void QbertGame::SetupLevel()
@@ -137,7 +161,9 @@ void QbertGame::OnNotify(Event event)
 {
 	switch (event)
 	{
-	case Event::PlayerDeath:
+	case Event::QbertDeath:
+		delete m_pLevel;
+		cri::SceneManager::GetInstance().NextScene();
 		break;
 	case Event::ColorChange:
 		break;

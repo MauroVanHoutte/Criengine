@@ -26,6 +26,25 @@ namespace cri
 		ButtonX = 0x4000,
 		ButtonY = 0x8000,
 	};
+
+	enum class JoystickDirection
+	{
+		Left,
+		UpLeft,
+		Up,
+		UpRight,
+		Right,
+		DownRight,
+		Down,
+		DownLeft,
+	};
+
+	enum class Joystick
+	{
+		Left,
+		Right
+	};
+
 	enum class ButtonState
 	{
 		OnPressed,
@@ -33,7 +52,17 @@ namespace cri
 		Down
 	};
 
-	struct ControllerCommandInfo
+	struct ControllerJoystickCommandInfo
+	{
+		int Scene;
+		unsigned ControllerId;
+		short Deadzone;
+		Joystick Joystick;
+		JoystickDirection Direction;
+		Command* Command;
+	};
+
+	struct ControllerButtonCommandInfo
 	{
 		int Scene;
 		unsigned ControllerId;
@@ -57,12 +86,14 @@ namespace cri
 		InputManager();
 		~InputManager();
 		void ProcessInput();
-		void AddControllerCommand(unsigned controllerId, int scene, ButtonState buttonState, ControllerButton button, Command* command);
+		void AddControllerButtonCommand(unsigned controllerId, int scene, ButtonState buttonState, ControllerButton button, Command* command);
+		void AddControllerJoystickCommand(unsigned controllerId, int scene, short deadzone, Joystick joystick, JoystickDirection joystickDirection, Command* command);
 		void AddKeyboardCommand(int scene, ButtonState buttonState, SDL_Scancode button, Command* command);
 
 	private:
 		int m_NrControllers{ 4 };
-		std::vector<ControllerCommandInfo> m_ControllerCommands;
+		std::vector<ControllerButtonCommandInfo> m_ControllerButtonCommands;
+		std::vector<ControllerJoystickCommandInfo> m_ControllerJoystickCommands;
 		std::vector<KeyboardCommandInfo> m_KeyboardCommands;
 		std::vector<XINPUT_STATE> m_ControllerStatesPreviousFrame;
 		std::vector<Uint8> m_KeyboardSatePreviousFrame;

@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "SceneObject.h"
 #include <memory>
+#include <deque>
 
 namespace cri
 {
@@ -33,7 +34,7 @@ namespace cri
 		explicit Scene(const std::string& name);
 
 		std::string m_Name;
-		std::vector < std::shared_ptr<SceneObject>> m_Objects{};
+		std::deque<std::shared_ptr<SceneObject>> m_Objects{};
 
 		static unsigned int m_IdCounter; 
 	};

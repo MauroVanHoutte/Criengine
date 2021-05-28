@@ -6,19 +6,21 @@
 #include "SingleRowAnimationComponent.h"
 #include "ServiceLocator.h"
 
-JumperComponent::JumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName)
+JumperComponent::JumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName)
 	: BaseComponent(pOwner)
 	, m_pLevel{nullptr}
 	, m_Pos{0, 0}
 	, m_JumpStartPos{0.f, 0.f}
 	, m_Target{ nullptr }
 	, m_JumpDuration{jumpDuration}
-	, m_JumpDurationOffMap{5.f}
+	, m_JumpDurationOffMap{3.f}
 	, m_JumpDurationTile{jumpDuration}
 	, m_JumpCounter{0.f}
 	, m_IsJumping{false}
 	, m_Gravity{280.f}
 	, m_JumpSoundName{jumpSoundName}
+	, m_FallSoundName{fallSoundName}
+	, m_LivesLeft{3}
 {
 }
 
@@ -33,16 +35,33 @@ void JumperComponent::Update()
 		{
 			m_JumpCounter = m_JumpDuration;
 			m_IsJumping = false;
-			m_pOwner->GetComponent<SingleRowAnimationComponent>()->NextFrame();
-			if (m_Target)
-			{
-				m_Target->GetComponent<TileTextureComponent>()->JumpedOn();
-			}
+
 		}
 		
 		float newX = m_JumpStartPos.x + m_JumpCounter * m_InitialJumpVelocity.x;
 		float newY = m_JumpStartPos.y + m_JumpCounter * m_InitialJumpVelocity.y + 0.5f * m_Gravity * m_JumpCounter * m_JumpCounter;
 		m_pOwner->m_Transform.SetPosition(newX, newY, 0);
+		if (!m_IsJumping)
+		{
+			m_pOwner->GetComponent<SingleRowAnimationComponent>()->NextFrame();
+			if (m_Target)
+			{
+				m_Target->GetComponent<TileTextureComponent>()->JumpedOn();
+			}
+			if (m_JumpDuration > m_JumpDurationTile)
+			{
+				--m_LivesLeft;
+				if (m_LivesLeft == 0)
+				{
+					Notify(Event::QbertDeath);
+					m_LivesLeft = 3;
+				}
+				else
+				{
+					SetStartPos(m_pLevel, 0, 0);
+				}
+			}
+		}
 	}
 }
 
@@ -84,6 +103,7 @@ void JumperComponent::Jump(int colDir, int rowDir)
 	m_Target = m_pLevel->GetTile(m_Pos.x + newColDir, m_Pos.y + rowDir);
 	if (m_Target == nullptr)
 	{
+		ServiceLocator::GetSoundSystem()->Play(m_FallSoundName, 0, 5);
 		JumpOffMap(colDir, rowDir);
 	}
 	else
@@ -112,6 +132,8 @@ void JumperComponent::SetStartPos(Level* pLevel, int startRow, int startCol)
 	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y);
 	float yOffset = -30.f;
 	m_pOwner->m_Transform.SetPosition(startTile->m_Transform.GetPosition().x, startTile->m_Transform.GetPosition().y + yOffset, 0);
+	m_pOwner->GetComponent<SingleRowAnimationComponent>()->SetAnimation(2);
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_pOwner);
 }
 
 void JumperComponent::JumpOffMap(int colDir, int rowDir)

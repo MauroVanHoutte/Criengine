@@ -187,6 +187,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="QbertMainMenuComponent.cpp" />
     <ClCompile Include="QbertScoreComponent.cpp" />
     <ClCompile Include="SingleRowAnimationComponent.cpp" />
+    <ClCompile Include="TestCommand.cpp" />
     <ClCompile Include="TileTextureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +207,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="SingleRowAnimationComponent.h" />
     <ClInclude Include="QbertHealthComponent.h" />
     <ClInclude Include="QbertScoreComponent.h" />
+    <ClInclude Include="TestCommand.h" />
     <ClInclude Include="TileTextureComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

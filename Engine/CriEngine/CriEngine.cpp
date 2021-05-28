@@ -106,6 +106,7 @@ void cri::CriEngine::Run()
 
 			sceneManager.Update();
 			sceneManager.LateUpdate();
+			sceneManager.DeleteMarkedObjects();
 
 
 			auto postTime = std::chrono::high_resolution_clock::now();

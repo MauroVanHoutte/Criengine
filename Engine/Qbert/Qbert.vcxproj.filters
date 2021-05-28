@@ -63,6 +63,9 @@
     <ClCompile Include="MenuButtonClickCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="TestCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
@@ -99,6 +102,9 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="MenuButtonClickCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
