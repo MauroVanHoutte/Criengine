@@ -175,6 +175,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseJumperComponent.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
     <ClCompile Include="JumpCommand.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -196,6 +197,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseJumperComponent.h" />
     <ClInclude Include="JumperComponent.h" />
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="Level.h" />

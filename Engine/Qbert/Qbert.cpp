@@ -179,12 +179,21 @@ void QbertGame::CreateLevelScene()
 
 	m_Coily = std::make_shared<cri::GameObject>();
 
-	auto coilyTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("QbertSpriteSheet.png"));
+	auto coilyTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilySpriteSheet.png"));
 	coilyTextureComp->SetWidth(30.f);
 	coilyTextureComp->SetHeight(30.f);
 	coilyTextureComp->SetAnimation(2);
 
+	m_Coily->AddComponent("CoilyTexture", coilyTextureComp);
 
+	auto coilyBallTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet"));
+	coilyBallTextureComp->SetWidth(30.f);
+	coilyBallTextureComp->SetHeight(30.f);
+	coilyBallTextureComp->SetAnimation(0);
+
+	m_Coily->AddComponent("CoilyBallTexture", coilyBallTextureComp);
+
+	auto coilyJumperComponent = new JumperComponent(m_Coily.get(), 0.9f, "jumpCoily.mp3", "");
 
 
 

@@ -66,6 +66,9 @@
     <ClCompile Include="TestCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="BaseJumperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="TestCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseJumperComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
