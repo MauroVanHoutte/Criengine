@@ -20,7 +20,8 @@ void cri::GameObject::Update()
 	}
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
-		it->second->Update();
+		if (it->second->IsActive())
+			it->second->Update();
 	}
 }
 
@@ -32,7 +33,8 @@ void cri::GameObject::FixedUpdate()
 	}
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
-		it->second->FixedUpdate();
+		if (it->second->IsActive())
+			it->second->FixedUpdate();
 	}
 }
 
@@ -44,7 +46,8 @@ void cri::GameObject::LateUpdate()
 	}
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
-		it->second->LateUpdate();
+		if (it->second->IsActive())
+			it->second->LateUpdate();
 	}
 }
 
@@ -58,7 +61,8 @@ void cri::GameObject::Render() const
 
 	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
 	{
-		it->second->Render();
+		if (it->second->IsActive())
+			it->second->Render();
 	}
 }
 

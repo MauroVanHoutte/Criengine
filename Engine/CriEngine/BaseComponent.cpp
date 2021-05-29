@@ -5,3 +5,13 @@ BaseComponent::BaseComponent(cri::GameObject* owner)
 {
 }
 
+bool BaseComponent::IsActive()
+{
+	return m_IsActive;
+}
+
+void BaseComponent::SetIsActive(bool isActive)
+{
+	m_IsActive = isActive;
+}
+

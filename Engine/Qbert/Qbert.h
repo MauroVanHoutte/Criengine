@@ -23,8 +23,10 @@ private:
 
 	Level* m_pLevel = nullptr;
 	std::shared_ptr<cri::GameObject> m_QBert = nullptr;
+	std::shared_ptr<cri::GameObject> m_Coily = nullptr;
 	int m_CurrentDifficulty;
 	std::string m_TileTexture;
 	int m_Size;
-
+	int m_TileSize;
+	float m_QbertJumpDuration;
 };

@@ -47,10 +47,14 @@ QbertGame::QbertGame()
 		const Value& difficultyValue = jsonDoc["StartDifficulty"];
 		const Value& pyramidSize = jsonDoc["Size"];
 		const Value& texture = jsonDoc["Texture"];
+		const Value& tileSize = jsonDoc["TileSize"];
+		const Value& qbertJumpDuration = jsonDoc["QbertJumpDuration"];
 
 		m_CurrentDifficulty = difficultyValue.GetInt();
 		m_Size = pyramidSize.GetInt();
 		m_TileTexture = texture.GetString();
+		m_TileSize = tileSize.GetInt();
+		m_QbertJumpDuration = qbertJumpDuration.GetFloat();
 	}
 }
 
@@ -111,6 +115,11 @@ void QbertGame::CreateLevelScene()
 {
 	auto& scene = cri::SceneManager::GetInstance().CreateScene("qbert");
 	int sceneIdx = cri::SceneManager::GetInstance().GetCurrentSceneIdx();
+
+
+	///////
+	//Qbert
+
 	m_QBert = std::make_shared<cri::GameObject>();
 	auto qBertTextureComp = new SingleRowAnimationComponent(m_QBert.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("QbertSpriteSheet.png"));
 	qBertTextureComp->SetWidth(30.f);
@@ -118,7 +127,7 @@ void QbertGame::CreateLevelScene()
 	qBertTextureComp->SetAnimation(2);
 
 	m_QBert->AddComponent("Texture", qBertTextureComp);
-	auto qBertJumperComp = new JumperComponent(m_QBert.get(), 0.7f, "jumpQbert.wav", "fallQbert.wav");
+	auto qBertJumperComp = new JumperComponent(m_QBert.get(), m_QbertJumpDuration, "jumpQbert.wav", "fallQbert.wav");
 	m_QBert->AddComponent("Jumper", qBertJumperComp);
 	scene.Add(m_QBert);
 	qBertJumperComp->AddObserver(this);
@@ -163,6 +172,24 @@ void QbertGame::CreateLevelScene()
 
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
+
+
+	////////
+	//Coily
+
+	m_Coily = std::make_shared<cri::GameObject>();
+
+	auto coilyTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("QbertSpriteSheet.png"));
+	coilyTextureComp->SetWidth(30.f);
+	coilyTextureComp->SetHeight(30.f);
+	coilyTextureComp->SetAnimation(2);
+
+
+
+
+
+
+
 	auto go = std::make_shared<cri::GameObject>();
 	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
 	auto renderCommand = new SwapDoRenderTextCommand();
@@ -184,7 +211,7 @@ void QbertGame::SetupLevel()
 	int w;
 	int h;
 	SDL_GetWindowSize(cri::Renderer::GetInstance().GetWindow(), &w, &h);
-	m_pLevel = new Level{ m_Size, m_CurrentDifficulty, 60, w / 2.f, h / 4.f, scene, m_TileTexture, this };
+	m_pLevel = new Level{ m_Size, m_CurrentDifficulty, m_TileSize, w / 2.f, h / 4.f, scene, m_TileTexture, this };
 	m_QBert->GetComponent<JumperComponent>()->SetStartPos(m_pLevel, 0, 0);
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
 
