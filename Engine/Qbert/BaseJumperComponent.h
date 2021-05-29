@@ -1,10 +1,15 @@
 #pragma once
 #include <BaseComponent.h>
+#pragma warning(push)
+#pragma warning (disable:4201)
 #include <glm/vec2.hpp>
+#pragma warning(pop)
 #include <memory>
+#include <Subject.h>
+
 
 class Level;
-class BaseJumperComponent : public BaseComponent
+class BaseJumperComponent : public BaseComponent, public Subject
 {
 public:
 	BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName);
@@ -18,17 +23,22 @@ public:
 
 	virtual void JumpedOff() {};
 
-	virtual void HandleAnimation(int colDir, int rowDir) {};
+	virtual void HandleAnimation(int , int ) {};
 
 	virtual void HandleStartPos(std::shared_ptr<cri::GameObject> target) {};
+
+	virtual void JumpedOn() {};
+
+
+protected:
+	Level* m_pLevel;
+	std::shared_ptr<cri::GameObject> m_Target;
 
 private:
 	
 	void JumpOffMap(int colDir, int rowDir);
-	Level* m_pLevel;
 	glm::ivec2 m_Pos;
 	glm::vec2 m_JumpStartPos;
-	std::shared_ptr<cri::GameObject> m_Target;
 	float m_JumpDuration;
 	float m_JumpDurationOffMap;
 	float m_JumpDurationTile;

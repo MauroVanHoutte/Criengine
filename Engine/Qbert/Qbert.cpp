@@ -11,7 +11,8 @@
 #include "Level.h"
 #include "SingleRowAnimationComponent.h"
 #include <ResourceManager.h>
-#include "JumperComponent.h"
+#include "QbertJumperComponent.h"
+#include "CoilyJumperComponent.h"
 #include "JumpCommand.h"
 #include <FPSCounter.h>
 #include <SwapDoRenderTextCommand.h>
@@ -25,6 +26,9 @@
 #include <filereadstream.h>
 
 QbertGame::QbertGame()
+	:m_CurrentDifficulty{1}
+	, m_Size{7}
+	, m_TileSize{60}
 {
 	using rapidjson::Document;
 	Document jsonDoc;
@@ -48,13 +52,14 @@ QbertGame::QbertGame()
 		const Value& pyramidSize = jsonDoc["Size"];
 		const Value& texture = jsonDoc["Texture"];
 		const Value& tileSize = jsonDoc["TileSize"];
-		const Value& qbertJumpDuration = jsonDoc["QbertJumpDuration"];
+		const Value& startLives = jsonDoc["StartLives"];
 
 		m_CurrentDifficulty = difficultyValue.GetInt();
 		m_Size = pyramidSize.GetInt();
 		m_TileTexture = texture.GetString();
 		m_TileSize = tileSize.GetInt();
-		m_QbertJumpDuration = qbertJumpDuration.GetFloat();
+		m_StartLives = startLives.GetInt();
+		m_CurrentLives = m_StartLives;
 	}
 }
 
@@ -121,13 +126,14 @@ void QbertGame::CreateLevelScene()
 	//Qbert
 
 	m_QBert = std::make_shared<cri::GameObject>();
+	m_QBert->Deactivate();
 	auto qBertTextureComp = new SingleRowAnimationComponent(m_QBert.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("QbertSpriteSheet.png"));
 	qBertTextureComp->SetWidth(30.f);
 	qBertTextureComp->SetHeight(30.f);
 	qBertTextureComp->SetAnimation(2);
 
 	m_QBert->AddComponent("Texture", qBertTextureComp);
-	auto qBertJumperComp = new JumperComponent(m_QBert.get(), m_QbertJumpDuration, "jumpQbert.wav", "fallQbert.wav");
+	auto qBertJumperComp = new QbertJumperComponent(m_QBert.get());
 	m_QBert->AddComponent("Jumper", qBertJumperComp);
 	scene.Add(m_QBert);
 	qBertJumperComp->AddObserver(this);
@@ -172,38 +178,137 @@ void QbertGame::CreateLevelScene()
 
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
+	////////
+	//Qbert2
+
+	m_QBert2 = std::make_shared<cri::GameObject>();
+	m_QBert2->Deactivate();
+	qBertTextureComp = new SingleRowAnimationComponent(m_QBert2.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("QbertSpriteSheet.png"));
+	qBertTextureComp->SetWidth(30.f);
+	qBertTextureComp->SetHeight(30.f);
+	qBertTextureComp->SetAnimation(2);
+
+	m_QBert2->AddComponent("Texture", qBertTextureComp);
+	qBertJumperComp = new QbertJumperComponent(m_QBert2.get());
+	m_QBert2->AddComponent("Jumper", qBertJumperComp);
+	scene.Add(m_QBert2);
+	qBertJumperComp->AddObserver(this);
+
+	jumpUpLeftCommand = new JumpCommand(-1, -1);
+	jumpUpLeftCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_Q, jumpUpLeftCommand);
+
+	jumpUpLeftCommand = new JumpCommand(-1, -1);
+	jumpUpLeftCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpLeft, jumpUpLeftCommand);
+
+	jumpUpRightCommand = new JumpCommand(1, -1);
+	jumpUpRightCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_E, jumpUpRightCommand);
+
+	jumpUpRightCommand = new JumpCommand(1, -1);
+	jumpUpRightCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpRight, jumpUpRightCommand);
+
+	jumpDownLeftCommand = new JumpCommand(-1, 1);
+	jumpDownLeftCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_A, jumpDownLeftCommand);
+
+	jumpDownLeftCommand = new JumpCommand(-1, 1);
+	jumpDownLeftCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownLeft, jumpDownLeftCommand);
+
+	jumpDownRightCommand = new JumpCommand(1, 1);
+	jumpDownRightCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_D, jumpDownRightCommand);
+
+	jumpDownRightCommand = new JumpCommand(1, 1);
+	jumpDownRightCommand->Bind(qBertJumperComp);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
 
 	////////
 	//Coily
 
 	m_Coily = std::make_shared<cri::GameObject>();
+	m_Coily->Deactivate();
 
 	auto coilyTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilySpriteSheet.png"));
 	coilyTextureComp->SetWidth(30.f);
-	coilyTextureComp->SetHeight(30.f);
+	coilyTextureComp->SetHeight(60.f);
 	coilyTextureComp->SetAnimation(2);
+	coilyTextureComp->m_RelativeTransform.SetPosition(0.f, -10.f, 0.f);
 
 	m_Coily->AddComponent("CoilyTexture", coilyTextureComp);
 
-	auto coilyBallTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet"));
+	auto coilyBallTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet.png"));
 	coilyBallTextureComp->SetWidth(30.f);
 	coilyBallTextureComp->SetHeight(30.f);
 	coilyBallTextureComp->SetAnimation(0);
-
+	coilyBallTextureComp->SetIsActive(false);
 	m_Coily->AddComponent("CoilyBallTexture", coilyBallTextureComp);
 
-	auto coilyJumperComponent = new JumperComponent(m_Coily.get(), 0.9f, "jumpCoily.mp3", "");
+	auto coilyJumperComponent = new CoilyJumperComponent(m_Coily.get());
+
+	m_Coily->AddComponent("CoilyJumper", coilyJumperComponent);
+	scene.Add(m_Coily);
+
+	jumpUpLeftCommand = new JumpCommand(-1, -1);
+	jumpUpLeftCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_Q, jumpUpLeftCommand);
+
+	jumpUpLeftCommand = new JumpCommand(-1, -1);
+	jumpUpLeftCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpLeft, jumpUpLeftCommand);
+
+	jumpUpRightCommand = new JumpCommand(1, -1);
+	jumpUpRightCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_E, jumpUpRightCommand);
+
+	jumpUpRightCommand = new JumpCommand(1, -1);
+	jumpUpRightCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpRight, jumpUpRightCommand);
+
+	jumpDownLeftCommand = new JumpCommand(-1, 1);
+	jumpDownLeftCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_A, jumpDownLeftCommand);
+
+	jumpDownLeftCommand = new JumpCommand(-1, 1);
+	jumpDownLeftCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownLeft, jumpDownLeftCommand);
+
+	jumpDownRightCommand = new JumpCommand(1, 1);
+	jumpDownRightCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_D, jumpDownRightCommand);
+
+	jumpDownRightCommand = new JumpCommand(1, 1);
+	jumpDownRightCommand->Bind(coilyJumperComponent);
+
+	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
 
 
-
-
+	//fps counter
 	auto go = std::make_shared<cri::GameObject>();
 	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
 	auto renderCommand = new SwapDoRenderTextCommand();
 	renderCommand->Bind(fpsCounterComponent);
-	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_A, renderCommand);
+	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_F, renderCommand);
 	renderCommand = new SwapDoRenderTextCommand();
 	renderCommand->Bind(fpsCounterComponent);
 	cri::InputManager::GetInstance().AddControllerButtonCommand(sceneIdx, 0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, renderCommand);
@@ -213,17 +318,74 @@ void QbertGame::CreateLevelScene()
 
 }
 
-void QbertGame::SetupLevel()
+void QbertGame::SetupLevelSinglePlayer()
 {
+	cri::SceneManager::GetInstance().NextScene();
+	m_CurrentLives = m_StartLives;
+	m_SelectedGameMode = GameMode::SinglePlayer;
+
 	auto& scene = cri::SceneManager::GetInstance().GetCurrentScene();
 
 	int w;
 	int h;
 	SDL_GetWindowSize(cri::Renderer::GetInstance().GetWindow(), &w, &h);
 	m_pLevel = new Level{ m_Size, m_CurrentDifficulty, m_TileSize, w / 2.f, h / 4.f, scene, m_TileTexture, this };
-	m_QBert->GetComponent<JumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_QBert->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_QBert->Activate();
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
+	m_QBert2->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size - 1, 0);
+	m_QBert2->Deactivate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert2.get());
+	m_Coily->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_Coily->Deactivate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_Coily.get());
 
+}
+
+void QbertGame::SetupLevelCoop()
+{
+	cri::SceneManager::GetInstance().NextScene();
+	m_CurrentLives = m_StartLives;
+	m_SelectedGameMode = GameMode::Coop;
+
+	auto& scene = cri::SceneManager::GetInstance().GetCurrentScene();
+
+	int w;
+	int h;
+	SDL_GetWindowSize(cri::Renderer::GetInstance().GetWindow(), &w, &h);
+	m_pLevel = new Level{ m_Size, m_CurrentDifficulty, m_TileSize, w / 2.f, h / 4.f, scene, m_TileTexture, this };
+	m_QBert->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size-1, m_Size-1);
+	m_QBert->Activate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
+	m_QBert2->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size - 1, 0);
+	m_QBert2->Activate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert2.get());
+	m_Coily->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_Coily->Deactivate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_Coily.get());
+}
+
+void QbertGame::SetupLevelVersus()
+{
+	cri::SceneManager::GetInstance().NextScene();
+	m_CurrentLives = m_StartLives;
+	m_SelectedGameMode = GameMode::Versus;
+
+	auto& scene = cri::SceneManager::GetInstance().GetCurrentScene();
+
+	int w;
+	int h;
+	SDL_GetWindowSize(cri::Renderer::GetInstance().GetWindow(), &w, &h);
+	m_pLevel = new Level{ m_Size, m_CurrentDifficulty, m_TileSize, w / 2.f, h / 4.f, scene, m_TileTexture, this };
+	m_QBert->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_QBert->Activate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
+	m_QBert2->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size - 1, 0);
+	m_QBert2->Deactivate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert2.get());
+	m_Coily->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_Coily->Activate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_Coily.get());
 }
 
 void QbertGame::OnNotify(Event event)
@@ -231,8 +393,14 @@ void QbertGame::OnNotify(Event event)
 	switch (event)
 	{
 	case Event::QbertDeath:
-		delete m_pLevel;
-		cri::SceneManager::GetInstance().NextScene();
+		--m_CurrentLives;
+		if (m_CurrentLives == 0)
+		{
+			delete m_pLevel;
+			cri::SceneManager::GetInstance().NextScene();
+			m_QBert->Deactivate();
+			m_QBert2->Deactivate();
+		}
 		break;
 	case Event::ColorChange:
 		break;
@@ -243,19 +411,33 @@ void QbertGame::OnNotify(Event event)
 	case Event::SlickSamCaught:
 		break;
 	case Event::StartSinglePlayer:
-		cri::SceneManager::GetInstance().NextScene();
-		SetupLevel();
+		SetupLevelSinglePlayer();
 		break;
 	case Event::StartCoop:
+		SetupLevelCoop();
 		break;
 	case Event::StartVersus:
+		SetupLevelVersus();
 		break;
 	case Event::TileJumpedOn:
 		if (m_pLevel->Completed())
 		{
 			++m_CurrentDifficulty;
 			delete m_pLevel;
-			SetupLevel();
+			switch (m_SelectedGameMode)
+			{
+			case GameMode::SinglePlayer:
+				SetupLevelSinglePlayer();
+				break;
+			case GameMode::Coop:
+				SetupLevelCoop();
+				break;
+			case GameMode::Versus:
+				SetupLevelVersus();
+				break;
+			default:
+				break;
+			}
 		}
 		break;
 	default:

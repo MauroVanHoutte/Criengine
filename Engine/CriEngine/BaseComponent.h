@@ -15,6 +15,7 @@ public:
 
 	bool IsActive();
 	void SetIsActive(bool isActive);
+	bool IsOwnerActive();
 
 protected:
 	cri::GameObject* m_pOwner;

@@ -3,5 +3,5 @@
   "Size": 7,
   "Texture": "QbertTileTextures.png",
   "TileSize": 60,
-  "QbertJumpDuration": 0.7
+  "StartLives": 3
 }

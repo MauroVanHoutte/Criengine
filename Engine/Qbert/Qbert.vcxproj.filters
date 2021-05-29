@@ -69,6 +69,12 @@
     <ClCompile Include="BaseJumperComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="QbertJumperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilyJumperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
@@ -111,6 +117,12 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="BaseJumperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertJumperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyJumperComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

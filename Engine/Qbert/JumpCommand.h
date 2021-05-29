@@ -1,6 +1,6 @@
 #pragma once
 #include <Command.h>
-#include "JumperComponent.h"
+#include "BaseJumperComponent.h"
 
 
 class JumpCommand : public Command
@@ -9,9 +9,9 @@ public:
 	JumpCommand(int colDir, int rowDir);
 
 	void Execute() override;
-	void Bind(JumperComponent* jumper);
+	void Bind(BaseJumperComponent* jumper);
 private:
-	JumperComponent* m_pJumper;
+	BaseJumperComponent* m_pJumper;
 	int m_ColDirection;
 	int m_RowDirection;
 };

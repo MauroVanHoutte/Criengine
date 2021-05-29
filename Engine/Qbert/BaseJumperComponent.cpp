@@ -42,6 +42,11 @@ void BaseJumperComponent::Update()
 		m_pOwner->m_Transform.SetPosition(newX, newY, 0);
 		if (!m_IsJumping)
 		{
+			if (m_Target)
+			{
+				JumpedOn();
+			}
+
 			m_pOwner->GetComponent<SingleRowAnimationComponent>()->NextFrame();
 			if (m_JumpDuration > m_JumpDurationTile)
 			{
@@ -103,6 +108,7 @@ void BaseJumperComponent::SetStartPos(Level* pLevel, int startRow, int startCol)
 	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y);
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_pOwner);
 	HandleStartPos(startTile);
+	m_IsJumping = false;
 }
 
 void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)

@@ -29,6 +29,10 @@ SDLSoundSystem::~SDLSoundSystem()
 
 void SDLSoundSystem::Play(const std::string& filename, int looping, int volume)
 {
+	if (filename == "")
+	{
+		return;
+	}
 	AudioRequest request{ filename, looping, volume };
 	std::unique_lock<std::mutex> lock{ m_Mutex };
 	m_AudioQueue.push(request);

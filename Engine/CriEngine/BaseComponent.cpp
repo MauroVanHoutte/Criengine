@@ -15,3 +15,8 @@ void BaseComponent::SetIsActive(bool isActive)
 	m_IsActive = isActive;
 }
 
+bool BaseComponent::IsOwnerActive()
+{
+	return m_pOwner->IsActive();
+}
+
