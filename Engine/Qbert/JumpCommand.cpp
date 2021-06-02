@@ -11,7 +11,7 @@ JumpCommand::JumpCommand(int colDir, int rowDir)
 void JumpCommand::Execute()
 {
 	assert(m_pJumper != nullptr);
-	if (m_pJumper->IsOwnerActive())
+	if (m_pJumper->IsOwnerActive() && m_pJumper->IsActive())
 	{
 		m_pJumper->Jump(m_ColDirection, m_RowDirection);
 	}

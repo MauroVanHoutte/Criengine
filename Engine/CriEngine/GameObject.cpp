@@ -6,22 +6,22 @@
 
 cri::GameObject::~GameObject()
 {
-	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
+	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 	{
-		delete it->second;
+		delete *it;
 	}
 }
 
 void cri::GameObject::Update()
 {
-	if (!m_Active)
+	if (!m_Active) //is gameobject active
 	{
 		return;
 	}
-	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
+	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 	{
-		if (it->second->IsActive())
-			it->second->Update();
+		if ((*it)->IsActive()) //is component active
+			(*it)->Update();
 	}
 }
 
@@ -31,10 +31,10 @@ void cri::GameObject::FixedUpdate()
 	{
 		return;
 	}
-	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
+	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 	{
-		if (it->second->IsActive())
-			it->second->FixedUpdate();
+		if ((*it)->IsActive())
+			(*it)->FixedUpdate();
 	}
 }
 
@@ -44,10 +44,10 @@ void cri::GameObject::LateUpdate()
 	{
 		return;
 	}
-	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
+	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 	{
-		if (it->second->IsActive())
-			it->second->LateUpdate();
+		if ((*it)->IsActive())
+			(*it)->LateUpdate();
 	}
 }
 
@@ -57,12 +57,10 @@ void cri::GameObject::Render() const
 	{
 		return;
 	}
-	const auto pos = m_Transform.GetPosition();
-
-	for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
+	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 	{
-		if (it->second->IsActive())
-			it->second->Render();
+		if ((*it)->IsActive())
+			(*it)->Render();
 	}
 }
 
@@ -71,30 +69,26 @@ void cri::GameObject::SetPosition(float x, float y)
 	m_Transform.SetPosition(x, y, 0.0f);
 }
 
-bool cri::GameObject::AddComponent(const std::string& name, BaseComponent* component)
+bool cri::GameObject::AddComponent(BaseComponent* component)
 {
-	if (m_ComponentMap.find(name) == m_ComponentMap.end())
-	{
-		m_ComponentMap[name] = component;
-		return true;
-	}
+	assert(std::find(m_Components.begin(), m_Components.end(), component) == m_Components.end()); //component added twice
 	
-	std::cout << "Component with name " << name << " already exists in this object\n";
+	m_Components.push_back(component);
 	return false;
 }
 
-bool cri::GameObject::RemoveComponent(const std::string& name)
+bool cri::GameObject::RemoveComponent(BaseComponent* component)
 {
-	auto it = m_ComponentMap.find(name);
-	if (it == m_ComponentMap.end())
+	auto it = std::find(m_Components.begin(), m_Components.end(), component);
+	if (it != m_Components.end())
 	{
-		return false;
+		m_Components.erase(it);
+		return true;
 	}
-	m_ComponentMap.erase(it);
-	return true;
+	return false;
 }
 
-std::map<std::string, BaseComponent*>& cri::GameObject::GetComponents()
+std::vector<BaseComponent*>& cri::GameObject::GetComponents()
 {
-	return m_ComponentMap;
+	return m_Components;
 }

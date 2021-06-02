@@ -88,7 +88,6 @@ void QbertGame::CreateMenuScene()
 	auto menu = std::make_shared<cri::GameObject>();
 	menu->m_Transform.SetPosition(float(2.f*screenW/5.f), float(screenH/2.f), 0.f);
 	auto menuComponent = new QbertMainMenuComponent(menu.get());
-	menu->AddComponent("menu", menuComponent);
 	menuComponent->AddObserver(this);
 
 	auto menuUpCommand = new MenuUpCommand();
@@ -132,9 +131,7 @@ void QbertGame::CreateLevelScene()
 	qBertTextureComp->SetHeight(30.f);
 	qBertTextureComp->SetAnimation(2);
 
-	m_QBert->AddComponent("Texture", qBertTextureComp);
 	auto qBertJumperComp = new QbertJumperComponent(m_QBert.get());
-	m_QBert->AddComponent("Jumper", qBertJumperComp);
 	scene.Add(m_QBert);
 	qBertJumperComp->AddObserver(this);
 
@@ -188,9 +185,7 @@ void QbertGame::CreateLevelScene()
 	qBertTextureComp->SetHeight(30.f);
 	qBertTextureComp->SetAnimation(2);
 
-	m_QBert2->AddComponent("Texture", qBertTextureComp);
 	qBertJumperComp = new QbertJumperComponent(m_QBert2.get());
-	m_QBert2->AddComponent("Jumper", qBertJumperComp);
 	scene.Add(m_QBert2);
 	qBertJumperComp->AddObserver(this);
 
@@ -247,18 +242,15 @@ void QbertGame::CreateLevelScene()
 	coilyTextureComp->SetAnimation(2);
 	coilyTextureComp->m_RelativeTransform.SetPosition(0.f, -10.f, 0.f);
 
-	m_Coily->AddComponent("CoilyTexture", coilyTextureComp);
 
 	auto coilyBallTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet.png"));
 	coilyBallTextureComp->SetWidth(30.f);
 	coilyBallTextureComp->SetHeight(30.f);
 	coilyBallTextureComp->SetAnimation(0);
 	coilyBallTextureComp->SetIsActive(false);
-	m_Coily->AddComponent("CoilyBallTexture", coilyBallTextureComp);
 
 	auto coilyJumperComponent = new CoilyJumperComponent(m_Coily.get());
 
-	m_Coily->AddComponent("CoilyJumper", coilyJumperComponent);
 	scene.Add(m_Coily);
 
 	jumpUpLeftCommand = new JumpCommand(-1, -1);
@@ -312,7 +304,6 @@ void QbertGame::CreateLevelScene()
 	renderCommand = new SwapDoRenderTextCommand();
 	renderCommand->Bind(fpsCounterComponent);
 	cri::InputManager::GetInstance().AddControllerButtonCommand(sceneIdx, 0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, renderCommand);
-	go->AddComponent("FpsCounter", fpsCounterComponent);
 	scene.Add(go);
 
 

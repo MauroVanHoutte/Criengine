@@ -20,16 +20,16 @@ namespace cri
 
 		void SetPosition(float x, float y);
 
-		bool AddComponent(const std::string& name, BaseComponent* component);
-		bool RemoveComponent(const std::string& name);
-		std::map<std::string, BaseComponent*>& GetComponents();
+		bool AddComponent(BaseComponent* component);
+		bool RemoveComponent(BaseComponent* component);
+		std::vector<BaseComponent*>& GetComponents();
 
 		template<typename T>
 		T* GetComponent()
 		{
-			for (auto it = m_ComponentMap.begin(); it != m_ComponentMap.end(); it++)
+			for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 			{
-				T* comp = dynamic_cast<T*>(it->second);
+				T* comp = dynamic_cast<T*>(*it);
 				if (comp != nullptr && comp->IsActive())
 				{
 					return comp;
@@ -49,7 +49,7 @@ namespace cri
 		Transform m_Transform;
 
 	private:
-		std::map<std::string, BaseComponent*> m_ComponentMap;
+		std::vector<BaseComponent*> m_Components;
 	};
 
 }

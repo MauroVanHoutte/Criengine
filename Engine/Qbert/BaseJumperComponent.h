@@ -15,7 +15,7 @@ public:
 	BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName);
 	BaseJumperComponent() = delete;
 
-	void Update() override;
+	void FixedUpdate() override;
 
 	void Jump(int colDir, int rowDir);
 

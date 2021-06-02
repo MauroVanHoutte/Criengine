@@ -75,6 +75,9 @@
     <ClCompile Include="CoilyJumperComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="BallJumperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
@@ -123,6 +126,12 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="CoilyJumperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BallJumperComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

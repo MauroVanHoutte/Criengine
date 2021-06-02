@@ -20,7 +20,6 @@ QbertMainMenuComponent::QbertMainMenuComponent(cri::GameObject* pOwner)
 
 QbertMainMenuComponent::~QbertMainMenuComponent()
 {
-	delete m_QBertTexture;
 }
 
 void QbertMainMenuComponent::Render() const

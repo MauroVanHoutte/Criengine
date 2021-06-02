@@ -30,5 +30,5 @@ private:
 	float m_RenderTime = 0.0f;
 	float m_UpdateTime = 0.0f;
 	float m_FrameTime = 0.0f;
-	const float m_StepTime = 0.16f; //16 for 60 fps, 33 for 30 fps
+	const float m_StepTime = 0.016f; //16 for 60 fps, 33 for 30 fps
 };

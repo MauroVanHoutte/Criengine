@@ -16,6 +16,7 @@ void QbertJumperComponent::JumpedOff()
 void QbertJumperComponent::HandleAnimation(int colDir, int rowDir)
 {
 	auto AnimationComp = m_pOwner->GetComponent<SingleRowAnimationComponent>();
+	assert(AnimationComp != nullptr);
 
 	if (colDir < 0 && rowDir > 0)
 	{

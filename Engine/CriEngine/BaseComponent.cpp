@@ -3,6 +3,7 @@
 BaseComponent::BaseComponent(cri::GameObject* owner)
 	: m_pOwner{ owner }
 {
+	m_pOwner->AddComponent(this);
 }
 
 bool BaseComponent::IsActive()

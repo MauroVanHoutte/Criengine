@@ -24,7 +24,6 @@ Level::Level(int height, int difficulty, int tileSize, float topX, float topY, c
 			tileTexture->SetHeight(float(tileSize));
 			tileTexture->SetDifficulty(difficulty);
 			tileTexture->AddObserver(manager);
-			tile->AddComponent("TileTexture", tileTexture);
 
 			m_Tiles.push_back(tile);
 			scene.Add(tile);

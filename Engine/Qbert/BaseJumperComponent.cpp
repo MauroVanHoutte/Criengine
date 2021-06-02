@@ -5,6 +5,7 @@
 #include "TileTextureComponent.h"
 #include "SingleRowAnimationComponent.h"
 #include "ServiceLocator.h"
+#include <iostream>
 
 BaseJumperComponent::BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName)
 	: BaseComponent(pOwner)
@@ -23,11 +24,11 @@ BaseJumperComponent::BaseJumperComponent(cri::GameObject* pOwner, float jumpDura
 {
 }
 
-void BaseJumperComponent::Update()
+void BaseJumperComponent::FixedUpdate()
 {
 	if (m_IsJumping)
 	{
-		float deltaTime = Timer::GetInstance()->GetElapsed();
+		float deltaTime = Timer::GetInstance()->GetStepTime();
 		m_JumpCounter += deltaTime;
 
 		if (m_JumpCounter > m_JumpDuration)
@@ -42,6 +43,7 @@ void BaseJumperComponent::Update()
 		m_pOwner->m_Transform.SetPosition(newX, newY, 0);
 		if (!m_IsJumping)
 		{
+			std::cout << m_pOwner->m_Transform.GetPosition().x << ", " << m_pOwner->m_Transform.GetPosition().y << std::endl;
 			if (m_Target)
 			{
 				JumpedOn();
@@ -97,6 +99,7 @@ void BaseJumperComponent::Jump(int colDir, int rowDir)
 		m_Pos.x += newColDir;
 		m_Pos.y += rowDir;
 		m_IsJumping = true;
+		std::cout << m_Target->m_Transform.GetPosition().x << ", " << m_Target->m_Transform.GetPosition().y << std::endl;
 	}
 }
 
