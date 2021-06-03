@@ -6,6 +6,7 @@
 #include <map>
 #include <SDL.h>
 #include <vector>
+#include <memory>
 
 namespace cri
 {
@@ -37,6 +38,7 @@ namespace cri
 		DownRight,
 		Down,
 		DownLeft,
+		None
 	};
 
 	enum class Joystick
@@ -49,7 +51,8 @@ namespace cri
 	{
 		OnPressed,
 		OnRelease,
-		Down
+		Down,
+		None
 	};
 
 	struct ControllerJoystickCommandInfo
@@ -59,7 +62,7 @@ namespace cri
 		short Deadzone;
 		Joystick Joystick;
 		JoystickDirection Direction;
-		Command* Command;
+		std::shared_ptr<Command> pCommand;
 	};
 
 	struct ControllerButtonCommandInfo
@@ -68,7 +71,7 @@ namespace cri
 		unsigned ControllerId;
 		ButtonState ButtonState;
 		ControllerButton Button;
-		Command* Command;
+		std::shared_ptr<Command> pCommand;
 	};
 
 	struct KeyboardCommandInfo
@@ -76,7 +79,7 @@ namespace cri
 		int Scene;
 		ButtonState ButtonState;
 		SDL_Scancode Button;
-		Command* Command;
+		std::shared_ptr<Command> pCommand;
 	};
 
 
@@ -86,9 +89,9 @@ namespace cri
 		InputManager();
 		~InputManager();
 		void ProcessInput();
-		void AddControllerButtonCommand(unsigned controllerId, int scene, ButtonState buttonState, ControllerButton button, Command* command);
-		void AddControllerJoystickCommand(unsigned controllerId, int scene, short deadzone, Joystick joystick, JoystickDirection joystickDirection, Command* command);
-		void AddKeyboardCommand(int scene, ButtonState buttonState, SDL_Scancode button, Command* command);
+		void AddControllerButtonCommand(unsigned controllerId, int scene, ButtonState buttonState, ControllerButton button, std::shared_ptr<Command> command);
+		void AddControllerJoystickCommand(unsigned controllerId, int scene, short deadzone, Joystick joystick, JoystickDirection joystickDirection, std::shared_ptr<Command> command);
+		void AddKeyboardCommand(int scene, ButtonState buttonState, SDL_Scancode button, std::shared_ptr<Command> command);
 
 	private:
 		int m_NrControllers{ 4 };

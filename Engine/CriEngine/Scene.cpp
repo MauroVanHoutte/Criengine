@@ -7,15 +7,21 @@ using namespace cri;
 
 unsigned int Scene::m_IdCounter = 0;
 
-void cri::Scene::MoveObjectToFront(SceneObject* object)
+void cri::Scene::MoveObjectToFront(SceneObject* object) //front of the scene, back of the deque
 {
 	auto it = std::find_if(m_Objects.begin(), m_Objects.end(), [object](std::shared_ptr<cri::SceneObject> sceneObject) {return object == sceneObject.get(); });
+	if (it == m_Objects.end())
+	{
+		bool breakpoint{true};
+		breakpoint = false;
+	}
+
 	auto temp = *it;
 	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(), [object](std::shared_ptr<cri::SceneObject> sceneObject) {return object == sceneObject.get(); }));
 	m_Objects.push_back(temp);
 }
 
-void cri::Scene::MoveObjectToBack(SceneObject* object)
+void cri::Scene::MoveObjectToBack(SceneObject* object) //back of the scene, front of the deque 
 {
 	auto it = std::find_if(m_Objects.begin(), m_Objects.end(), [object](std::shared_ptr<cri::SceneObject> sceneObject) {return object == sceneObject.get(); });
 	auto temp = *it;

@@ -11,7 +11,7 @@ public:
 
 	void JumpedOff() override;
 
-	void HandleStartPos(std::shared_ptr<cri::GameObject> target) override;
+	void HandleStartPos() override;
 
 private:
 

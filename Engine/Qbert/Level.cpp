@@ -64,6 +64,11 @@ std::shared_ptr<cri::GameObject> Level::GetTile(int column, int row)
 	return m_Tiles[index];
 }
 
+int Level::GetHeight()
+{
+	return m_Height;
+}
+
 bool Level::Completed()
 {
 	for (auto tile : m_Tiles)

@@ -24,6 +24,7 @@
 #include <rapidjson.h>
 #include <document.h>
 #include <filereadstream.h>
+#include "SpawnerComponent.h"
 
 QbertGame::QbertGame()
 	:m_CurrentDifficulty{1}
@@ -90,25 +91,19 @@ void QbertGame::CreateMenuScene()
 	auto menuComponent = new QbertMainMenuComponent(menu.get());
 	menuComponent->AddObserver(this);
 
-	auto menuUpCommand = new MenuUpCommand();
+	auto menuUpCommand = std::make_shared<MenuUpCommand>();
 	menuUpCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_KP_8, menuUpCommand);
-	menuUpCommand = new MenuUpCommand();
-	menuUpCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddControllerButtonCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::DPadUp, menuUpCommand);
 
-	auto menuDownCommand = new MenuDownCommand();
+	auto menuDownCommand =  std::make_shared<MenuDownCommand>();
 	menuDownCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_KP_2, menuDownCommand);
-	menuDownCommand = new MenuDownCommand();
-	menuDownCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddControllerButtonCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::DPadDown, menuDownCommand);
 
-	auto menuClickCommand = new MenuButtonClickCommand();
+	auto menuClickCommand =  std::make_shared<MenuButtonClickCommand>();
 	menuClickCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_RETURN, menuClickCommand);
-	menuClickCommand = new MenuButtonClickCommand();
-	menuClickCommand->Bind(menuComponent);
 	cri::InputManager::GetInstance().AddControllerButtonCommand(0, sceneIdx, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, menuClickCommand);
 
 	scene.Add(menu);
@@ -135,44 +130,28 @@ void QbertGame::CreateLevelScene()
 	scene.Add(m_QBert);
 	qBertJumperComp->AddObserver(this);
 
-	auto jumpUpLeftCommand = new JumpCommand(-1, -1);
+	auto jumpUpLeftCommand = std::make_shared<JumpCommand>(-1, -1);
 	jumpUpLeftCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_7, jumpUpLeftCommand);
-
-	jumpUpLeftCommand = new JumpCommand(-1, -1);
-	jumpUpLeftCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpLeft, jumpUpLeftCommand);
 
-	auto jumpUpRightCommand = new JumpCommand(1, -1);
+	auto jumpUpRightCommand = std::make_shared<JumpCommand>(1, -1);
 	jumpUpRightCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_9, jumpUpRightCommand);
-
-	jumpUpRightCommand = new JumpCommand(1, -1);
-	jumpUpRightCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpRight, jumpUpRightCommand);
 
-	auto jumpDownLeftCommand = new JumpCommand(-1, 1);
+	auto jumpDownLeftCommand = std::make_shared<JumpCommand>(-1, 1);
 	jumpDownLeftCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_1, jumpDownLeftCommand);
-
-	jumpDownLeftCommand = new JumpCommand(-1, 1);
-	jumpDownLeftCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownLeft, jumpDownLeftCommand);
 
-	auto jumpDownRightCommand = new JumpCommand(1, 1);
+	auto jumpDownRightCommand = std::make_shared<JumpCommand>(1, 1);
 	jumpDownRightCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_KP_3, jumpDownRightCommand);
-
-	jumpDownRightCommand = new JumpCommand(1, 1);
-	jumpDownRightCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(0, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
 	////////
@@ -189,44 +168,28 @@ void QbertGame::CreateLevelScene()
 	scene.Add(m_QBert2);
 	qBertJumperComp->AddObserver(this);
 
-	jumpUpLeftCommand = new JumpCommand(-1, -1);
+	jumpUpLeftCommand = std::make_shared<JumpCommand>(-1, -1);
 	jumpUpLeftCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_Q, jumpUpLeftCommand);
-
-	jumpUpLeftCommand = new JumpCommand(-1, -1);
-	jumpUpLeftCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpLeft, jumpUpLeftCommand);
 
-	jumpUpRightCommand = new JumpCommand(1, -1);
+	jumpUpRightCommand = std::make_shared<JumpCommand>(1, -1);
 	jumpUpRightCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_E, jumpUpRightCommand);
-
-	jumpUpRightCommand = new JumpCommand(1, -1);
-	jumpUpRightCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpRight, jumpUpRightCommand);
 
-	jumpDownLeftCommand = new JumpCommand(-1, 1);
+	jumpDownLeftCommand = std::make_shared<JumpCommand>(-1, 1);
 	jumpDownLeftCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_A, jumpDownLeftCommand);
-
-	jumpDownLeftCommand = new JumpCommand(-1, 1);
-	jumpDownLeftCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownLeft, jumpDownLeftCommand);
 
-	jumpDownRightCommand = new JumpCommand(1, 1);
+	jumpDownRightCommand = std::make_shared<JumpCommand>(1, 1);
 	jumpDownRightCommand->Bind(qBertJumperComp);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_D, jumpDownRightCommand);
-
-	jumpDownRightCommand = new JumpCommand(1, 1);
-	jumpDownRightCommand->Bind(qBertJumperComp);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
 
@@ -253,56 +216,45 @@ void QbertGame::CreateLevelScene()
 
 	scene.Add(m_Coily);
 
-	jumpUpLeftCommand = new JumpCommand(-1, -1);
+	jumpUpLeftCommand = std::make_shared<JumpCommand>(-1, -1);
 	jumpUpLeftCommand->Bind(coilyJumperComponent);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_Q, jumpUpLeftCommand);
-
-	jumpUpLeftCommand = new JumpCommand(-1, -1);
-	jumpUpLeftCommand->Bind(coilyJumperComponent);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpLeft, jumpUpLeftCommand);
 
-	jumpUpRightCommand = new JumpCommand(1, -1);
+	jumpUpRightCommand = std::make_shared<JumpCommand>(1, -1);
 	jumpUpRightCommand->Bind(coilyJumperComponent);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_E, jumpUpRightCommand);
-
-	jumpUpRightCommand = new JumpCommand(1, -1);
-	jumpUpRightCommand->Bind(coilyJumperComponent);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::UpRight, jumpUpRightCommand);
 
-	jumpDownLeftCommand = new JumpCommand(-1, 1);
+	jumpDownLeftCommand = std::make_shared<JumpCommand>(-1, 1);
 	jumpDownLeftCommand->Bind(coilyJumperComponent);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_A, jumpDownLeftCommand);
-
-	jumpDownLeftCommand = new JumpCommand(-1, 1);
-	jumpDownLeftCommand->Bind(coilyJumperComponent);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownLeft, jumpDownLeftCommand);
 
-	jumpDownRightCommand = new JumpCommand(1, 1);
+	jumpDownRightCommand = std::make_shared<JumpCommand>(1, 1);
 	jumpDownRightCommand->Bind(coilyJumperComponent);
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_D, jumpDownRightCommand);
-
-	jumpDownRightCommand = new JumpCommand(1, 1);
-	jumpDownRightCommand->Bind(coilyJumperComponent);
-
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
 
+	////////
+	//Spawner
+
+	m_Spawner = std::make_shared<cri::GameObject>();
+	new SpawnerComponent(m_Spawner.get(), this);
+	scene.Add(m_Spawner);
 
 
+	///////////
 	//fps counter
 	auto go = std::make_shared<cri::GameObject>();
 	FPSCounterComponent* fpsCounterComponent = new FPSCounterComponent(go.get());
-	auto renderCommand = new SwapDoRenderTextCommand();
+	auto renderCommand = std::make_shared<SwapDoRenderTextCommand>();
 	renderCommand->Bind(fpsCounterComponent);
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::OnPressed, SDL_SCANCODE_F, renderCommand);
-	renderCommand = new SwapDoRenderTextCommand();
-	renderCommand->Bind(fpsCounterComponent);
 	cri::InputManager::GetInstance().AddControllerButtonCommand(sceneIdx, 0, cri::ButtonState::OnPressed, cri::ControllerButton::ButtonA, renderCommand);
 	scene.Add(go);
 
@@ -311,7 +263,6 @@ void QbertGame::CreateLevelScene()
 
 void QbertGame::SetupLevelSinglePlayer()
 {
-	cri::SceneManager::GetInstance().NextScene();
 	m_CurrentLives = m_StartLives;
 	m_SelectedGameMode = GameMode::SinglePlayer;
 
@@ -379,6 +330,11 @@ void QbertGame::SetupLevelVersus()
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_Coily.get());
 }
 
+Level* QbertGame::GetLevel()
+{
+	return m_pLevel;
+}
+
 void QbertGame::OnNotify(Event event)
 {
 	switch (event)
@@ -391,6 +347,7 @@ void QbertGame::OnNotify(Event event)
 			cri::SceneManager::GetInstance().NextScene();
 			m_QBert->Deactivate();
 			m_QBert2->Deactivate();
+			m_Spawner->GetComponent<SpawnerComponent>()->ResetAll();
 		}
 		break;
 	case Event::ColorChange:
@@ -402,12 +359,15 @@ void QbertGame::OnNotify(Event event)
 	case Event::SlickSamCaught:
 		break;
 	case Event::StartSinglePlayer:
+		cri::SceneManager::GetInstance().NextScene();
 		SetupLevelSinglePlayer();
 		break;
 	case Event::StartCoop:
+		cri::SceneManager::GetInstance().NextScene();
 		SetupLevelCoop();
 		break;
 	case Event::StartVersus:
+		cri::SceneManager::GetInstance().NextScene();
 		SetupLevelVersus();
 		break;
 	case Event::TileJumpedOn:

@@ -14,18 +14,6 @@ cri::InputManager::InputManager()
 
 cri::InputManager::~InputManager()
 {
-	for (auto it = m_ControllerButtonCommands.begin(); it != m_ControllerButtonCommands.end(); it++)
-	{
-		delete it->Command;
-	}
-	for (auto it = m_KeyboardCommands.begin(); it != m_KeyboardCommands.end(); it++)
-	{
-		delete it->Command;
-	}
-	for (auto it = m_ControllerJoystickCommands.begin(); it != m_ControllerJoystickCommands.end(); it++)
-	{
-		delete it->Command;
-	}
 }
 
 void cri::InputManager::ProcessInput()
@@ -47,21 +35,21 @@ void cri::InputManager::ProcessInput()
 		case ButtonState::Down:
 			if (keyboardState[it->Button])
 			{
-				it->Command->Execute();
+				it->pCommand->Execute();
 			}
 			break;
 
 		case ButtonState::OnPressed:
 			if (keyboardState[it->Button] && !m_KeyboardSatePreviousFrame[it->Button])
 			{
-				it->Command->Execute();
+				it->pCommand->Execute();
 			}
 			break;
 
 		case ButtonState::OnRelease:
 			if (!keyboardState[it->Button] && m_KeyboardSatePreviousFrame[it->Button])
 			{
-				it->Command->Execute();
+				it->pCommand->Execute();
 			}
 			break;
 		}
@@ -86,21 +74,21 @@ void cri::InputManager::ProcessInput()
 				case ButtonState::Down:
 					if (controllerState.Gamepad.wButtons & WORD(it->Button))
 					{
-						it->Command->Execute();
+						it->pCommand->Execute();
 					}
 					break;
 
 				case ButtonState::OnPressed:
 					if (controllerState.Gamepad.wButtons & WORD(it->Button) && !(m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->Button)))
 					{
-						it->Command->Execute();
+						it->pCommand->Execute();
 					}
 					break;
 
 				case ButtonState::OnRelease:
 					if (m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->Button) && !(controllerState.Gamepad.wButtons & WORD(it->Button)))
 					{
-						it->Command->Execute();
+						it->pCommand->Execute();
 					}
 					break;
 				}
@@ -121,96 +109,96 @@ void cri::InputManager::ProcessInput()
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLX < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRX < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::UpLeft:
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLX < -it->Deadzone && controllerState.Gamepad.sThumbLY > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRX < -it->Deadzone && controllerState.Gamepad.sThumbRY > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::Up:
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLY > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRY > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::UpRight:
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLX > it->Deadzone && controllerState.Gamepad.sThumbLY > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRX > it->Deadzone && controllerState.Gamepad.sThumbRY > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::Right:
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLX > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRX > it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::DownRight:
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLX > it->Deadzone && controllerState.Gamepad.sThumbLY < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRX > it->Deadzone && controllerState.Gamepad.sThumbRY < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::Down:
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLY < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRY < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::DownLeft:
 					if (it->Joystick == Joystick::Left)
 					{
 						if (controllerState.Gamepad.sThumbLX < -it->Deadzone && controllerState.Gamepad.sThumbLY < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					else
 					{
 						if (controllerState.Gamepad.sThumbRX < -it->Deadzone && controllerState.Gamepad.sThumbRY < -it->Deadzone)
-							it->Command->Execute();
+							it->pCommand->Execute();
 					}
 					break;
 				default:
@@ -224,30 +212,30 @@ void cri::InputManager::ProcessInput()
 	m_KeyboardSatePreviousFrame.assign(keyboardState, keyboardState + SDL_NUM_SCANCODES);
 }
 
-void cri::InputManager::AddKeyboardCommand(int scene, ButtonState buttonState, SDL_Scancode button, Command* command)
+void cri::InputManager::AddKeyboardCommand(int scene, ButtonState buttonState, SDL_Scancode button, std::shared_ptr<Command> command)
 {
 	cri::KeyboardCommandInfo commandInfo;
 	commandInfo.Scene = scene;
 	commandInfo.ButtonState = buttonState;
 	commandInfo.Button = button;
-	commandInfo.Command = command;
+	commandInfo.pCommand = command;
 	
 	m_KeyboardCommands.push_back(commandInfo);
 }
 
-void cri::InputManager::AddControllerButtonCommand(unsigned controllerId, int scene, cri::ButtonState buttonState, cri::ControllerButton button, Command* command)
+void cri::InputManager::AddControllerButtonCommand(unsigned controllerId, int scene, cri::ButtonState buttonState, cri::ControllerButton button, std::shared_ptr<Command> command)
 {
 	cri::ControllerButtonCommandInfo commandInfo;
 	commandInfo.ControllerId = controllerId;
 	commandInfo.Scene = scene;
 	commandInfo.ButtonState = buttonState;
 	commandInfo.Button = button;
-	commandInfo.Command = command;
+	commandInfo.pCommand = command;
 
 	m_ControllerButtonCommands.push_back(commandInfo);
 }
 
-void cri::InputManager::AddControllerJoystickCommand(unsigned controllerId, int scene, short deadzone, Joystick joystick, JoystickDirection joystickDirection, Command* command)
+void cri::InputManager::AddControllerJoystickCommand(unsigned controllerId, int scene, short deadzone, Joystick joystick, JoystickDirection joystickDirection, std::shared_ptr<Command> command)
 {
 	cri::ControllerJoystickCommandInfo commandInfo;
 	commandInfo.ControllerId = controllerId;
@@ -255,7 +243,7 @@ void cri::InputManager::AddControllerJoystickCommand(unsigned controllerId, int 
 	commandInfo.Deadzone = deadzone;
 	commandInfo.Joystick = joystick;
 	commandInfo.Direction = joystickDirection;
-	commandInfo.Command = command;
+	commandInfo.pCommand = command;
 
 	m_ControllerJoystickCommands.push_back(commandInfo);
 }

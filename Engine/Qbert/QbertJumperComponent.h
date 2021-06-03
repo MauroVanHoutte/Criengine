@@ -8,10 +8,11 @@ public:
 	QbertJumperComponent() = delete;
 
 	void JumpedOff() override;
+	void OnJumpingOffUpwards() override;
 
 	void HandleAnimation(int colDir, int rowDir) override;
 
-	void HandleStartPos(std::shared_ptr<cri::GameObject> target) override;
+	void HandleStartPos() override;
 
 	void JumpedOn() override;
 

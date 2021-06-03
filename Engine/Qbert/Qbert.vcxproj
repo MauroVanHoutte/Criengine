@@ -90,6 +90,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)CriEngine;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm-master;$(SolutionDir)3rdParty\imgui-master;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\SDL_Simple_Audio;$(SolutionDir)3rdParty\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,6 +114,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)CriEngine;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm-master;$(SolutionDir)3rdParty\imgui-master;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\SDL_Simple_Audio;$(SolutionDir)3rdParty\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +138,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)CriEngine;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm-master;$(SolutionDir)3rdParty\imgui-master;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\SDL_Simple_Audio;$(SolutionDir)3rdParty\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +162,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)CriEngine;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm-master;$(SolutionDir)3rdParty\imgui-master;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\SDL_Simple_Audio;$(SolutionDir)3rdParty\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -191,8 +195,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="QbertMainMenuComponent.cpp" />
     <ClCompile Include="QbertScoreComponent.cpp" />
     <ClCompile Include="SingleRowAnimationComponent.cpp" />
+    <ClCompile Include="SlickSamJumperComponent.cpp" />
+    <ClCompile Include="SpawnerComponent.cpp" />
     <ClCompile Include="TestCommand.cpp" />
     <ClCompile Include="TileTextureComponent.cpp" />
+    <ClCompile Include="UggWrongwayJumperComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CriEngine\CriEngine.vcxproj">
@@ -215,9 +222,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="SingleRowAnimationComponent.h" />
     <ClInclude Include="QbertHealthComponent.h" />
     <ClInclude Include="QbertScoreComponent.h" />
+    <ClInclude Include="SlickSamJumperComponent.h" />
     <ClInclude Include="SpawnerComponent.h" />
     <ClInclude Include="TestCommand.h" />
     <ClInclude Include="TileTextureComponent.h" />
+    <ClInclude Include="UggWrongwayJumperComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

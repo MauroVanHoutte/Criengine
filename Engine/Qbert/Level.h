@@ -15,11 +15,13 @@ public:
 	void AddTile(std::shared_ptr<cri::GameObject> tile);
 	std::shared_ptr<cri::GameObject> GetTile(int x, int y);
 
+	int GetHeight();
+
 	bool Completed();
 
 private:
-	int m_Difficulty;
 	int m_Height;
+	int m_Difficulty;
 	int m_TileSize;
 	std::vector<std::shared_ptr<cri::GameObject>> m_Tiles;
 };

@@ -12,6 +12,7 @@ BaseJumperComponent::BaseJumperComponent(cri::GameObject* pOwner, float jumpDura
 	, m_pLevel{ nullptr }
 	, m_Pos{ 0, 0 }
 	, m_JumpStartPos{ 0.f, 0.f }
+	, m_TileOffset{0.f, 0.f}
 	, m_Target{ nullptr }
 	, m_JumpDuration{ jumpDuration }
 	, m_JumpDurationOffMap{ 3.f }
@@ -89,11 +90,10 @@ void BaseJumperComponent::Jump(int colDir, int rowDir)
 	{
 		ServiceLocator::GetSoundSystem()->Play(m_JumpSoundName, 0, 5);
 		m_JumpDuration = m_JumpDurationTile;
-		float yOffset = -30.f;
 		m_JumpCounter = 0.f;
 		auto position = m_pOwner->m_Transform.GetPosition();
-		m_InitialJumpVelocity.x = (m_Target->m_Transform.GetPosition().x - position.x) / m_JumpDuration;
-		m_InitialJumpVelocity.y = -(-(m_Target->m_Transform.GetPosition().y + yOffset - position.y) + 0.5f * m_Gravity * m_JumpDuration * m_JumpDuration) / m_JumpDuration;
+		m_InitialJumpVelocity.x = (m_Target->m_Transform.GetPosition().x + m_TileOffset.x - position.x) / m_JumpDuration;
+		m_InitialJumpVelocity.y = -(-(m_Target->m_Transform.GetPosition().y + m_TileOffset.y - position.y) + 0.5f * m_Gravity * m_JumpDuration * m_JumpDuration) / m_JumpDuration;
 		m_JumpStartPos.x = position.x;
 		m_JumpStartPos.y = position.y;
 		m_Pos.x += newColDir;
@@ -110,8 +110,15 @@ void BaseJumperComponent::SetStartPos(Level* pLevel, int startRow, int startCol)
 	m_Pos.y = startRow;
 	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y);
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_pOwner);
-	HandleStartPos(startTile);
+	m_pOwner->m_Transform.SetPosition(startTile->m_Transform.GetPosition().x + m_TileOffset.x, startTile->m_Transform.GetPosition().y + m_TileOffset.y, 0);
+	HandleStartPos();
 	m_IsJumping = false;
+}
+
+void BaseJumperComponent::SetTileOffset(float x, float y)
+{
+	m_TileOffset.x = x;
+	m_TileOffset.y = y;
 }
 
 void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
@@ -124,7 +131,7 @@ void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
 	else
 	{
 		m_InitialJumpVelocity.y = -100.f;
-		cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToBack(m_pOwner);
+		OnJumpingOffUpwards();
 	}
 	m_JumpCounter = 0.f;
 	auto position = m_pOwner->m_Transform.GetPosition();
@@ -134,4 +141,5 @@ void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
 	m_Pos.y += rowDir;
 	m_IsJumping = true;
 	m_JumpDuration = m_JumpDurationOffMap;
+	
 }

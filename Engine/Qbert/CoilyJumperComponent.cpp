@@ -4,6 +4,7 @@
 CoilyJumperComponent::CoilyJumperComponent(cri::GameObject* owner)
 	: BaseJumperComponent(owner, 0.8f, "jumpCoily.wav", "")
 {
+	SetTileOffset(0.f, -30.f);
 }
 
 void CoilyJumperComponent::HandleAnimation(int colDir, int rowDir)
@@ -39,9 +40,7 @@ void CoilyJumperComponent::JumpedOff()
 	SetStartPos(m_pLevel, 0, 0);
 }
 
-void CoilyJumperComponent::HandleStartPos(std::shared_ptr<cri::GameObject> target)
+void CoilyJumperComponent::HandleStartPos()
 {
-	float yOffset = -30.f;
-	m_pOwner->m_Transform.SetPosition(target->m_Transform.GetPosition().x, target->m_Transform.GetPosition().y + yOffset, 0);
 	m_pOwner->GetComponent<SingleRowAnimationComponent>()->SetAnimation(2);
 }

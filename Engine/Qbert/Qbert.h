@@ -26,6 +26,8 @@ public:
 	void SetupLevelCoop();
 	void SetupLevelVersus();
 
+	Level* GetLevel();
+
 	void OnNotify(Event event) override;
 
 private:
@@ -34,6 +36,7 @@ private:
 	std::shared_ptr<cri::GameObject> m_QBert = nullptr;
 	std::shared_ptr<cri::GameObject> m_QBert2 = nullptr;
 	std::shared_ptr<cri::GameObject> m_Coily = nullptr;
+	std::shared_ptr<cri::GameObject> m_Spawner = nullptr;
 	int m_CurrentDifficulty;
 	std::string m_TileTexture;
 	int m_Size;
