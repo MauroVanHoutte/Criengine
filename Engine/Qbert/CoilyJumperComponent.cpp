@@ -7,6 +7,14 @@ CoilyJumperComponent::CoilyJumperComponent(cri::GameObject* owner)
 	SetTileOffset(0.f, -30.f);
 }
 
+void CoilyJumperComponent::Update()
+{
+
+
+
+
+}
+
 void CoilyJumperComponent::HandleAnimation(int colDir, int rowDir)
 {
 	auto AnimationComp = m_pOwner->GetComponent<SingleRowAnimationComponent>();
@@ -43,4 +51,9 @@ void CoilyJumperComponent::JumpedOff()
 void CoilyJumperComponent::HandleStartPos()
 {
 	m_pOwner->GetComponent<SingleRowAnimationComponent>()->SetAnimation(2);
+}
+
+void CoilyJumperComponent::SetIsPlayerControlled(bool isPlayerControlled)
+{
+	m_IsPlayerControlled = isPlayerControlled;
 }

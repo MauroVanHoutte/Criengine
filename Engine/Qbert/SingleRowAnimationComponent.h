@@ -9,7 +9,7 @@ public:
 	void Render() const override;
 
 	void NextFrame();
-	void SetNextFrame(int frame);
+	void SetFrame(int frame);
 	void SetAnimation(int nrAnimation);
 
 

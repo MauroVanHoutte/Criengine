@@ -32,7 +32,6 @@ public:
 
 	void SetTileOffset(float x, float y);
 
-
 protected:
 	Level* m_pLevel;
 	std::shared_ptr<cri::GameObject> m_Target;
@@ -50,6 +49,7 @@ private:
 	float m_JumpCounter;
 	glm::vec2 m_InitialJumpVelocity;
 	float m_Gravity;
+	
 
 	std::string m_JumpSoundName;
 	std::string m_FallSoundName;

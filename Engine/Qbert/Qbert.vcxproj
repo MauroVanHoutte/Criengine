@@ -180,6 +180,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BallJumperComponent.cpp" />
+    <ClCompile Include="BaseColliderComponent.cpp" />
     <ClCompile Include="BaseJumperComponent.cpp" />
     <ClCompile Include="CoilyJumperComponent.cpp" />
     <ClCompile Include="JumperComponent.cpp" />
@@ -208,6 +209,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BallJumperComponent.h" />
+    <ClInclude Include="BaseColliderComponent.h" />
     <ClInclude Include="BaseJumperComponent.h" />
     <ClInclude Include="CoilyJumperComponent.h" />
     <ClInclude Include="JumperComponent.h" />

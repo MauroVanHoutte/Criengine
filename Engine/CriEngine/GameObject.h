@@ -30,7 +30,7 @@ namespace cri
 			for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 			{
 				T* comp = dynamic_cast<T*>(*it);
-				if (comp != nullptr && comp->IsActive())
+				if (comp != nullptr)
 				{
 					return comp;
 				}

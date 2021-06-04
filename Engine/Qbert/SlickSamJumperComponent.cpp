@@ -54,5 +54,5 @@ void SlickSamJumperComponent::JumpedOff()
 
 void SlickSamJumperComponent::JumpedOn()
 {
-	m_Target->GetComponent<TileTextureComponent>()->JumpedOn();
+	m_Target->GetComponent<TileTextureComponent>()->SlickSamJumpedOn();
 }

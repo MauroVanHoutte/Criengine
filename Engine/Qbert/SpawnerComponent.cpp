@@ -11,6 +11,7 @@
 #include <Timer.h>
 #include "Qbert.h"
 #include "Level.h"	
+#include "BaseColliderComponent.h"
 
 
 SpawnerComponent::SpawnerComponent(cri::GameObject* pOwner, QbertGame* gameManager)
@@ -33,42 +34,50 @@ void SpawnerComponent::CreateGameObjects()
 		texture->SetHeight(30.f);
 		redBall->Deactivate();
 
+		new BaseColliderComponent(redBall.get(), 15.f, 15.f, Type::Enemy);
+
 		scene.Add(redBall);
 		m_RedBallVector.push_back(redBall.get());
 	}
 
 	auto slick = std::make_shared<cri::GameObject>();
-	new SlickSamJumperComponent(slick.get());
+	(new SlickSamJumperComponent(slick.get()))->AddObserver(m_GameManager);
 	auto slickTexture = new SingleRowAnimationComponent(slick.get(), 2, 6, cri::ResourceManager::GetInstance().LoadTexture("SlickSpriteSheet.png"));
 	slickTexture->SetWidth(30.f);
 	slickTexture->SetHeight(30.f);
+	new BaseColliderComponent(slick.get(), 15.f, 15.f, Type::SlickSam);
 	slick->Deactivate();
 	scene.Add(slick);
 	m_GreenCreatureVector.push_back(slick.get());
 
 	auto sam = std::make_shared<cri::GameObject>();
-	new SlickSamJumperComponent(sam.get());
+	(new SlickSamJumperComponent(sam.get()))->AddObserver(m_GameManager);
 	auto samTexture = new SingleRowAnimationComponent(sam.get(), 2, 6, cri::ResourceManager::GetInstance().LoadTexture("SamSpriteSheet.png"));
 	samTexture->SetWidth(30.f);
 	samTexture->SetHeight(30.f);
+	new BaseColliderComponent(sam.get(), 15.f, 15.f, Type::SlickSam);
 	sam->Deactivate();
 	scene.Add(sam);
 	m_GreenCreatureVector.push_back(sam.get());
 
 	auto ugg = std::make_shared<cri::GameObject>();
-	(new UggWrongwayJumperComponent(ugg.get()))->SetGoingRight(false);
+	auto uggJumper = new UggWrongwayJumperComponent(ugg.get());
+	uggJumper->SetGoingRight(false);
 	auto uggTexture = new SingleRowAnimationComponent(ugg.get(), 2, 4, cri::ResourceManager::GetInstance().LoadTexture("UggSpriteSheet.png"));
 	uggTexture->SetWidth(30.f);
 	uggTexture->SetHeight(30.f);
+	new BaseColliderComponent(ugg.get(), 15.f, 15.f, Type::Enemy);
 	ugg->Deactivate();
 	scene.Add(ugg);
 	m_PurpleCreatureVector.push_back(ugg.get());
 
 	auto wrongway = std::make_shared<cri::GameObject>();
-	(new UggWrongwayJumperComponent(wrongway.get()))->SetGoingRight(true);
+	auto wrongwayJumper = new UggWrongwayJumperComponent(wrongway.get());
+	wrongwayJumper->SetGoingRight(true);
 	auto wrongwayTexture = new SingleRowAnimationComponent(wrongway.get(), 2, 4, cri::ResourceManager::GetInstance().LoadTexture("WrongwaySpriteSheet.png"));
 	wrongwayTexture->SetWidth(30.f);
 	wrongwayTexture->SetHeight(30.f);
+	new BaseColliderComponent(wrongway.get(), 15.f, 15.f, Type::Enemy);
 	wrongway->Deactivate();
 	scene.Add(wrongway);
 	m_PurpleCreatureVector.push_back(wrongway.get());
@@ -135,14 +144,20 @@ void SpawnerComponent::ResetAll()
 {
 	for (auto gameObject : m_RedBallVector)
 	{
+		gameObject->GetComponent<SingleRowAnimationComponent>()->SetFrame(0);
 		gameObject->Deactivate();
 	}
 	for (auto gameObject : m_GreenCreatureVector)
 	{
+		gameObject->GetComponent<SingleRowAnimationComponent>()->SetFrame(0);
 		gameObject->Deactivate();
 	}
 	for (auto gameObject : m_PurpleCreatureVector)
 	{
+		gameObject->GetComponent<SingleRowAnimationComponent>()->SetFrame(0);
 		gameObject->Deactivate();
 	}
+	m_BallSpawnCounter = 0.f;
+	m_GreenSpawnCounter = 0.f;
+	m_PurpleSpawnCounter = 0.f;
 }

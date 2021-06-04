@@ -11,6 +11,7 @@ public:
 
 	void SetDifficulty(int difficulty);
 	void JumpedOn();
+	void SlickSamJumpedOn();
 
 	void Render() const override;
 	bool IsCorrect() const;

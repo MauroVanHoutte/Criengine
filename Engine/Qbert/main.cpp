@@ -14,7 +14,9 @@ int main()
 	QbertGame game{};
 	game.CreateLevelScene();
 	game.CreateMenuScene();
+
 	engine.Run();
+
 	game.Cleanup();
 	return 0;
 }	

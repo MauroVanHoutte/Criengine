@@ -43,14 +43,6 @@ void cri::CriEngine::Initialize()
 
 }
 
-/**
- * Code constructing the scene world starts here
- */
-void cri::CriEngine::LoadGame() const
-{
-
-}
-
 void cri::CriEngine::Cleanup()
 {
 	TextRenderer::GetInstance()->Cleanup();
@@ -64,12 +56,9 @@ void cri::CriEngine::Cleanup()
 
 void cri::CriEngine::Run()
 {
-	// tell the resource manager where he can find the game data
 	// load fonts in the textRenderer here
 	TextRenderer::GetInstance()->AddFont("CamingoCode.ttf", 12, { 255, 0, 0 });
 	
-	
-	LoadGame();
 
 	{
 		auto& renderer = Renderer::GetInstance();

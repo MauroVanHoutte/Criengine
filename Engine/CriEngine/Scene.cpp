@@ -40,37 +40,37 @@ void Scene::Add(const std::shared_ptr<SceneObject>& object)
 
 void Scene::Update()
 {
-	for(auto& object : m_Objects)
+	for(size_t i = 0;  i < m_Objects.size(); ++i)
 	{
-		if (object->IsActive())
-			object->Update();
+		if (m_Objects[i]->IsActive())
+			m_Objects[i]->Update();
 	}
 }
 
 void cri::Scene::FixedUpdate()
 {
-	for (auto& object : m_Objects)
+	for (size_t i = 0; i < m_Objects.size(); ++i)
 	{
-		if (object->IsActive())
-			object->FixedUpdate();
+		if (m_Objects[i]->IsActive())
+			m_Objects[i]->FixedUpdate();
 	}
 }
 
 void cri::Scene::LateUpdate()
 {
-	for (auto& object : m_Objects)
+	for (size_t i = 0; i < m_Objects.size(); ++i)
 	{
-		if (object->IsActive())
-			object->LateUpdate();
+		if (m_Objects[i]->IsActive())
+			m_Objects[i]->LateUpdate();
 	}
 }
 
 void Scene::Render() const
 {
-	for (const auto& object : m_Objects)
+	for (size_t i = 0; i < m_Objects.size(); ++i)
 	{
-		if (object->IsActive())
-			object->Render();
+		if (m_Objects[i]->IsActive())
+			m_Objects[i]->Render();
 	}
 }
 

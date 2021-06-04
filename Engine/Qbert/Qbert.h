@@ -35,7 +35,8 @@ private:
 	Level* m_pLevel = nullptr;
 	std::shared_ptr<cri::GameObject> m_QBert = nullptr;
 	std::shared_ptr<cri::GameObject> m_QBert2 = nullptr;
-	std::shared_ptr<cri::GameObject> m_Coily = nullptr;
+	std::shared_ptr<cri::GameObject> m_CoilyPlayer = nullptr;
+	std::shared_ptr<cri::GameObject> m_CoilyAI = nullptr;
 	std::shared_ptr<cri::GameObject> m_Spawner = nullptr;
 	int m_CurrentDifficulty;
 	std::string m_TileTexture;

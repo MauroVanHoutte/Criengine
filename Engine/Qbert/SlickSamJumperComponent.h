@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseJumperComponent.h"
+#include "Subject.h"
 
 class SlickSamJumperComponent : public BaseJumperComponent
 {

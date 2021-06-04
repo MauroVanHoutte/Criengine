@@ -6,7 +6,6 @@ namespace cri
 	{
 	public:
 		void Initialize();
-		void LoadGame() const;
 		void Cleanup();
 		void Run();
 	private:

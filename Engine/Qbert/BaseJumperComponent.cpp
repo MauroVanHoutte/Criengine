@@ -6,6 +6,7 @@
 #include "SingleRowAnimationComponent.h"
 #include "ServiceLocator.h"
 #include <iostream>
+#include "BaseColliderComponent.h"
 
 BaseJumperComponent::BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName)
 	: BaseComponent(pOwner)
@@ -44,7 +45,6 @@ void BaseJumperComponent::FixedUpdate()
 		m_pOwner->m_Transform.SetPosition(newX, newY, 0);
 		if (!m_IsJumping)
 		{
-			std::cout << m_pOwner->m_Transform.GetPosition().x << ", " << m_pOwner->m_Transform.GetPosition().y << std::endl;
 			if (m_Target)
 			{
 				JumpedOn();
@@ -92,19 +92,23 @@ void BaseJumperComponent::Jump(int colDir, int rowDir)
 		m_JumpDuration = m_JumpDurationTile;
 		m_JumpCounter = 0.f;
 		auto position = m_pOwner->m_Transform.GetPosition();
+
 		m_InitialJumpVelocity.x = (m_Target->m_Transform.GetPosition().x + m_TileOffset.x - position.x) / m_JumpDuration;
 		m_InitialJumpVelocity.y = -(-(m_Target->m_Transform.GetPosition().y + m_TileOffset.y - position.y) + 0.5f * m_Gravity * m_JumpDuration * m_JumpDuration) / m_JumpDuration;
+
 		m_JumpStartPos.x = position.x;
 		m_JumpStartPos.y = position.y;
 		m_Pos.x += newColDir;
 		m_Pos.y += rowDir;
 		m_IsJumping = true;
-		std::cout << m_Target->m_Transform.GetPosition().x << ", " << m_Target->m_Transform.GetPosition().y << std::endl;
 	}
 }
 
 void BaseJumperComponent::SetStartPos(Level* pLevel, int startRow, int startCol)
 {
+	auto collider = m_pOwner->GetComponent<BaseColliderComponent>();
+	if (collider)
+		collider->SetIsActive(true);
 	m_pLevel = pLevel;
 	m_Pos.x = startCol;
 	m_Pos.y = startRow;
@@ -131,8 +135,13 @@ void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
 	else
 	{
 		m_InitialJumpVelocity.y = -100.f;
-		OnJumpingOffUpwards();
+		cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToBack(m_pOwner);
 	}
+
+	auto collider = m_pOwner->GetComponent<BaseColliderComponent>();
+	if (collider)
+		collider->SetIsActive(false);
+
 	m_JumpCounter = 0.f;
 	auto position = m_pOwner->m_Transform.GetPosition();
 	m_JumpStartPos.x = position.x;

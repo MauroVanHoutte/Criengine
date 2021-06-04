@@ -16,11 +16,6 @@ void QbertJumperComponent::JumpedOff()
 	Notify(Event::QbertDeath);
 }
 
-void QbertJumperComponent::OnJumpingOffUpwards()
-{
-	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToBack(m_pOwner);
-}
-
 void QbertJumperComponent::HandleAnimation(int colDir, int rowDir)
 {
 	auto AnimationComp = m_pOwner->GetComponent<SingleRowAnimationComponent>();

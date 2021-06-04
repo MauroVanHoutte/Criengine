@@ -34,7 +34,7 @@ void SingleRowAnimationComponent::NextFrame()
 	}
 }
 
-void SingleRowAnimationComponent::SetNextFrame(int frame)
+void SingleRowAnimationComponent::SetFrame(int frame)
 {
 	assert(frame < m_NrFramesPerAnim);
 	m_CurrentFrame = frame;

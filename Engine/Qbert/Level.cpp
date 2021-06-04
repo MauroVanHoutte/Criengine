@@ -35,9 +35,13 @@ Level::Level(int height, int difficulty, int tileSize, float topX, float topY, c
 
 Level::~Level()
 {
-	for  (auto tile : m_Tiles)
+
+	for  (size_t i = 0; i < m_Tiles.size(); ++i)
 	{
-		tile->MarkForDeletion();
+		if (m_Tiles[i] != nullptr)
+		{
+			m_Tiles[i]->MarkForDeletion();
+		}
 	}
 }
 

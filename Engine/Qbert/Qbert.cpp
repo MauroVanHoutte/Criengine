@@ -25,6 +25,7 @@
 #include <document.h>
 #include <filereadstream.h>
 #include "SpawnerComponent.h"
+#include "BaseColliderComponent.h"
 
 QbertGame::QbertGame()
 	:m_CurrentDifficulty{1}
@@ -71,7 +72,7 @@ void QbertGame::Init()
 
 void QbertGame::Cleanup()
 {
-	if (m_pLevel)
+	if (m_pLevel != nullptr)
 	{
 		delete m_pLevel;
 	}
@@ -126,6 +127,8 @@ void QbertGame::CreateLevelScene()
 	qBertTextureComp->SetHeight(30.f);
 	qBertTextureComp->SetAnimation(2);
 
+	new BaseColliderComponent(m_QBert.get(), 15.f, 15.f, Type::Qbert);
+
 	auto qBertJumperComp = new QbertJumperComponent(m_QBert.get());
 	scene.Add(m_QBert);
 	qBertJumperComp->AddObserver(this);
@@ -164,6 +167,8 @@ void QbertGame::CreateLevelScene()
 	qBertTextureComp->SetHeight(30.f);
 	qBertTextureComp->SetAnimation(2);
 
+	new BaseColliderComponent(m_QBert2.get(), 15.f, 15.f, Type::Qbert);
+
 	qBertJumperComp = new QbertJumperComponent(m_QBert2.get());
 	scene.Add(m_QBert2);
 	qBertJumperComp->AddObserver(this);
@@ -194,27 +199,28 @@ void QbertGame::CreateLevelScene()
 
 
 	////////
-	//Coily
+	//Coily Player
 
-	m_Coily = std::make_shared<cri::GameObject>();
-	m_Coily->Deactivate();
+	m_CoilyPlayer = std::make_shared<cri::GameObject>();
+	m_CoilyPlayer->Deactivate();
 
-	auto coilyTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilySpriteSheet.png"));
+	auto coilyTextureComp = new SingleRowAnimationComponent(m_CoilyPlayer.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilySpriteSheet.png"));
 	coilyTextureComp->SetWidth(30.f);
 	coilyTextureComp->SetHeight(60.f);
 	coilyTextureComp->SetAnimation(2);
-	coilyTextureComp->m_RelativeTransform.SetPosition(0.f, -10.f, 0.f);
+	coilyTextureComp->SetDoRender(false);
 
-
-	auto coilyBallTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet.png"));
+	auto coilyBallTextureComp = new SingleRowAnimationComponent(m_CoilyPlayer.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet.png"));
 	coilyBallTextureComp->SetWidth(30.f);
 	coilyBallTextureComp->SetHeight(30.f);
 	coilyBallTextureComp->SetAnimation(0);
-	coilyBallTextureComp->SetIsActive(false);
 
-	auto coilyJumperComponent = new CoilyJumperComponent(m_Coily.get());
+	new BaseColliderComponent(m_CoilyPlayer.get(), 15.f, 15.f, Type::Enemy);
 
-	scene.Add(m_Coily);
+	auto coilyJumperComponent = new CoilyJumperComponent(m_CoilyPlayer.get());
+	coilyJumperComponent->SetIsPlayerControlled(true);
+
+	scene.Add(m_CoilyPlayer);
 
 	jumpUpLeftCommand = std::make_shared<JumpCommand>(-1, -1);
 	jumpUpLeftCommand->Bind(coilyJumperComponent);
@@ -239,6 +245,31 @@ void QbertGame::CreateLevelScene()
 
 	cri::InputManager::GetInstance().AddKeyboardCommand(sceneIdx, cri::ButtonState::Down, SDL_Scancode::SDL_SCANCODE_D, jumpDownRightCommand);
 	cri::InputManager::GetInstance().AddControllerJoystickCommand(1, sceneIdx, 10000, cri::Joystick::Left, cri::JoystickDirection::DownRight, jumpDownRightCommand);
+
+	/////////
+	//Coily Ai
+
+	m_CoilyAI = std::make_shared<cri::GameObject>();
+	m_CoilyAI->Deactivate();
+
+	coilyTextureComp = new SingleRowAnimationComponent(m_CoilyAI.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilySpriteSheet.png"));
+	coilyTextureComp->SetWidth(30.f);
+	coilyTextureComp->SetHeight(60.f);
+	coilyTextureComp->SetAnimation(2);
+	coilyTextureComp->SetDoRender(false);
+
+	coilyBallTextureComp = new SingleRowAnimationComponent(m_CoilyAI.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet.png"));
+	coilyBallTextureComp->SetWidth(30.f);
+	coilyBallTextureComp->SetHeight(30.f);
+	coilyBallTextureComp->SetAnimation(0);
+
+
+	new BaseColliderComponent(m_CoilyAI.get(), 15.f, 15.f, Type::Enemy);
+
+	coilyJumperComponent = new CoilyJumperComponent(m_CoilyAI.get());
+	coilyJumperComponent->SetIsPlayerControlled(false);
+
+	scene.Add(m_CoilyAI);
 
 	////////
 	//Spawner
@@ -275,13 +306,17 @@ void QbertGame::SetupLevelSinglePlayer()
 	m_QBert->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
 	m_QBert->Activate();
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
+
 	m_QBert2->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size - 1, 0);
 	m_QBert2->Deactivate();
-	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert2.get());
-	m_Coily->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
-	m_Coily->Deactivate();
-	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_Coily.get());
 
+
+	m_CoilyPlayer->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_CoilyPlayer->Deactivate();
+
+	//m_CoilyAI->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_CoilyAI->Activate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_CoilyAI.get());
 }
 
 void QbertGame::SetupLevelCoop()
@@ -299,12 +334,17 @@ void QbertGame::SetupLevelCoop()
 	m_QBert->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size-1, m_Size-1);
 	m_QBert->Activate();
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
+
 	m_QBert2->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size - 1, 0);
 	m_QBert2->Activate();
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert2.get());
-	m_Coily->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
-	m_Coily->Deactivate();
-	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_Coily.get());
+
+	m_CoilyPlayer->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_CoilyPlayer->Deactivate();
+
+	m_CoilyAI->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size - 1, 0);
+	m_CoilyAI->Activate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_CoilyAI.get());
 }
 
 void QbertGame::SetupLevelVersus()
@@ -322,12 +362,16 @@ void QbertGame::SetupLevelVersus()
 	m_QBert->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
 	m_QBert->Activate();
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert.get());
+
 	m_QBert2->GetComponent<QbertJumperComponent>()->SetStartPos(m_pLevel, m_Size - 1, 0);
 	m_QBert2->Deactivate();
-	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_QBert2.get());
-	m_Coily->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
-	m_Coily->Activate();
-	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_Coily.get());
+
+	m_CoilyPlayer->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_CoilyPlayer->Activate();
+	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_CoilyPlayer.get());
+
+	m_CoilyAI->GetComponent<CoilyJumperComponent>()->SetStartPos(m_pLevel, 0, 0);
+	m_CoilyAI->Deactivate();
 }
 
 Level* QbertGame::GetLevel()
@@ -344,9 +388,8 @@ void QbertGame::OnNotify(Event event)
 		if (m_CurrentLives == 0)
 		{
 			delete m_pLevel;
+			m_pLevel = nullptr;
 			cri::SceneManager::GetInstance().NextScene();
-			m_QBert->Deactivate();
-			m_QBert2->Deactivate();
 			m_Spawner->GetComponent<SpawnerComponent>()->ResetAll();
 		}
 		break;
@@ -375,6 +418,7 @@ void QbertGame::OnNotify(Event event)
 		{
 			++m_CurrentDifficulty;
 			delete m_pLevel;
+			m_pLevel = nullptr;
 			switch (m_SelectedGameMode)
 			{
 			case GameMode::SinglePlayer:
@@ -389,6 +433,7 @@ void QbertGame::OnNotify(Event event)
 			default:
 				break;
 			}
+			m_Spawner->GetComponent<SpawnerComponent>()->ResetAll();
 		}
 		break;
 	default:

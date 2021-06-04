@@ -8,7 +8,6 @@ public:
 	QbertJumperComponent() = delete;
 
 	void JumpedOff() override;
-	void OnJumpingOffUpwards() override;
 
 	void HandleAnimation(int colDir, int rowDir) override;
 

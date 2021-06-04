@@ -23,6 +23,12 @@ void TileTextureComponent::JumpedOn()
 	{
 		Notify(Event::TileJumpedOn);
 	}
+	
+}
+
+void TileTextureComponent::SlickSamJumpedOn()
+{
+	m_TimesJumpedOn = 0;
 }
 
 void TileTextureComponent::Render() const

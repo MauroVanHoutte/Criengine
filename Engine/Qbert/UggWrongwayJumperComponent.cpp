@@ -42,16 +42,16 @@ void UggWrongwayJumperComponent::JumpedOff()
 	m_pOwner->Deactivate();
 }
 
-void UggWrongwayJumperComponent::HandleAnimation(int colDir, int )
+void UggWrongwayJumperComponent::HandleAnimation(int, int rowDir)
 {
 	auto AnimationComp = m_pOwner->GetComponent<SingleRowAnimationComponent>();
-	if (colDir > 0)
-	{
-		AnimationComp->SetAnimation(0);
-	}
-	if (colDir < 0)
+	if (rowDir == 0)
 	{
 		AnimationComp->SetAnimation(1);
+	}
+	if (rowDir < 0)
+	{
+		AnimationComp->SetAnimation(0);
 	}
 
 	AnimationComp->NextFrame();

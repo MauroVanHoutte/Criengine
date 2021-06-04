@@ -87,6 +87,9 @@
     <ClCompile Include="UggWrongwayJumperComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="BaseColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
@@ -147,6 +150,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="UggWrongwayJumperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseColliderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
