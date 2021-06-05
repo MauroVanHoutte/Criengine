@@ -50,7 +50,11 @@ void BaseJumperComponent::FixedUpdate()
 				JumpedOn();
 			}
 
-			m_pOwner->GetComponent<SingleRowAnimationComponent>()->NextFrame();
+			auto AnimationComps = m_pOwner->GetComponents<SingleRowAnimationComponent>();
+			for (auto comp : AnimationComps)
+			{
+				comp->NextFrame();
+			}
 			if (m_JumpDuration > m_JumpDurationTile)
 			{
 				JumpedOff();
@@ -125,8 +129,21 @@ void BaseJumperComponent::SetTileOffset(float x, float y)
 	m_TileOffset.y = y;
 }
 
+glm::ivec2 BaseJumperComponent::GetPos() const
+{
+	return m_Pos;
+}
+
 void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
 {
+	m_IsJumping = true;
+	OnJumpingOff();
+
+	if (!m_IsJumping)
+	{
+		return;
+	}
+
 	m_InitialJumpVelocity.x = colDir * 30.f;
 	if (rowDir > 0)
 	{
@@ -148,7 +165,6 @@ void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
 	m_JumpStartPos.y = position.y;
 	m_Pos.x += colDir;
 	m_Pos.y += rowDir;
-	m_IsJumping = true;
 	m_JumpDuration = m_JumpDurationOffMap;
 	
 }

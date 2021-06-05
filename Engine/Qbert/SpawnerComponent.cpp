@@ -12,6 +12,7 @@
 #include "Qbert.h"
 #include "Level.h"	
 #include "BaseColliderComponent.h"
+#include "CoilyJumperComponent.h"	
 
 
 SpawnerComponent::SpawnerComponent(cri::GameObject* pOwner, QbertGame* gameManager)
@@ -82,6 +83,31 @@ void SpawnerComponent::CreateGameObjects()
 	scene.Add(wrongway);
 	m_PurpleCreatureVector.push_back(wrongway.get());
 
+
+	m_Coily = std::make_shared<cri::GameObject>();
+	m_Coily->Deactivate();
+
+	auto coilyTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilySpriteSheet.png"));
+	coilyTextureComp->SetWidth(30.f);
+	coilyTextureComp->SetHeight(60.f);
+	coilyTextureComp->m_RelativeTransform.SetPosition(0, -10, 0);
+	coilyTextureComp->SetAnimation(2);
+	coilyTextureComp->SetDoRender(false);
+
+	auto coilyBallTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 1, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilyBallSpriteSheet.png"));
+	coilyBallTextureComp->SetWidth(30.f);
+	coilyBallTextureComp->SetHeight(30.f);
+	coilyBallTextureComp->SetAnimation(0);
+
+
+	new BaseColliderComponent(m_Coily.get(), 15.f, 15.f, Type::Enemy);
+
+	auto coilyJumperComponent = new CoilyJumperComponent(m_Coily.get(), m_GameManager->GetQbert1(), m_GameManager->GetQbert2());
+	coilyJumperComponent->SetIsPlayerControlled(false);
+
+	scene.Add(m_Coily);
+
+
 }
 
 void SpawnerComponent::Update()
@@ -90,6 +116,7 @@ void SpawnerComponent::Update()
 	m_BallSpawnCounter += deltaTime;
 	m_GreenSpawnCounter += deltaTime;
 	m_PurpleSpawnCounter += deltaTime;
+	m_CoilySpawnCounter += deltaTime;
 
 
 	if (m_BallSpawnCounter > m_BallSpawnInterval)
@@ -106,6 +133,10 @@ void SpawnerComponent::Update()
 	{
 		SpawnPurpleCreature();
 		m_PurpleSpawnCounter -= m_PurpleSpawnInterval;
+	}
+	if (m_CoilySpawnCounter > m_CoilySpawnDelay)
+	{
+		SpawnCoily();
 	}
 }
 
@@ -140,6 +171,17 @@ void SpawnerComponent::SpawnPurpleCreature()
 	}
 }
 
+void SpawnerComponent::SpawnCoily()
+{
+	if (m_Coily->IsActive())
+	{
+		return;
+	}
+	auto jumperComp = m_Coily->GetComponent<CoilyJumperComponent>();
+	m_Coily->Activate();
+	jumperComp->SetStartPos(m_GameManager->GetLevel(), 1, std::rand() % 2);
+}
+
 void SpawnerComponent::ResetAll()
 {
 	for (auto gameObject : m_RedBallVector)
@@ -157,7 +199,13 @@ void SpawnerComponent::ResetAll()
 		gameObject->GetComponent<SingleRowAnimationComponent>()->SetFrame(0);
 		gameObject->Deactivate();
 	}
+
+	m_Coily->Deactivate();
+	m_Coily->GetComponent<SingleRowAnimationComponent>()->SetFrame(0);
+	m_Coily->GetComponent<CoilyJumperComponent>()->SetIsEgg(true);
+
 	m_BallSpawnCounter = 0.f;
 	m_GreenSpawnCounter = 0.f;
 	m_PurpleSpawnCounter = 0.f;
+	m_CoilySpawnCounter = 0.f;
 }

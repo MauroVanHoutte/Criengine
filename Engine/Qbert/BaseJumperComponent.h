@@ -23,6 +23,7 @@ public:
 
 	virtual void JumpedOff() {};
 	virtual void OnJumpingOffUpwards() {};
+	virtual void OnJumpingOff() {};
 
 	virtual void HandleAnimation(int , int ) {};
 
@@ -31,6 +32,8 @@ public:
 	virtual void JumpedOn() {};
 
 	void SetTileOffset(float x, float y);
+
+	glm::ivec2 GetPos() const;
 
 protected:
 	Level* m_pLevel;

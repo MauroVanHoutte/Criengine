@@ -38,6 +38,21 @@ namespace cri
 			return nullptr;
 		}
 
+		template<typename T>
+		std::vector<T*> GetComponents()
+		{
+			std::vector<T*> TComponents;
+			for (auto it = m_Components.begin(); it != m_Components.end(); it++)
+			{
+				T* comp = dynamic_cast<T*>(*it);
+				if (comp != nullptr)
+				{
+					TComponents.push_back(comp);
+				}
+			}
+			return TComponents;
+		}
+
 
 		GameObject() = default;
 		virtual ~GameObject();

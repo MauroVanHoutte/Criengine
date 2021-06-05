@@ -8,6 +8,7 @@
 
 int main()
 {
+
 	cri::CriEngine engine{};
 	engine.Initialize();
 	

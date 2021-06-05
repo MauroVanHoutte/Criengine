@@ -24,32 +24,32 @@ void cri::InputManager::ProcessInput()
 	int currentScene = cri::SceneManager::GetInstance().GetCurrentSceneIdx();
 
 
-	for (auto it = m_KeyboardCommands.begin(); it != m_KeyboardCommands.end(); it++)
+	for (size_t i = 0; i < m_KeyboardCommands.size(); i++)
 	{
-		if (it->Scene != currentScene)
+		if (m_KeyboardCommands[i].Scene != currentScene)
 		{
 			continue;
 		}
-		switch (it->ButtonState)
+		switch (m_KeyboardCommands[i].ButtonState)
 		{
 		case ButtonState::Down:
-			if (keyboardState[it->Button])
+			if (keyboardState[m_KeyboardCommands[i].Button])
 			{
-				it->pCommand->Execute();
+				m_KeyboardCommands[i].pCommand->Execute();
 			}
 			break;
 
 		case ButtonState::OnPressed:
-			if (keyboardState[it->Button] && !m_KeyboardSatePreviousFrame[it->Button])
+			if (keyboardState[m_KeyboardCommands[i].Button] && !m_KeyboardSatePreviousFrame[m_KeyboardCommands[i].Button])
 			{
-				it->pCommand->Execute();
+				m_KeyboardCommands[i].pCommand->Execute();
 			}
 			break;
 
 		case ButtonState::OnRelease:
-			if (!keyboardState[it->Button] && m_KeyboardSatePreviousFrame[it->Button])
+			if (!keyboardState[m_KeyboardCommands[i].Button] && m_KeyboardSatePreviousFrame[m_KeyboardCommands[i].Button])
 			{
-				it->pCommand->Execute();
+				m_KeyboardCommands[i].pCommand->Execute();
 			}
 			break;
 		}
@@ -61,144 +61,144 @@ void cri::InputManager::ProcessInput()
 		XInputGetState(i, &controllerState);
 
 
-		for (auto it = m_ControllerButtonCommands.begin(); it != m_ControllerButtonCommands.end(); it++)
+		for (size_t j = 0; j < m_ControllerButtonCommands.size(); j++)
 		{
-			if (it->Scene != currentScene)
+			if (m_ControllerButtonCommands[j].Scene != currentScene)
 			{
 				continue;
 			}
-			if (int(it->ControllerId) == i)
+			if (int(m_ControllerButtonCommands[j].ControllerId) == i)
 			{
-				switch (it->ButtonState)
+				switch (m_ControllerButtonCommands[j].ButtonState)
 				{
 				case ButtonState::Down:
-					if (controllerState.Gamepad.wButtons & WORD(it->Button))
+					if (controllerState.Gamepad.wButtons & WORD(m_ControllerButtonCommands[j].Button))
 					{
-						it->pCommand->Execute();
+						m_ControllerButtonCommands[j].pCommand->Execute();
 					}
 					break;
 
 				case ButtonState::OnPressed:
-					if (controllerState.Gamepad.wButtons & WORD(it->Button) && !(m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->Button)))
+					if (controllerState.Gamepad.wButtons & WORD(m_ControllerButtonCommands[j].Button) && !(m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(m_ControllerButtonCommands[j].Button)))
 					{
-						it->pCommand->Execute();
+						m_ControllerButtonCommands[j].pCommand->Execute();
 					}
 					break;
 
 				case ButtonState::OnRelease:
-					if (m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(it->Button) && !(controllerState.Gamepad.wButtons & WORD(it->Button)))
+					if (m_ControllerStatesPreviousFrame[i].Gamepad.wButtons & WORD(m_ControllerButtonCommands[j].Button) && !(controllerState.Gamepad.wButtons & WORD(m_ControllerButtonCommands[j].Button)))
 					{
-						it->pCommand->Execute();
+						m_ControllerButtonCommands[j].pCommand->Execute();
 					}
 					break;
 				}
 			}
 		}
 
-		for (auto it = m_ControllerJoystickCommands.begin(); it != m_ControllerJoystickCommands.end(); it++)
+		for (size_t j = 0; j < m_ControllerJoystickCommands.size(); j++)
 		{
-			if (it->Scene != currentScene)
+			if (m_ControllerJoystickCommands[j].Scene != currentScene)
 			{
 				continue;
 			}
-			if (int(it->ControllerId) == i)
+			if (int(m_ControllerJoystickCommands[j].ControllerId) == i)
 			{
-				switch (it->Direction)
+				switch (m_ControllerJoystickCommands[j].Direction)
 				{
 				case JoystickDirection::Left:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLX < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLX < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRX < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRX < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::UpLeft:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLX < -it->Deadzone && controllerState.Gamepad.sThumbLY > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLX < -m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbLY > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRX < -it->Deadzone && controllerState.Gamepad.sThumbRY > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRX < -m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbRY > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::Up:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLY > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLY > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRY > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRY > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::UpRight:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLX > it->Deadzone && controllerState.Gamepad.sThumbLY > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLX > m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbLY > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRX > it->Deadzone && controllerState.Gamepad.sThumbRY > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRX > m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbRY > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::Right:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLX > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLX > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRX > it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRX > m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::DownRight:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLX > it->Deadzone && controllerState.Gamepad.sThumbLY < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLX > m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbLY < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRX > it->Deadzone && controllerState.Gamepad.sThumbRY < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRX > m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbRY < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::Down:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLY < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLY < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRY < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRY < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				case JoystickDirection::DownLeft:
-					if (it->Joystick == Joystick::Left)
+					if (m_ControllerJoystickCommands[j].Joystick == Joystick::Left)
 					{
-						if (controllerState.Gamepad.sThumbLX < -it->Deadzone && controllerState.Gamepad.sThumbLY < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbLX < -m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbLY < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					else
 					{
-						if (controllerState.Gamepad.sThumbRX < -it->Deadzone && controllerState.Gamepad.sThumbRY < -it->Deadzone)
-							it->pCommand->Execute();
+						if (controllerState.Gamepad.sThumbRX < -m_ControllerJoystickCommands[j].Deadzone && controllerState.Gamepad.sThumbRY < -m_ControllerJoystickCommands[j].Deadzone)
+							m_ControllerJoystickCommands[j].pCommand->Execute();
 					}
 					break;
 				default:

@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include <memory>
 class QbertGame;
 class SpawnerComponent : public BaseComponent
 {
@@ -13,6 +14,7 @@ public:
 	void SpawnBall();
 	void SpawnGreenCreature();
 	void SpawnPurpleCreature();
+	void SpawnCoily();
 
 	void ResetAll();
 
@@ -20,6 +22,7 @@ private:
 	std::vector<cri::GameObject*> m_RedBallVector;
 	std::vector<cri::GameObject*> m_PurpleCreatureVector;
 	std::vector<cri::GameObject*> m_GreenCreatureVector;
+	std::shared_ptr<cri::GameObject> m_Coily;
 
 	float m_BallSpawnInterval = 2.5f;
 	float m_BallSpawnCounter = 0.f;
@@ -29,6 +32,9 @@ private:
 
 	float m_PurpleSpawnInterval = 7.f;
 	float m_PurpleSpawnCounter = 0.f;
+
+	float m_CoilySpawnDelay = 1.f;
+	float m_CoilySpawnCounter = 0.f;
 
 	QbertGame* m_GameManager;
 };

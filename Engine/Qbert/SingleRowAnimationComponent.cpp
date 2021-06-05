@@ -15,6 +15,10 @@ SingleRowAnimationComponent::SingleRowAnimationComponent(cri::GameObject* owner,
 
 void SingleRowAnimationComponent::Render() const
 {
+	if (!m_DoRender)
+	{
+		return;
+	}
 	SDL_Rect srcRect;
 	int fullWidth;
 	SDL_QueryTexture(GetTexture()->GetSDLTexture(), nullptr, nullptr, &fullWidth, &srcRect.h );
