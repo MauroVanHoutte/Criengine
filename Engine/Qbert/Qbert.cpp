@@ -18,7 +18,6 @@
 #include "MenuUpCommand.h"
 #include "MenuDownCommand.h"
 #include "MenuButtonClickCommand.h"
-#include "TestCommand.h"
 #include <rapidjson.h>
 #include <document.h>
 #include <filereadstream.h>
