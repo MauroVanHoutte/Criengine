@@ -1,7 +1,9 @@
 #pragma once
-#include "Observer.h"
+#include <Observer.h>
+#include <Subject.h>
 #include <memory>
 #include <GameObject.h>
+
 
 enum class GameMode
 {
@@ -11,7 +13,7 @@ enum class GameMode
 };
 
 class Level;
-class QbertGame : public Observer
+class QbertGame : public Observer, public Subject
 {
 public:
 	QbertGame();
@@ -38,7 +40,6 @@ private:
 	Level* m_pLevel = nullptr;
 	std::shared_ptr<cri::GameObject> m_QBert = nullptr;
 	std::shared_ptr<cri::GameObject> m_QBert2 = nullptr;
-	std::shared_ptr<cri::GameObject> m_CoilyPlayer = nullptr;
 	std::shared_ptr<cri::GameObject> m_Spawner = nullptr;
 	int m_CurrentDifficulty;
 	std::string m_TileTexture;

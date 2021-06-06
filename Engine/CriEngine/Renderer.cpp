@@ -53,8 +53,8 @@ void cri::Renderer::Render() const
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
-	bool showDemo{ true };
-	ImGui::ShowDemoWindow(&showDemo);
+	/*bool showDemo{ false };
+	ImGui::ShowDemoWindow(&showDemo);*/
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 

@@ -3,7 +3,7 @@
 #include "SingleRowAnimationComponent.h"
 
 UggWrongwayJumperComponent::UggWrongwayJumperComponent(cri::GameObject* owner)
-	: BaseJumperComponent(owner, 0.9f, "", "")
+	: BaseJumperComponent(owner, 0.9f, "jump4.wav", "", false)
 {
 }
 

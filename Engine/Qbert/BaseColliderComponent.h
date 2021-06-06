@@ -2,6 +2,7 @@
 #include <BaseComponent.h>
 #include <vector>
 #include <glm/vec2.hpp>
+#include <Subject.h>
 
 enum class Type 
 {
@@ -11,7 +12,7 @@ enum class Type
 	Qbert
 };
 
-class BaseColliderComponent : public BaseComponent
+class BaseColliderComponent : public BaseComponent, public Subject
 {
 public:
 	BaseColliderComponent(cri::GameObject* owner, float width, float height, Type type);

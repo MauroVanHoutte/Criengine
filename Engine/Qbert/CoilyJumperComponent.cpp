@@ -13,7 +13,7 @@ template <typename T> int sgn(T val) { //https://stackoverflow.com/questions/190
 
 
 CoilyJumperComponent::CoilyJumperComponent(cri::GameObject* owner, std::shared_ptr<cri::GameObject> qbert1, std::shared_ptr<cri::GameObject> qbert2)
-	: BaseJumperComponent(owner, 0.8f, "jumpCoily.wav", "")
+	: BaseJumperComponent(owner, 0.8f, "jumpCoily.wav", "fallCoily.wav", false)
 	, m_Qbert1{qbert1}
 	, m_Qbert2{qbert2}
 {
@@ -93,7 +93,8 @@ void CoilyJumperComponent::HandleAnimation(int colDir, int rowDir)
 
 void CoilyJumperComponent::JumpedOff()
 {
-	SetStartPos(m_pLevel, 0, 0);
+	m_pOwner->Deactivate();
+
 }
 
 void CoilyJumperComponent::OnJumpingOff()
@@ -106,6 +107,10 @@ void CoilyJumperComponent::OnJumpingOff()
 		{
 			ConnectJumpCommands();
 		}
+	}
+	else
+	{
+		Notify(Event::CoilyDeath);
 	}
 }
 
@@ -172,7 +177,7 @@ void CoilyJumperComponent::JumpToClosestQbert()
 		distance1.y = sgn(distance1.y);
 		if (distance1.y == 0)
 		{
-			if (m_pLevel->GetTile(distance1.x, GetPos().y + 1) == nullptr)
+			if (m_pLevel->GetTile(distance1.x, GetPos().y + 1, m_CanUseDisk) == nullptr)
 				distance1.y = -1;
 			else
 				distance1.y = 1;
@@ -185,7 +190,7 @@ void CoilyJumperComponent::JumpToClosestQbert()
 	auto jumperQbert2 = m_Qbert2->GetComponent<QbertJumperComponent>();
 	glm::ivec2 distance2 = jumperQbert2->GetPos() - GetPos();
 
-	if (distance1.x + distance1.y < distance2.x + distance2.y)
+	if (abs(distance1.x) + abs(distance1.y) < abs(distance2.x) + abs(distance2.y))
 	{
 		distance1.x = sgn(distance1.x);
 		if (distance1.x == 0)
@@ -199,7 +204,7 @@ void CoilyJumperComponent::JumpToClosestQbert()
 		distance1.y = sgn(distance1.y);
 		if (distance1.y == 0)
 		{
-			if (m_pLevel->GetTile(distance1.x, GetPos().y + 1) == nullptr)
+			if (m_pLevel->GetTile(distance1.x, GetPos().y + 1, m_CanUseDisk) == nullptr)
 				distance1.y = -1;
 			else
 				distance1.y = 1;
@@ -222,7 +227,7 @@ void CoilyJumperComponent::JumpToClosestQbert()
 		distance2.y = sgn(distance2.y);
 		if (distance2.y == 0)
 		{
-			if (m_pLevel->GetTile(distance2.x, GetPos().y + 1) == nullptr)
+			if (m_pLevel->GetTile(distance2.x, GetPos().y + 1, m_CanUseDisk) == nullptr)
 				distance2.y = -1;
 			else
 				distance2.y = 1;

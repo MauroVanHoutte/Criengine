@@ -30,20 +30,11 @@
     <ClCompile Include="Qbert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QbertScoreComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertHealthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="TileTextureComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="JumperComponent.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="JumpCommand.cpp">
       <Filter>Commands</Filter>
@@ -90,24 +81,24 @@
     <ClCompile Include="BaseColliderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="DiskComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreCounter.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthCounter.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Qbert.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="QbertScoreComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertHealthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="TileTextureComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="JumperComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="JumpCommand.h">
@@ -153,6 +144,15 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="BaseColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreCounter.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthCounter.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,8 +7,9 @@
 #include "ServiceLocator.h"
 #include <iostream>
 #include "BaseColliderComponent.h"
+#include "DiskComponent.h"
 
-BaseJumperComponent::BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName)
+BaseJumperComponent::BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName, bool canUseDisk)
 	: BaseComponent(pOwner)
 	, m_pLevel{ nullptr }
 	, m_Pos{ 0, 0 }
@@ -23,12 +24,17 @@ BaseJumperComponent::BaseJumperComponent(cri::GameObject* pOwner, float jumpDura
 	, m_Gravity{ 280.f }
 	, m_JumpSoundName{ jumpSoundName }
 	, m_FallSoundName{ fallSoundName }
+	, m_CanUseDisk{canUseDisk}
 {
 }
 
 void BaseJumperComponent::FixedUpdate()
 {
-	if (m_IsJumping)
+	if (m_IsOnDisk)
+	{
+		m_pOwner->m_Transform.SetPosition(m_Target->m_Transform.GetPosition().x + m_TileOffset.x, m_Target->m_Transform.GetPosition().y + m_TileOffset.y);
+	}
+	else if (m_IsJumping)
 	{
 		float deltaTime = Timer::GetInstance()->GetStepTime();
 		m_JumpCounter += deltaTime;
@@ -42,7 +48,7 @@ void BaseJumperComponent::FixedUpdate()
 
 		float newX = m_JumpStartPos.x + m_JumpCounter * m_InitialJumpVelocity.x;
 		float newY = m_JumpStartPos.y + m_JumpCounter * m_InitialJumpVelocity.y + 0.5f * m_Gravity * m_JumpCounter * m_JumpCounter;
-		m_pOwner->m_Transform.SetPosition(newX, newY, 0);
+		m_pOwner->m_Transform.SetPosition(newX, newY);
 		if (!m_IsJumping)
 		{
 			if (m_Target)
@@ -61,11 +67,13 @@ void BaseJumperComponent::FixedUpdate()
 			}
 		}
 	}
+
+
 }
 
 void BaseJumperComponent::Jump(int colDir, int rowDir)
 {
-	if (m_IsJumping)
+	if (m_IsJumping || m_IsOnDisk)
 	{
 		return;
 	}
@@ -84,10 +92,9 @@ void BaseJumperComponent::Jump(int colDir, int rowDir)
 
 	HandleAnimation(colDir, rowDir);
 
-	m_Target = m_pLevel->GetTile(m_Pos.x + newColDir, m_Pos.y + rowDir);
+	m_Target = m_pLevel->GetTile(m_Pos.x + newColDir, m_Pos.y + rowDir, m_CanUseDisk);
 	if (m_Target == nullptr)
 	{
-		ServiceLocator::GetSoundSystem()->Play(m_FallSoundName, 0, 5);
 		JumpOffMap(colDir, rowDir);
 	}
 	else
@@ -116,9 +123,9 @@ void BaseJumperComponent::SetStartPos(Level* pLevel, int startRow, int startCol)
 	m_pLevel = pLevel;
 	m_Pos.x = startCol;
 	m_Pos.y = startRow;
-	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y);
+	auto startTile = m_pLevel->GetTile(m_Pos.x, m_Pos.y, m_CanUseDisk);
 	cri::SceneManager::GetInstance().GetCurrentScene().MoveObjectToFront(m_pOwner);
-	m_pOwner->m_Transform.SetPosition(startTile->m_Transform.GetPosition().x + m_TileOffset.x, startTile->m_Transform.GetPosition().y + m_TileOffset.y, 0);
+	m_pOwner->m_Transform.SetPosition(startTile->m_Transform.GetPosition().x + m_TileOffset.x, startTile->m_Transform.GetPosition().y + m_TileOffset.y);
 	HandleStartPos();
 	m_IsJumping = false;
 }
@@ -134,6 +141,17 @@ glm::ivec2 BaseJumperComponent::GetPos() const
 	return m_Pos;
 }
 
+void BaseJumperComponent::SetPos(int coordX, int coordY)
+{
+	m_Pos.x = coordX;
+	m_Pos.y = coordY;
+}
+
+void BaseJumperComponent::SetIsOnDisk(bool isOnDisk)
+{
+	m_IsOnDisk = isOnDisk;
+}
+
 void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
 {
 	m_IsJumping = true;
@@ -143,6 +161,8 @@ void BaseJumperComponent::JumpOffMap(int colDir, int rowDir)
 	{
 		return;
 	}
+
+	ServiceLocator::GetSoundSystem()->Play(m_FallSoundName, 0, 5);
 
 	m_InitialJumpVelocity.x = colDir * 30.f;
 	if (rowDir > 0)

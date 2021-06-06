@@ -113,17 +113,11 @@
     <ClInclude Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="HealthCounter.h">
-      <Filter>ComponentSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Observer&amp;Subject</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Observer&amp;Subject</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreCounter.h">
-      <Filter>ComponentSystem</Filter>
     </ClInclude>
     <ClInclude Include="SoundSystem.h">
       <Filter>AudioService</Filter>
@@ -213,12 +207,6 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-master\backends\imgui_impl_sdl.cpp">
       <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthCounter.cpp">
-      <Filter>ComponentSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreCounter.cpp">
-      <Filter>ComponentSystem</Filter>
     </ClCompile>
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>ServiceLocator</Filter>

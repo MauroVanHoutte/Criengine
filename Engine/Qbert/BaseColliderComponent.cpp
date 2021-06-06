@@ -61,9 +61,10 @@ void BaseColliderComponent::QbertCheckOverlap()
 			{
 			case Type::SlickSam:
 				m_Colliders[i]->m_pOwner->Deactivate();
+				Notify(Event::SlickSamCaught);
 				break;
 			case Type::Enemy:
-				m_pOwner->GetComponent<QbertJumperComponent>()->JumpedOff(); //coily bug 
+				m_pOwner->GetComponent<QbertJumperComponent>()->JumpedOff();
 				break;
 			case Type::GreenBall:
 				break;

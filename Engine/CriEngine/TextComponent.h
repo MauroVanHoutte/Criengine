@@ -6,17 +6,18 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <string>
+#include <glm/vec3.hpp>
 
 
 
 class TextComponent : public BaseComponent
 {
 public:
-	TextComponent(cri::GameObject* owner, const std::string& text, const std::string& font, int fontSize, const glm::vec3& pos, const glm::vec3& color);
+	TextComponent(cri::GameObject* owner, const std::string& text, const std::string& font, int fontSize, const glm::vec2& pos, const glm::vec3& color);
 	virtual ~TextComponent();
 
-	void SetPosition(const glm::vec3& pos);
-	const glm::vec3& GetPosition() const;
+	void SetPosition(const glm::vec2& pos);
+	const glm::vec2& GetPosition() const;
 
 	void SetText(const std::string& text);
 	void SetColor(const glm::vec3& color);

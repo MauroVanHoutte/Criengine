@@ -11,6 +11,10 @@ public:
 
 	void Update() override;
 
+	void SetCoilyPlayerController(bool playerControlled);
+
+	void SetDifficulty(int difficulty);
+
 	void SpawnBall();
 	void SpawnGreenCreature();
 	void SpawnPurpleCreature();
@@ -24,7 +28,7 @@ private:
 	std::vector<cri::GameObject*> m_GreenCreatureVector;
 	std::shared_ptr<cri::GameObject> m_Coily;
 
-	float m_BallSpawnInterval = 2.5f;
+	float m_BallSpawnInterval = 4.f;
 	float m_BallSpawnCounter = 0.f;
 
 	float m_GreenSpawnInerval = 7.f;
@@ -37,4 +41,6 @@ private:
 	float m_CoilySpawnCounter = 0.f;
 
 	QbertGame* m_GameManager;
+
+	int m_Difficulty;
 };

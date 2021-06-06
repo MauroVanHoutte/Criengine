@@ -3,9 +3,10 @@
 #include "TileTextureComponent.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "DiskComponent.h"
 
 QbertJumperComponent::QbertJumperComponent(cri::GameObject* pOwner)
-	: BaseJumperComponent(pOwner, 0.7f, "jumpQbert.wav", "fallQbert.wav")
+	: BaseJumperComponent(pOwner, 0.7f, "jumpQbert.wav", "fallQbert.wav", true)
 {
 	SetTileOffset(0.f, -30.f);
 }
@@ -51,5 +52,13 @@ void QbertJumperComponent::HandleStartPos()
 
 void QbertJumperComponent::JumpedOn()
 {
-	m_Target->GetComponent<TileTextureComponent>()->JumpedOn();
+	auto tileTextureComp = m_Target->GetComponent<TileTextureComponent>();
+	if (tileTextureComp == nullptr)
+	{
+		m_Target->GetComponent<DiskComponent>()->JumpedOn(m_pOwner);
+	}
+	else
+	{
+		tileTextureComp->JumpedOn();
+	}
 }

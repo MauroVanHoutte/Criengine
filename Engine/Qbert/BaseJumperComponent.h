@@ -12,7 +12,7 @@ class Level;
 class BaseJumperComponent : public BaseComponent, public Subject
 {
 public:
-	BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName);
+	BaseJumperComponent(cri::GameObject* pOwner, float jumpDuration, const std::string& jumpSoundName, const std::string& fallSoundName, bool canUSeDisk);
 	BaseJumperComponent() = delete;
 
 	void FixedUpdate() override;
@@ -34,11 +34,16 @@ public:
 	void SetTileOffset(float x, float y);
 
 	glm::ivec2 GetPos() const;
+	void SetPos(int coordX, int coordY);
+
+	void SetIsOnDisk(bool jumpEnabled);
 
 protected:
 	Level* m_pLevel;
 	std::shared_ptr<cri::GameObject> m_Target;
 	bool m_IsJumping;
+	bool m_CanUseDisk;
+
 
 private:
 	
@@ -52,9 +57,9 @@ private:
 	float m_JumpCounter;
 	glm::vec2 m_InitialJumpVelocity;
 	float m_Gravity;
-	
 
 	std::string m_JumpSoundName;
 	std::string m_FallSoundName;
 	
+	bool m_IsOnDisk = false;
 };

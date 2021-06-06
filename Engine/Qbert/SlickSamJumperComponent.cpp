@@ -5,7 +5,7 @@
 #include "TileTextureComponent.h"
 
 SlickSamJumperComponent::SlickSamJumperComponent(cri::GameObject* owner)
-	: BaseJumperComponent(owner, 0.8f, "", "")
+	: BaseJumperComponent(owner, 0.8f, "jump4.wav", "", false)
 {
 	SetTileOffset(0.f, -30.f);
 }

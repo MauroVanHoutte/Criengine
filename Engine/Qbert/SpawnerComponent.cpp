@@ -17,7 +17,8 @@
 
 SpawnerComponent::SpawnerComponent(cri::GameObject* pOwner, QbertGame* gameManager)
 	: BaseComponent(pOwner)
-	, m_GameManager(gameManager)
+	, m_GameManager{ gameManager }
+	, m_Difficulty{1}
 {
 	CreateGameObjects();
 }
@@ -90,7 +91,7 @@ void SpawnerComponent::CreateGameObjects()
 	auto coilyTextureComp = new SingleRowAnimationComponent(m_Coily.get(), 4, 2, cri::ResourceManager::GetInstance().LoadTexture("CoilySpriteSheet.png"));
 	coilyTextureComp->SetWidth(30.f);
 	coilyTextureComp->SetHeight(60.f);
-	coilyTextureComp->m_RelativeTransform.SetPosition(0, -10, 0);
+	coilyTextureComp->m_RelativeTransform.SetPosition(0, -10);
 	coilyTextureComp->SetAnimation(2);
 	coilyTextureComp->SetDoRender(false);
 
@@ -104,6 +105,7 @@ void SpawnerComponent::CreateGameObjects()
 
 	auto coilyJumperComponent = new CoilyJumperComponent(m_Coily.get(), m_GameManager->GetQbert1(), m_GameManager->GetQbert2());
 	coilyJumperComponent->SetIsPlayerControlled(false);
+	coilyJumperComponent->AddObserver(m_GameManager);
 
 	scene.Add(m_Coily);
 
@@ -114,30 +116,56 @@ void SpawnerComponent::Update()
 {
 	auto deltaTime = Timer::GetInstance()->GetElapsed();
 	m_BallSpawnCounter += deltaTime;
-	m_GreenSpawnCounter += deltaTime;
-	m_PurpleSpawnCounter += deltaTime;
-	m_CoilySpawnCounter += deltaTime;
-
 
 	if (m_BallSpawnCounter > m_BallSpawnInterval)
 	{
 		SpawnBall();
 		m_BallSpawnCounter -= m_BallSpawnInterval;
 	}
-	if (m_GreenSpawnCounter > m_GreenSpawnInerval)
+
+
+	if (m_Difficulty > 1)
 	{
-		SpawnGreenCreature();
-		m_GreenSpawnCounter -= m_GreenSpawnInerval;
+		m_GreenSpawnCounter += deltaTime;
+		if (m_GreenSpawnCounter > m_GreenSpawnInerval)
+		{
+			SpawnGreenCreature();
+			m_GreenSpawnCounter -= m_GreenSpawnInerval;
+		}
 	}
-	if (m_PurpleSpawnCounter > m_PurpleSpawnInterval)
+	
+
+	if (m_Difficulty > 2)
 	{
-		SpawnPurpleCreature();
-		m_PurpleSpawnCounter -= m_PurpleSpawnInterval;
+		m_PurpleSpawnCounter += deltaTime;
+		if (m_PurpleSpawnCounter > m_PurpleSpawnInterval)
+		{
+			SpawnPurpleCreature();
+			m_PurpleSpawnCounter -= m_PurpleSpawnInterval;
+		}
 	}
+
+
+	if (!m_Coily->IsActive())
+	{
+		m_CoilySpawnCounter += deltaTime;
+	}
+
 	if (m_CoilySpawnCounter > m_CoilySpawnDelay)
 	{
 		SpawnCoily();
+		m_CoilySpawnCounter = 0.f;
 	}
+}
+
+void SpawnerComponent::SetCoilyPlayerController(bool playerControlled)
+{
+	m_Coily->GetComponent<CoilyJumperComponent>()->SetIsPlayerControlled(playerControlled);
+}
+
+void SpawnerComponent::SetDifficulty(int difficulty)
+{
+	m_Difficulty = difficulty;
 }
 
 void SpawnerComponent::SpawnBall()
@@ -178,6 +206,11 @@ void SpawnerComponent::SpawnCoily()
 		return;
 	}
 	auto jumperComp = m_Coily->GetComponent<CoilyJumperComponent>();
+	auto animComponents = m_Coily->GetComponents<SingleRowAnimationComponent>();
+	for (size_t i = 0; i < animComponents.size(); i++)
+	{
+		animComponents[i]->SetFrame(0);
+	}
 	m_Coily->Activate();
 	jumperComp->SetStartPos(m_GameManager->GetLevel(), 1, std::rand() % 2);
 }

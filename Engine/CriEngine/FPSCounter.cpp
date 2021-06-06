@@ -3,7 +3,7 @@
 
 
 FPSCounterComponent::FPSCounterComponent(cri::GameObject* owner)
-	: TextComponent(owner, "fps : 0", "CamingoCode.ttf", 12, { 5.f, 5.f, 0.f }, { 255.f, 0.f, 0.f })
+	: TextComponent(owner, "fps : 0", "CamingoCode.ttf", 12, { 5.f, 5.f }, { 255.f, 0.f, 0.f })
 	, m_Elapsed{0.0f}
 	, m_FrameCounter{0}
 {

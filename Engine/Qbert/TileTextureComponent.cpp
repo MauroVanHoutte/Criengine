@@ -19,11 +19,25 @@ void TileTextureComponent::SetDifficulty(int difficulty)
 void TileTextureComponent::JumpedOn()
 {
 	++m_TimesJumpedOn;
-	if (IsCorrect())
+	switch (m_Difficulty)
 	{
-		Notify(Event::TileJumpedOn);
+	case 1:
+		if (m_TimesJumpedOn == 1)
+			Notify(Event::ColorChange);
+		break;
+	case 2:
+		if (m_TimesJumpedOn < 3)
+		{
+			Notify(Event::ColorChange);
+		}
+		break;
+	case 3:
+	case 4:
+		Notify(Event::ColorChange);
+		break;
+	default:
+		break;
 	}
-	
 }
 
 void TileTextureComponent::SlickSamJumpedOn()

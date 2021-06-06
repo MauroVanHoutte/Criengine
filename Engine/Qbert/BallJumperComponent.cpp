@@ -3,7 +3,7 @@
 #include <Timer.h>
 
 BallJumperComponent::BallJumperComponent(cri::GameObject* pOwner)
-	: BaseJumperComponent(pOwner, 1.f, "", "")
+	: BaseJumperComponent(pOwner, 1.f, "jumpBall.wav", "", false)
 {
 	SetTileOffset(0.f, -30.f);
 }

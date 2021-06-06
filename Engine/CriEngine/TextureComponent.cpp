@@ -8,7 +8,7 @@ TextureComponent::TextureComponent(cri::GameObject* pOwner)
 	, m_Width{50.f}
 	, m_DoRender{true}
 {
-	m_RelativeTransform.SetPosition(0, 0, 0);
+	m_RelativeTransform.SetPosition(0, 0);
 }
 
 void TextureComponent::SetTexture(std::shared_ptr<cri::Texture2D> texture)

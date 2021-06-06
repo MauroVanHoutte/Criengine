@@ -11,7 +11,7 @@ QbertMainMenuComponent::QbertMainMenuComponent(cri::GameObject* pOwner)
 {
 	m_QBertTexture = new TextureComponent(pOwner);
 	m_QBertTexture->SetTexture(cri::ResourceManager::GetInstance().LoadTexture("singleQbert.png"));
-	m_QBertTexture->m_RelativeTransform.SetPosition(-30.f, -25.f, 0);
+	m_QBertTexture->m_RelativeTransform.SetPosition(-30.f, -25.f);
 	m_QBertTexture->SetHeight(20.f);
 	m_QBertTexture->SetWidth(20.f);
 	TextRenderer::GetInstance()->AddFont("Pixeboy.ttf", 24, { 255, 255, 255 });
@@ -35,12 +35,12 @@ void QbertMainMenuComponent::MenuOptionUp()
 {
 	--m_SelectedMenuOption;
 	auto pos = m_QBertTexture->m_RelativeTransform.GetPosition();
-	m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y - 30.f, pos.z);
+	m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y - 30.f);
 
 	if (m_SelectedMenuOption < 0)
 	{
 		m_SelectedMenuOption = m_NrMenuOptions - 1;
-		m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y + 60.f, pos.z);
+		m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y + 60.f);
 	}
 }
 
@@ -48,12 +48,12 @@ void QbertMainMenuComponent::MenuOptionDown()
 {
 	++m_SelectedMenuOption;
 	auto pos = m_QBertTexture->m_RelativeTransform.GetPosition();
-	m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y + 30.f, pos.z);
+	m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y + 30.f);
 
 	if (m_SelectedMenuOption >= m_NrMenuOptions)
 	{
 		m_SelectedMenuOption = 0;
-		m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y - 60.f, pos.z);
+		m_QBertTexture->m_RelativeTransform.SetPosition(pos.x, pos.y - 60.f);
 	}
 }
 

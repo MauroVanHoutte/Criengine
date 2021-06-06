@@ -3,7 +3,7 @@
 #include "TextRenderer.h"
 
 
-TextComponent::TextComponent(cri::GameObject* owner, const std::string& text, const std::string& font, int fontSize, const glm::vec3& pos, const glm::vec3& color)
+TextComponent::TextComponent(cri::GameObject* owner, const std::string& text, const std::string& font, int fontSize, const glm::vec2& pos, const glm::vec3& color)
 	: BaseComponent(owner)
 	, m_Text{text}
 	, m_Color{(Uint8)color.x, (Uint8)color.y, (Uint8)color.z}
@@ -12,19 +12,19 @@ TextComponent::TextComponent(cri::GameObject* owner, const std::string& text, co
 	, m_FontSize{fontSize}
 	, m_DoRender(true)
 {
-	m_RelativeTransform.SetPosition(pos.x, pos.y, pos.z);
+	m_RelativeTransform.SetPosition(pos.x, pos.y);
 }
 
 TextComponent::~TextComponent()
 {
 }
 
-void TextComponent::SetPosition(const glm::vec3& pos)
+void TextComponent::SetPosition(const glm::vec2& pos)
 {
-	m_RelativeTransform.SetPosition(pos.x, pos.y, pos.z);
+	m_RelativeTransform.SetPosition(pos.x, pos.y);
 }
 
-const glm::vec3& TextComponent::GetPosition() const
+const glm::vec2& TextComponent::GetPosition() const
 {
 	return m_RelativeTransform.GetPosition();
 }

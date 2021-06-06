@@ -66,7 +66,7 @@ void cri::GameObject::Render() const
 
 void cri::GameObject::SetPosition(float x, float y)
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	m_Transform.SetPosition(x, y);
 }
 
 bool cri::GameObject::AddComponent(BaseComponent* component)

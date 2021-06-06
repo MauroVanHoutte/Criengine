@@ -101,7 +101,8 @@
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /S /Y </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,7 +128,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /S /Y </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,7 +151,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /S /Y </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -175,7 +178,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /S /Y </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -183,7 +187,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="BaseColliderComponent.cpp" />
     <ClCompile Include="BaseJumperComponent.cpp" />
     <ClCompile Include="CoilyJumperComponent.cpp" />
-    <ClCompile Include="JumperComponent.cpp" />
+    <ClCompile Include="DiskComponent.cpp" />
+    <ClCompile Include="HealthCounter.cpp" />
     <ClCompile Include="JumpCommand.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -191,10 +196,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="MenuDownCommand.cpp" />
     <ClCompile Include="MenuUpCommand.cpp" />
     <ClCompile Include="Qbert.cpp" />
-    <ClCompile Include="QbertHealthComponent.cpp" />
     <ClCompile Include="QbertJumperComponent.cpp" />
     <ClCompile Include="QbertMainMenuComponent.cpp" />
-    <ClCompile Include="QbertScoreComponent.cpp" />
+    <ClCompile Include="ScoreCounter.cpp" />
     <ClCompile Include="SingleRowAnimationComponent.cpp" />
     <ClCompile Include="SlickSamJumperComponent.cpp" />
     <ClCompile Include="SpawnerComponent.cpp" />
@@ -212,7 +216,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="BaseColliderComponent.h" />
     <ClInclude Include="BaseJumperComponent.h" />
     <ClInclude Include="CoilyJumperComponent.h" />
-    <ClInclude Include="JumperComponent.h" />
+    <ClInclude Include="DiskComponent.h" />
+    <ClInclude Include="HealthCounter.h" />
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MenuButtonClickCommand.h" />
@@ -221,9 +226,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Qbert.h" />
     <ClInclude Include="QbertJumperComponent.h" />
     <ClInclude Include="QbertMainMenuComponent.h" />
+    <ClInclude Include="ScoreCounter.h" />
     <ClInclude Include="SingleRowAnimationComponent.h" />
-    <ClInclude Include="QbertHealthComponent.h" />
-    <ClInclude Include="QbertScoreComponent.h" />
     <ClInclude Include="SlickSamJumperComponent.h" />
     <ClInclude Include="SpawnerComponent.h" />
     <ClInclude Include="TestCommand.h" />

@@ -10,8 +10,8 @@ enum class Event
 	StartSinglePlayer,
 	StartCoop,
 	StartVersus,
-	TileJumpedOn,
-	QbertDeath
+	QbertDeath,
+	GameStart
 };
 
 class Observer
