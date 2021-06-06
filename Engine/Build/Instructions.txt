@@ -1,0 +1,2 @@
+player 1 uses numpad 1793 or left controller joystick
+player 2/coily uses qaed or left controller joystick on a second controller
