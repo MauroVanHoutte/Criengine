@@ -54,9 +54,6 @@
     <ClCompile Include="MenuButtonClickCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="TestCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="BaseJumperComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -117,9 +114,6 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="MenuButtonClickCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="BaseJumperComponent.h">

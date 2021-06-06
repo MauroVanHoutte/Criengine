@@ -202,7 +202,6 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /S /Y </Command>
     <ClCompile Include="SingleRowAnimationComponent.cpp" />
     <ClCompile Include="SlickSamJumperComponent.cpp" />
     <ClCompile Include="SpawnerComponent.cpp" />
-    <ClCompile Include="TestCommand.cpp" />
     <ClCompile Include="TileTextureComponent.cpp" />
     <ClCompile Include="UggWrongwayJumperComponent.cpp" />
   </ItemGroup>
@@ -230,7 +229,6 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /S /Y </Command>
     <ClInclude Include="SingleRowAnimationComponent.h" />
     <ClInclude Include="SlickSamJumperComponent.h" />
     <ClInclude Include="SpawnerComponent.h" />
-    <ClInclude Include="TestCommand.h" />
     <ClInclude Include="TileTextureComponent.h" />
     <ClInclude Include="UggWrongwayJumperComponent.h" />
   </ItemGroup>
